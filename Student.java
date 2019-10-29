@@ -1,10 +1,11 @@
+import java.util.stream.*;
 
 public class Student{
 
     private String firstName;
     private String lastName;
     private int averageGrade;
-    private int[] grade[];
+    private int[] grade;
 
     public void student(String n){
         int temp = 1;
@@ -23,6 +24,32 @@ public class Student{
         return grade[i];
 
     }
+
+    public void setFirstName(String n){
+        firstName = n;
+    }
+
+    public void setLastName(String n){
+        lastName = n;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setGrade(int i, int g){
+        grade[i] = g;
+        averageGrade = IntStream.of(grade).sum() / grade.length;
+    }
+
+    public int getAverage(){
+        return averageGrade;
+    }
+
 
 
 }
