@@ -36,9 +36,13 @@ public class Menu extends Application{
             layout2.getChildren().add(button2);
             scene2 = new Scene(layout2, 400, 300);
 
+        //Button that will pop up the classroom creation window
+        Button makeClass = new Button("Make a new Classroom");
+        makeClass.setOnAction(e -> AlertBox.display("Classroom Creation"));
+
         classroom.setScene(mainMenu);
         classroom.setTitle("mainMenu");
-        window.show();
+        classroom.show();
 
     }
 

@@ -17,7 +17,15 @@ public class createClassroom{
         Label label = new Label();
         label.setText("This is where you can create new classrooms!");
         Button closeButton = new Button("Exit the Window");
-        closeButton.setOnAction(e ->);
+        closeButton.setOnAction(e -> makeClass.close());
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout);
+        makeClass.setScene(scene);
+        makeClass.showAndWait();
     }
 
 }
