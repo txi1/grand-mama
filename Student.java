@@ -20,7 +20,7 @@ public class Student{
     }
 
 
-    public int getGrade(int a){
+    public int getGrade(int i){
         return grade[i];
 
     }
