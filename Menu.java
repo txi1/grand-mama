@@ -13,7 +13,7 @@ public class Menu extends Application{
     Scene mainMenu, rubric;
 
     public static void main(String[] args) {
-        laungh(args);
+        launch(args);
     }
 
     public void start(Stage primaryStage)throws Exception{
