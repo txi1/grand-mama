@@ -1,27 +1,44 @@
 
 public class Expectation{
 
-    String identifier;
+    String section;
     String detail;
+    static int id;
+    private static int counter = 0;
 
 
-    public void Expectation(String i, String d){
+    public void Expectation(String s, String d){
 
-        identifier = i;
+        section = s;
         detail = d;
+        id = counter;
+        counter++;
 
     }
 
     public String getExpectation(){
-        return identifier +": " +detail;
+        return section +": " +detail;
     }
 
-    public String getIdentification(){
-        return identifier;
+    public int getIdentification(){
+        return id;
     }
 
     public String getDetails(){
         return detail;
+    }
+
+    public void updateExpectation(String i, String d){
+        if(i != null){
+            section = i;
+        }
+        if(d != null){
+            detail = d;
+        }
+    }
+
+    public String getSection(){
+        return section;
     }
 
 }
