@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Menu extends Application{
@@ -20,30 +22,34 @@ public class Menu extends Application{
         classroom = primaryStage;
 
         //Button 1
-            Label label1 = new Label1("Select Classroom");
-            Button button1 = newButton("Go to Classroom");
-            button2.setOnAction(e -> classroom.setScene(rubric));
+            Label label1 = new Label("Select Classroom");
+            Button button1 = new Button("Go to Classroom");
+            button1.setOnAction(e -> classroom.setScene(rubric));
         //Layout 1
             VBox layout1 = new VBox(20);
             layout1.getChildren().addAll(label1, button1);
-            scene1 = new Scene(layout1, 200, 200);
+            Scene scene1 = new Scene(layout1, 200, 200);
 
         //Button 2
-            Button button2 = newButton("Go back");
+            Button button2 = new Button("Go back");
             button2.setOnAction(e -> classroom.setScene(mainMenu));
         //Layout 2
             StackPane layout2 = new StackPane();
             layout2.getChildren().add(button2);
-            scene2 = new Scene(layout2, 400, 300);
+            Scene scene2 = new Scene(layout2, 400, 300);
 
         //Button that will pop up the classroom creation window
         Button makeClass = new Button("Make a new Classroom");
-        makeClass.setOnAction(e -> AlertBox.display("Classroom Creation"));
+        makeClass.setOnAction(e -> createClassroom.display("Class","Classroom Creation"));
+        
+        layout1.getChildren().addAll(makeClass);
 
-        classroom.setScene(mainMenu);
+        classroom.setScene(scene1);
         classroom.setTitle("mainMenu");
         classroom.show();
 
     }
+
+    
 
 }
