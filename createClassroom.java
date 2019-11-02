@@ -15,6 +15,7 @@ public class createClassroom{
         makeClass.initModality(Modality.APPLICATION_MODAL);
         makeClass.setTitle(title);
         makeClass.setMinWidth(300);
+        makeClass.setMinHeight(300);
 
         Label label = new Label();
         label.setText(message);
@@ -30,4 +31,6 @@ public class createClassroom{
         makeClass.showAndWait();
     }
 
-}
+
+    }
+

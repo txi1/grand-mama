@@ -16,7 +16,14 @@ public class Main extends Application{
     }
 
     public void start(Stage primaryStage)throws Exception{
+            
         mainWindow = primaryStage;
+        mainWindow.setTitle("GrandMAMA");
+        mainWindow.setOnCloseRequest(e -> {
+            e.consume();   
+            closeProgram();
+            });
+
 
             //Setup for the intro menu
             Label label1 = new Label("Select Classroom");
@@ -47,8 +54,15 @@ public class Main extends Application{
         mainWindow.setTitle("mainMenu");
         mainWindow.show();
 
+
+
     }
 
-    
+    private void closeProgram(){
+        Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
+        if(answer)
+            mainWindow.close();
+        
 
+    }
 }
