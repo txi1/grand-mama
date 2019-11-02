@@ -1,4 +1,3 @@
-import javafx.*;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,11 +13,12 @@ public class createClassroom{
         
         //Blocks user interaction with other windows until this one is taken care of
         makeClass.initModality(Modality.APPLICATION_MODAL);
-        makeClass.setTitle("Classroom Creation");
+        makeClass.setTitle(title);
         makeClass.setMinWidth(300);
+        makeClass.setMinHeight(300);
 
         Label label = new Label();
-        label.setText("This is where you can create new classrooms!");
+        label.setText(message);
         Button closeButton = new Button("Exit the Window");
         closeButton.setOnAction(e -> makeClass.close());
 
@@ -31,4 +31,6 @@ public class createClassroom{
         makeClass.showAndWait();
     }
 
-}
+
+    }
+

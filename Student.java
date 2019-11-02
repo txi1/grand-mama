@@ -7,7 +7,7 @@ public class Student{
     private int averageGrade;
     private int[] grade;
 
-    public void student(String n){
+    public void Student(String n){
         int temp = 1;
         for(int i = 0; i < n.length() && n.charAt(i) != ' '; i++){
                 firstName += n.charAt(i); 
@@ -50,6 +50,14 @@ public class Student{
         return averageGrade;
     }
 
+    public static boolean isBetween(int x, int l, int u) {
+        return l <= x && x <= u;
+      }
+    
+    public String toString(int g){
+  
+        return "Temp";
 
+    }
 
 }
