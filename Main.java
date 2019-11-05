@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -32,19 +33,28 @@ public class Main extends Application{
             menuLayout.setVgap(8);
             menuLayout.setHgap(10);
             
+            ChoiceBox<String> classList = new ChoiceBox<>();
+            menuLayout.setConstraints(classList, 1, 0);
+
             Label label1 = new Label("Select Classroom");
-            menuLayout.setConstraints(label1, 1, 0);
+            menuLayout.setConstraints(label1, 1, 1);
 
 
             Button button1 = new Button("Enter this classroom");
-            menuLayout.setConstraints(button1, 1, 1);
+            menuLayout.setConstraints(button1, 1, 2);
             button1.setOnAction(e -> mainWindow.setScene(classMenu));
 
+            
             Button makeClass = new Button("Make a new Classroom");
-            menuLayout.setConstraints(makeClass, 1, 2);
-            makeClass.setOnAction(e -> System.out.println(createClassroom.display("Class","Classroom Creation")));
+            menuLayout.setConstraints(makeClass, 1, 3);
+            makeClass.setOnAction(e -> {
+                String temp = createClassroom.display("Class","Classroom Creation");
+                if(!isEmpty(temp))
+                classList.getItems().add(temp);
+
+            });
         
-            menuLayout.getChildren().addAll(label1, button1, makeClass);
+            menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
 
         
             //Layout configuration for the intro menu and adding the elements to the menu
@@ -77,5 +87,10 @@ public class Main extends Application{
             mainWindow.close();
         
 
+    }
+
+    private boolean isEmpty(String s){
+        boolean test = "".equals(s);
+        return test;
     }
 }
