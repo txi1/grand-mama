@@ -7,7 +7,7 @@ public class Student{
     private int averageGrade;
     private int[] grade;
 
-    public void Student(String n){
+    public Student(String n){
         int temp = 1;
         for(int i = 0; i < n.length() && n.charAt(i) != ' '; i++){
                 firstName += n.charAt(i); 
