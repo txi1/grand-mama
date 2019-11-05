@@ -7,7 +7,7 @@ public class Expectation{
     private static int counter = 0;
 
 
-    public void Expectation(String s, String d){
+    public Expectation(String s, String d){
 
         section = s;
         detail = d;
