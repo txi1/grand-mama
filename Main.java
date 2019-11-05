@@ -13,6 +13,8 @@ public class Main extends Application{
 
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
+    Classroom[] classroom;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -42,16 +44,20 @@ public class Main extends Application{
 
             Button button1 = new Button("Enter this classroom");
             menuLayout.setConstraints(button1, 1, 2);
-            button1.setOnAction(e -> mainWindow.setScene(classMenu));
+            button1.setOnAction(e -> {
+                mainWindow.setScene(classMenu);
+                
+            });
 
             
             Button makeClass = new Button("Make a new Classroom");
             menuLayout.setConstraints(makeClass, 1, 3);
             makeClass.setOnAction(e -> {
                 String temp = createClassroom.display("Class","Classroom Creation");
-                if(!isEmpty(temp))
+                if(!isEmpty(temp)){
                 classList.getItems().add(temp);
-
+                classroom[classroom.getCounter()] = new Classroom(temp);
+                }
             });
         
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
