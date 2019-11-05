@@ -56,7 +56,7 @@ public class Main extends Application{
                 String temp = createClassroom.display("Class","Classroom Creation");
                 if(!isEmpty(temp)){
                 classroom[0] = new Classroom(temp, 0);
-                classList.getItems().add(temp);
+                classList.getItems().add(classroom[0]);
                 }
             });
         
