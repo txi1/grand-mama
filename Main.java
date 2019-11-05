@@ -35,7 +35,7 @@ public class Main extends Application{
             menuLayout.setVgap(8);
             menuLayout.setHgap(10);
             
-            ChoiceBox<String> classList = new ChoiceBox<>();
+            ChoiceBox<Classroom> classList = new ChoiceBox<>();
             menuLayout.setConstraints(classList, 1, 0);
 
             Label label1 = new Label("Select Classroom");
@@ -55,8 +55,8 @@ public class Main extends Application{
             makeClass.setOnAction(e -> {
                 String temp = createClassroom.display("Class","Classroom Creation");
                 if(!isEmpty(temp)){
+                classroom[0] = new Classroom(temp, 0);
                 classList.getItems().add(temp);
-                classroom[classroom.getCounter()] = new Classroom(temp);
                 }
             });
         

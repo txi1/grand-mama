@@ -1,23 +1,25 @@
 
 public class Classroom{
 
-    private static int counter = 0;
     private String name;
-    private int id; 
+    private int ID; 
     private int students;
 
-    public Classroom(String n){
-        name = n;
-        id = counter;
-        counter ++;
+    public Classroom(String n, int i){
+        this.name = n;
+        this.ID = i;
     }
 
-    public int getid(){
-        return id;
+    public int getID(){
+        return ID;
+    }
+
+    public String getName(){
+        return name;
     }
     
-    public int getCounter(){
-        return counter;
+    public String toString(){
+        return this.getName();
     }
 
 
