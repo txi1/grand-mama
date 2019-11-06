@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,11 +11,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class Main extends Application{
 
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
-    Classroom[] classroom = new Classroom;
+    ArrayList<Classroom> classroom = new ArrayList<Classroom>();
     int count = 0;
 
 
