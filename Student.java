@@ -4,6 +4,7 @@ public class Student{
 
     private String firstName;
     private String lastName;
+    private String fullName;
     private int averageGrade;
     private int[] grade;
 
@@ -17,6 +18,8 @@ public class Student{
         for(int i = temp; i < n.length() && n.charAt(i) != ' '; i++){
                 lastName += n.charAt(i);
         }
+        fullName = n;
+        
     }
 
 
@@ -58,6 +61,10 @@ public class Student{
   
         return "Temp";
 
+    }
+    
+    public String getName(){
+        return fullName;
     }
 
 }

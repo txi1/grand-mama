@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +15,8 @@ public class Main extends Application{
 
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
-    Classroom[] classroom;
+    ObservableList<Classroom> classroom = FXCollections.observableArrayList();
+    int count = 0;
 
 
     public static void main(String[] args) {
@@ -35,7 +38,7 @@ public class Main extends Application{
             menuLayout.setVgap(8);
             menuLayout.setHgap(10);
             
-            ChoiceBox<String> classList = new ChoiceBox<>();
+            ChoiceBox<Classroom> classList = new ChoiceBox<>();
             menuLayout.setConstraints(classList, 1, 0);
 
             Label label1 = new Label("Select Classroom");
@@ -55,9 +58,11 @@ public class Main extends Application{
             makeClass.setOnAction(e -> {
                 String temp = createClassroom.display("Class","Classroom Creation");
                 if(!isEmpty(temp)){
-                classList.getItems().add(temp);
-                classroom[classroom.getCounter()] = new Classroom(temp);
+                classroom.setAll(new Classroom(temp, 0));
+                classList.getItems().addAll(classroom.get(0));
+                count++;
                 }
+                
             });
         
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
