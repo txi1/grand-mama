@@ -80,6 +80,8 @@ public class Main extends Application{
             classMenu = new Scene(classLayout, 400, 300);
 
 
+
+            
             //Expecation Column that will show the expectations that student has to meet in the course
             TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
             expectationColumn.setMinWidth(200);
