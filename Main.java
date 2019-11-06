@@ -13,7 +13,7 @@ public class Main extends Application{
 
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
-    Classroom[] classroom = new Classroom;
+    Classroom[] classroom = new Classroom();
     int count = 0;
 
 
@@ -22,7 +22,7 @@ public class Main extends Application{
     }
 
     public void start(Stage primaryStage)throws Exception{
-            
+        
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -30,27 +30,29 @@ public class Main extends Application{
             closeProgram();
             });
 
-            //Setup for intro menu
-            GridPane menuLayout = new GridPane();
-            menuLayout.setPadding(new Insets(10,10,10,10));
-            menuLayout.setVgap(8);
-            menuLayout.setHgap(10);
-            
-            ChoiceBox<Classroom> classList = new ChoiceBox<>();
-            menuLayout.setConstraints(classList, 1, 0);
-
-            Label label1 = new Label("Select Classroom");
-            menuLayout.setConstraints(label1, 1, 1);
-
-
-            Button button1 = new Button("Enter this classroom");
-            menuLayout.setConstraints(button1, 1, 2);
-            button1.setOnAction(e -> {
-                mainWindow.setScene(classMenu);
+        //Setup for intro menu
+            //GridPane code that will setup the Choicebox
+            //in order to choose which classroom to enter
+                GridPane menuLayout = new GridPane();
+                menuLayout.setPadding(new Insets(10,10,10,10));
+                menuLayout.setVgap(8);
+                menuLayout.setHgap(10);
                 
-            });
+                ChoiceBox<Classroom> classList = new ChoiceBox<>();
+                menuLayout.setConstraints(classList, 1, 0);
 
-            
+                Label label1 = new Label("Select Classroom");
+                menuLayout.setConstraints(label1, 1, 1);
+
+            //Individual button that allows for the user to enter the classroom
+                Button button1 = new Button("Enter this classroom");
+                menuLayout.setConstraints(button1, 1, 2);
+                button1.setOnAction(e -> {
+                    mainWindow.setScene(classMenu);
+                    
+                });
+
+            //Button that will open the popup needed in order to make a classroom
             Button makeClass = new Button("Make a new Classroom");
             menuLayout.setConstraints(makeClass, 1, 3);
             makeClass.setOnAction(e -> {
@@ -62,12 +64,9 @@ public class Main extends Application{
                 }
                 
             });
-        
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
-
         
             //Layout configuration for the intro menu and adding the elements to the menu
-            
             firstMenu = new Scene(menuLayout, 200, 200);
 
             //Setup for classroom menu
@@ -79,25 +78,21 @@ public class Main extends Application{
             classLayout.getChildren().add(button2);
             classMenu = new Scene(classLayout, 400, 300);
 
-        //Button that will pop up the classroom creation window
-        
-
+        //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("mainMenu");
         mainWindow.show();
 
-
-
     }
 
+    //Method used in the main method in order to close the program on command
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
-        if(answer)
-            mainWindow.close();
-        
+        if(answer);
 
     }
 
+    //Tests to see if a string is empty or not
     private boolean isEmpty(String s){
         boolean test = "".equals(s);
         return test;
