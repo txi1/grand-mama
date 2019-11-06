@@ -79,6 +79,24 @@ public class Main extends Application{
             classLayout.getChildren().add(button2);
             classMenu = new Scene(classLayout, 400, 300);
 
+
+            //Expecation Column that will show the expectations that student has to meet in the course
+            TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
+            expectationColumn.setMinWidth(200);
+            expectationColumn.setCellValueFactory(new PropertyValueFactory<Rubric, String>("expectation"));
+
+            //Grade Column that will show the grades that student got during the duration of the course
+            TableColumn<Rubric, int> percentColumn = new TableColumn<>("Grade");
+            percentColumn.setMinWidth(100);
+            percentColumn.setCellValueFactory(new PropertyValueFactory<Rubric, String>("percent"));
+
+            table = new TableView<>();
+            table.setItems(getRubricInfo);
+            table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+
+
+
+
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("mainMenu");
@@ -97,6 +115,16 @@ public class Main extends Application{
     private boolean isEmpty(String s){
         boolean test = "".equals(s);
         return test;
+    }
+
+    //Method that manually adds each item into the Rubric table(Will change later)
+    public ObservableList<Rubric> getRubricInfo(){
+        ObservableList<Rubric> rubricInfo = FXCollections.obeservableArrayList();
+        rubricInfo.add(new Rubric("Test 1", 66));
+        rubricInfo.add(new Rubric("Test 2", 89));
+        rubricInfo.add(new Rubric("Quiz 1", 98));
+        rubricInfo.add(new Rubric("Presentation 1", 90));
+        return Rubric;
     }
 
 }

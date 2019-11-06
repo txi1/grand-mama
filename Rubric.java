@@ -1,7 +1,7 @@
 public class Rubric {
     
-    public int percent;
     public String expectation;
+    public int percent;
     
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
