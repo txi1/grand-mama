@@ -18,7 +18,6 @@ public class Main extends Application{
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     int count = 0;
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -99,4 +98,5 @@ public class Main extends Application{
         boolean test = "".equals(s);
         return test;
     }
+
 }
