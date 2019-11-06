@@ -1,9 +1,12 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 
 public class Classroom{
 
     private String name;
-    private int ID; 
-    private int students;
+    private int ID;
+    private ObservableList<Student> students = FXCollections.observableArrayList();
 
     public Classroom(String n, int i){
         this.name = n;
@@ -22,7 +25,9 @@ public class Classroom{
         return this.getName();
     }
 
-
+    public void addStudent(Student s){
+        students.setAll(new Student(s.getName()));
+    }
 
     
 

@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +15,7 @@ public class Main extends Application{
 
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
-    Classroom[] classroom = new Classroom();
+    ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     int count = 0;
 
 
@@ -58,8 +60,8 @@ public class Main extends Application{
             makeClass.setOnAction(e -> {
                 String temp = createClassroom.display("Class","Classroom Creation");
                 if(!isEmpty(temp)){
-                classroom[count] = new Classroom("hi", 0);
-                classList.getItems().addAll(classroom[count]);
+                classroom.setAll(new Classroom(temp, 0));
+                classList.getItems().addAll(classroom.get(0));
                 count++;
                 }
                 
