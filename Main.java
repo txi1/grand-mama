@@ -6,12 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -46,18 +49,13 @@ public class Main extends Application{
                 ChoiceBox<Classroom> classList = new ChoiceBox<>();
                 menuLayout.setConstraints(classList, 1, 0);
 
-                Label label1 = new Label("Select Classroom");
-                menuLayout.setConstraints(label1, 1, 1);
 
-            //Individual button that allows for the user to enter the classroom
-                Button button1 = new Button("Enter this classroom");
-                menuLayout.setConstraints(button1, 1, 2);
-                button1.setOnAction(e -> {
-                    mainWindow.setScene(classMenu);
-                    
+            Button button1 = new Button("Enter this classroom");
+            menuLayout.setConstraints(button1, 1, 2);
+            button1.setOnAction(e -> {
+                mainWindow.setScene(classMenu);
                 });
 
-            //Button that will open the popup needed in order to make a classroom
             Button makeClass = new Button("Make a new Classroom");
             menuLayout.setConstraints(makeClass, 1, 3);
             makeClass.setOnAction(e -> {
@@ -69,21 +67,51 @@ public class Main extends Application{
                 }
                 
             });
+
+            //Adding all the elements to the menu
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 200, 200);
-
-            //Setup for classroom menu
-            Button button2 = new Button("Go back to the main menu");
-            button2.setOnAction(e -> mainWindow.setScene(firstMenu));
             
-            //Layout configuration for the intro menu and adding the elements to the menu
-            StackPane classLayout = new StackPane();
-            classLayout.getChildren().add(button2);
+
+            //Starting to create the items for the classroom menu
+            Menu manageMenu = new Menu("_Classroom");
+            Menu navigateMenu = new Menu("_Navigate");
+
+            //Adding the menu items
+            manageMenu.getItems().add(new MenuItem("Create New Student..."));
+            manageMenu.getItems().add(new MenuItem("Create New Assignment..."));
+            manageMenu.getItems().add(new MenuItem("Create New Expectation..."));
+            manageMenu.getItems().add(new SeparatorMenuItem());
+            manageMenu.getItems().add(new MenuItem("Manage Students..."));
+            manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
+            manageMenu.getItems().add(new MenuItem("Manage Expectations..."));
+            manageMenu.getItems().add(new SeparatorMenuItem());
+            manageMenu.getItems().add(new MenuItem("Manage Preferences..."));
+            manageMenu.getItems().add(new SeparatorMenuItem());
+            manageMenu.getItems().add(new MenuItem("Return to the Main Menu"));
+            manageMenu.getItems().add(new MenuItem("Exit the Program"));
+
+            //adding the navigate menus
+            navigateMenu.getItems().add(new MenuItem("Back"));
+            navigateMenu.getItems().add(new MenuItem("Forward"));
+            navigateMenu.getItems().add(new SeparatorMenuItem());
+            navigateMenu.getItems().add(new MenuItem("Students"));
+            navigateMenu.getItems().add(new MenuItem("Assignments"));
+            navigateMenu.getItems().add(new SeparatorMenuItem());
+            navigateMenu.getItems().add(new MenuItem("Expectations"));
+
+            //The menu bar
+            MenuBar menuBar = new MenuBar();
+            menuBar.getMenus().addAll(manageMenu, navigateMenu);
+
+            //Layout configuration for the classroom menu and adding the elements to the menu
+            BorderPane classLayout = new BorderPane();
+            classLayout.setTop(menuBar);
+            
+            
             classMenu = new Scene(classLayout, 400, 300);
-
-
 
             
             //Expecation Column that will show the expectations that student has to meet in the course
