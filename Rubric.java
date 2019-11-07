@@ -1,26 +1,16 @@
 public class Rubric {
     
     public String expectation;
-    public int percent;
+    public Double percent;
     
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
-            this.percent = 0;
             this.expectation = "";
+            this.percent = 0.00;
         }
 
-        public Rubric(int percent, String expectation){
-            this.percent = percent;
+        public Rubric(String expectation, Double percent){
             this.expectation = expectation;
-        }
-    
-        
-    //Get and Set method for percent value
-        public int getpercent(){
-            return percent;
-        }
-
-        public void setPercent(int percent){
             this.percent = percent;
         }
     
@@ -32,6 +22,16 @@ public class Rubric {
 
         public void setExpecation(String expectation){
             this.expectation = expectation;
+        }
+        
+        
+    //Get and Set method for percent value
+        public Double getpercent(){
+            return percent;
+        }
+
+        public void setPercent(Double percent){
+            this.percent = percent;
         }
     
 }

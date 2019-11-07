@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,6 +20,7 @@ public class Main extends Application{
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     int count = 0;
+    TableView<Rubric> rubric;
 
     public static void main(String[] args) {
         launch(args);
@@ -85,16 +89,16 @@ public class Main extends Application{
             //Expecation Column that will show the expectations that student has to meet in the course
             TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
             expectationColumn.setMinWidth(200);
-            expectationColumn.setCellValueFactory(new PropertyValueFactory<Rubric, String>("expectation"));
+            expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
 
             //Grade Column that will show the grades that student got during the duration of the course
-            TableColumn<Rubric, int> percentColumn = new TableColumn<>("Grade");
+            TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
             percentColumn.setMinWidth(100);
-            percentColumn.setCellValueFactory(new PropertyValueFactory<Rubric, String>("percent"));
+            percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
 
-            table = new TableView<>();
-            table.setItems(getRubricInfo);
-            table.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+            rubric = new TableView<>();
+            rubric.setItems(getRubricInfo());
+            rubric.getColumns().addAll(expectationColumn, percentColumn);
 
 
 
@@ -109,8 +113,8 @@ public class Main extends Application{
     //Method used in the main method in order to close the program on command
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
-        if(answer);
-
+        if(answer)
+            mainWindow.close();
     }
 
     //Tests to see if a string is empty or not
@@ -121,12 +125,12 @@ public class Main extends Application{
 
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
-        ObservableList<Rubric> rubricInfo = FXCollections.obeservableArrayList();
-        rubricInfo.add(new Rubric("Test 1", 66));
-        rubricInfo.add(new Rubric("Test 2", 89));
-        rubricInfo.add(new Rubric("Quiz 1", 98));
-        rubricInfo.add(new Rubric("Presentation 1", 90));
-        return Rubric;
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+        rubricInfo.add(new Rubric("Test 1", 66.00));
+        rubricInfo.add(new Rubric("Test 2", 89.00));
+        rubricInfo.add(new Rubric("Quiz 1", 98.00));
+        rubricInfo.add(new Rubric("Presentation 1", 90.00));
+        return rubricInfo;
     }
 
 }
