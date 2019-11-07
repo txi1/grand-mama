@@ -39,34 +39,33 @@ public class Main extends Application{
             });
 
         //Setup for intro menu
-            //GridPane code that will setup the Choicebox
-            //in order to choose which classroom to enter
-                GridPane menuLayout = new GridPane();
-                menuLayout.setPadding(new Insets(10,10,10,10));
-                menuLayout.setVgap(8);
-                menuLayout.setHgap(10);
+        GridPane menuLayout = new GridPane();
+        menuLayout.setPadding(new Insets(10,10,10,10));
+        menuLayout.setVgap(8);
+        menuLayout.setHgap(10);
                 
-                ChoiceBox<Classroom> classList = new ChoiceBox<>();
-                menuLayout.setConstraints(classList, 1, 0);
+        ChoiceBox<Classroom> classList = new ChoiceBox<>();
+        menuLayout.setConstraints(classList, 1, 0);
 
+        Label label1 = new Label("Select Classroom");
+        menuLayout.setConstraints(label1, 1, 1);
 
-            Button button1 = new Button("Enter this classroom");
-            menuLayout.setConstraints(button1, 1, 2);
-            button1.setOnAction(e -> {
-                mainWindow.setScene(classMenu);
-                });
-
-            Button makeClass = new Button("Make a new Classroom");
-            menuLayout.setConstraints(makeClass, 1, 3);
-            makeClass.setOnAction(e -> {
-                String temp = createClassroom.display("Class","Classroom Creation");
-                if(!isEmpty(temp)){
-                classroom.setAll(new Classroom(temp, 0));
-                classList.getItems().addAll(classroom.get(0));
-                count++;
-                }
-                
+        Button button1 = new Button("Enter this classroom");
+        menuLayout.setConstraints(button1, 1, 2);
+        button1.setOnAction(e -> {
+            mainWindow.setScene(classMenu);
             });
+
+        Button makeClass = new Button("Make a new Classroom");
+        menuLayout.setConstraints(makeClass, 1, 3);
+        makeClass.setOnAction(e -> {
+            String temp = createClassroom.display("Class","Classroom Creation");
+            if(!isEmpty(temp)){
+            classroom.setAll(new Classroom(temp, 0));
+            classList.getItems().addAll(classroom.get(0));
+            count++;
+            }
+        });
 
             //Adding all the elements to the menu
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
