@@ -105,7 +105,7 @@ public class Main extends Application{
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
             classLayout.setTop(menuBar);
-
+            
             
             classMenu = new Scene(classLayout, 400, 300);
 
