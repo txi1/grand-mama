@@ -89,7 +89,10 @@ public class Main extends Application{
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Preferences..."));
             manageMenu.getItems().add(new SeparatorMenuItem());
-            manageMenu.getItems().add(new MenuItem("Return to the Main Menu"));
+            
+            java.awt.MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
+            returnMenuButton.setOnAction(e -> mainWindow.setScene(firstMenu));
+            manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
             //adding the navigate menus
