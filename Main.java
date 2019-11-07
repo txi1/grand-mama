@@ -11,6 +11,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -20,14 +23,14 @@ public class Main extends Application{
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     int count = 0;
-
+    TableView<Rubric> rubric;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage primaryStage)throws Exception{
-            
+        
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -35,17 +38,17 @@ public class Main extends Application{
             closeProgram();
             });
 
-            //Setup for intro menu
-            GridPane menuLayout = new GridPane();
-            menuLayout.setPadding(new Insets(10,10,10,10));
-            menuLayout.setVgap(8);
-            menuLayout.setHgap(10);
-            
-            ChoiceBox<Classroom> classList = new ChoiceBox<>();
-            menuLayout.setConstraints(classList, 1, 0);
+        //Setup for intro menu
+            //GridPane code that will setup the Choicebox
+            //in order to choose which classroom to enter
+                GridPane menuLayout = new GridPane();
+                menuLayout.setPadding(new Insets(10,10,10,10));
+                menuLayout.setVgap(8);
+                menuLayout.setHgap(10);
+                
+                ChoiceBox<Classroom> classList = new ChoiceBox<>();
+                menuLayout.setConstraints(classList, 1, 0);
 
-            Label label1 = new Label("Select Classroom");
-            menuLayout.setConstraints(label1, 1, 1);
 
             Button button1 = new Button("Enter this classroom");
             menuLayout.setConstraints(button1, 1, 2);
@@ -64,6 +67,7 @@ public class Main extends Application{
                 }
                 
             });
+
             //Adding all the elements to the menu
             menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
         
@@ -109,21 +113,52 @@ public class Main extends Application{
             
             classMenu = new Scene(classLayout, 400, 300);
 
+            
+            //Expecation Column that will show the expectations that student has to meet in the course
+            TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
+            expectationColumn.setMinWidth(200);
+            expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
+
+            //Grade Column that will show the grades that student got during the duration of the course
+            TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
+            percentColumn.setMinWidth(100);
+            percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
+
+            rubric = new TableView<>();
+            rubric.setItems(getRubricInfo());
+            rubric.getColumns().addAll(expectationColumn, percentColumn);
 
 
+
+
+        //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("mainMenu");
         mainWindow.show();
+
     }
 
+    //Method used in the main method in order to close the program on command
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
         if(answer)
             mainWindow.close();
     }
 
+    //Tests to see if a string is empty or not
     private boolean isEmpty(String s){
         boolean test = "".equals(s);
         return test;
     }
+
+    //Method that manually adds each item into the Rubric table(Will change later)
+    public ObservableList<Rubric> getRubricInfo(){
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+        rubricInfo.add(new Rubric("Test 1", 66.00));
+        rubricInfo.add(new Rubric("Test 2", 89.00));
+        rubricInfo.add(new Rubric("Quiz 1", 98.00));
+        rubricInfo.add(new Rubric("Presentation 1", 90.00));
+        return rubricInfo;
+    }
+
 }
