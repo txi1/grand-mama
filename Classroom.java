@@ -1,26 +1,33 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 
 public class Classroom{
 
-    private static int counter = 0;
     private String name;
-    private int id; 
-    private int students;
+    private int ID;
+    private ObservableList<Student> students = FXCollections.observableArrayList();
 
-    public Classroom(String n){
-        name = n;
-        id = counter;
-        counter ++;
+    public Classroom(String n, int i){
+        this.name = n;
+        this.ID = i;
     }
 
-    public int getid(){
-        return id;
+    public int getID(){
+        return ID;
+    }
+
+    public String getName(){
+        return name;
     }
     
-    public int getCounter(){
-        return counter;
+    public String toString(){
+        return this.getName();
     }
 
-
+    public void addStudent(Student s){
+        students.setAll(new Student(s.getName()));
+    }
 
     
 
