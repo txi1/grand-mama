@@ -110,6 +110,7 @@ public class Main extends Application{
             classMenu = new Scene(classLayout, 400, 300);
 
 
+
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("mainMenu");
         mainWindow.show();
