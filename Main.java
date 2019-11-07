@@ -48,7 +48,9 @@ public class Main extends Application{
                 
                 ChoiceBox<Classroom> classList = new ChoiceBox<>();
                 menuLayout.setConstraints(classList, 1, 0);
-
+                
+                Label label1 = new Label("Select Classroom");
+                menuLayout.setConstraints(classList, 1, 0);
 
             Button button1 = new Button("Enter this classroom");
             menuLayout.setConstraints(button1, 1, 2);
@@ -93,7 +95,7 @@ public class Main extends Application{
             manageMenu.getItems().add(new MenuItem("Return to the Main Menu"));
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
-            //adding the navigate menus
+            //Adding the navigate menus
             navigateMenu.getItems().add(new MenuItem("Back"));
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
@@ -112,22 +114,22 @@ public class Main extends Application{
             
             
             classMenu = new Scene(classLayout, 400, 300);
-
             
-            //Expecation Column that will show the expectations that student has to meet in the course
-            TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
-            expectationColumn.setMinWidth(200);
-            expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
+            
+                //Expecation Column that will show the expectations that student has to meet in the course
+                TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
+                expectationColumn.setMinWidth(200);
+                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
 
-            //Grade Column that will show the grades that student got during the duration of the course
-            TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
-            percentColumn.setMinWidth(100);
-            percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
+                //Grade Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
+                percentColumn.setMinWidth(100);
+                percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
 
-            rubric = new TableView<>();
-            rubric.setItems(getRubricInfo());
-            rubric.getColumns().addAll(expectationColumn, percentColumn);
-
+                rubric = new TableView<>();
+                rubric.setItems(getRubricInfo());
+                rubric.getColumns().addAll(expectationColumn, percentColumn);
+            
 
 
 
