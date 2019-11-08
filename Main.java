@@ -25,6 +25,7 @@ public class Main extends Application{
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     int count = 0;
     TableView<Rubric> rubric;
+    String filePath = "Classroom Information.txt";
 
     public static void main(String[] args) {
         launch(args);
@@ -32,6 +33,9 @@ public class Main extends Application{
 
     public void start(Stage primaryStage)throws Exception{
         
+        IO io = new IO();
+        io.createOutputFile(filePath);
+
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -62,6 +66,7 @@ public class Main extends Application{
         makeClass.setOnAction(e -> {
             String temp = createClassroom.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
+                System.out.println(temp);
             classroom.setAll(new Classroom(temp, 0));
             classList.getItems().addAll(classroom.get(0));
             count++;
@@ -172,7 +177,13 @@ public class Main extends Application{
 
     //Tests to see if a string is empty or not
     private boolean isEmpty(String s){
-        boolean test = "".equals(s);
+        boolean test;
+        if("".equals(s) || s == null){
+            test = true;
+        }
+        else {
+            test = false;
+        }
         return test;
     }
 
