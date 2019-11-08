@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -69,14 +70,22 @@ public class Main extends Application{
                 }
                 
             });
-
+            
+            //Button in the mainMenu that allows for direct access to the rubric
+            //(Can be changed and placed in a different scene later)
+            Button Rubric = new Button("Go to Rubric");
+            menuLayout.setConstraints(Rubric, 1, 5);
+            Rubric.setOnAction(e -> {
+                mainWindow.setScene(rubricMenu);
+            });
+            
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, label1, button1, makeClass);
+            menuLayout.getChildren().addAll(classList, label1, button1, makeClass, Rubric);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 200, 200);
             
-
+            
             //Starting to create the items for the classroom menu
             Menu manageMenu = new Menu("_Classroom");
             Menu navigateMenu = new Menu("_Navigate");
@@ -112,30 +121,43 @@ public class Main extends Application{
             BorderPane classLayout = new BorderPane();
             classLayout.setTop(menuBar);
             
-            
             classMenu = new Scene(classLayout, 400, 300);
             
             
-                //Expecation Column that will show the expectations that student has to meet in the course
+            /*The layout type that will be used in order to have the rubric 
+            displayed along with other features(Such as sidebars) that allow for
+            a complete rubric to be created
+            */
+            GridPane rubricLayout = new GridPane();
+               rubricLayout.setPadding(new Insets(10,10,10,10));
+               rubricLayout.setVgap(8);
+               rubricLayout.setHgap(10);
+            //Establishes the scene parameters that allow for the rubricMenu
+            //scene to exist
+            rubricMenu = new Scene(rubricLayout, 500, 500);
+            
+            //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
                 expectationColumn.setMinWidth(200);
                 expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
-
-                //Grade Column that will show the grades that student got during the duration of the course
+            //Grade Column that will show the grades that student got during the duration of the course
                 TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
                 percentColumn.setMinWidth(100);
                 percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
-
+            //These lines of code are what allow for the table itself to be
+            //generated and shown when called
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
                 rubric.getColumns().addAll(expectationColumn, percentColumn);
             
-
-
+            //The crucial line of code that allows the rubric to be displayed
+            //when the rubricMenu Scene is selected
+            rubricLayout.getChildren().addAll(rubric);
+                
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
-        mainWindow.setTitle("mainMenu");
+        mainWindow.setTitle("Main Menu");
         mainWindow.show();
 
     }
