@@ -49,15 +49,7 @@ public class Main extends Application{
                 
                 ChoiceBox<Classroom> classList = new ChoiceBox<>();
                 menuLayout.setConstraints(classList, 1, 0);
-                
-                Label label1 = new Label("Select Classroom");
-                menuLayout.setConstraints(classList, 1, 0);
 
-            Button button1 = new Button("Enter this classroom");
-            menuLayout.setConstraints(button1, 1, 2);
-            button1.setOnAction(e -> {
-                mainWindow.setScene(classMenu);
-                });
 
             Button makeClass = new Button("Make a new Classroom");
             menuLayout.setConstraints(makeClass, 1, 3);
@@ -67,8 +59,16 @@ public class Main extends Application{
                 classroom.setAll(new Classroom(temp, 0));
                 classList.getItems().addAll(classroom.get(0));
                 count++;
-                }
+                }});
                 
+        
+        Label label1 = new Label("Select Classroom");
+        menuLayout.setConstraints(label1, 1, 1);
+
+        Button button1 = new Button("Enter this classroom");
+        menuLayout.setConstraints(button1, 1, 2);
+        button1.setOnAction(e -> {
+            mainWindow.setScene(classMenu);
             });
             
             //Button in the mainMenu that allows for direct access to the rubric
@@ -101,7 +101,10 @@ public class Main extends Application{
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Preferences..."));
             manageMenu.getItems().add(new SeparatorMenuItem());
-            manageMenu.getItems().add(new MenuItem("Return to the Main Menu"));
+            
+            MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
+            returnMenuButton.setOnAction(e -> mainWindow.setScene(firstMenu));
+            manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
             //Adding the navigate menus
@@ -144,6 +147,66 @@ public class Main extends Application{
                 TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
                 percentColumn.setMinWidth(100);
                 percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
+            //R Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> rColumn = new TableColumn<>("Level R");
+                rColumn.setMinWidth(100);
+                rColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr"));
+            //1- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> onemColumn = new TableColumn<>("Level 1-");
+                onemColumn.setMinWidth(100);
+                onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr1m"));
+            //1 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> oneColumn = new TableColumn<>("Level 1");
+                oneColumn.setMinWidth(100);
+                oneColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1"));
+            //1+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> onepColumn = new TableColumn<>("Level 1+");
+                onepColumn.setMinWidth(100);
+                onepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1p"));
+            //2- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> twomColumn = new TableColumn<>("Level 2-");
+                twomColumn.setMinWidth(100);
+                twomColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2m"));
+            //2 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> twoColumn = new TableColumn<>("Level 2");
+                twoColumn.setMinWidth(100);
+                twoColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2"));
+            //2+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> twopColumn = new TableColumn<>("Level 2+");
+                twopColumn.setMinWidth(100);
+                twopColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2p"));
+            //3- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> threemColumn = new TableColumn<>("Level 3-");
+                threemColumn.setMinWidth(100);
+                threemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3m"));
+            //3 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> threeColumn = new TableColumn<>("Level 3");
+                threeColumn.setMinWidth(100);
+                threeColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3"));
+            //3+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> threepColumn = new TableColumn<>("Level 3+");
+                threepColumn.setMinWidth(100);
+                threepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3p"));
+            //3+/4- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> threefourColumn = new TableColumn<>("Level 3+/4-");
+                threefourColumn.setMinWidth(100);
+                threefourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl34"));
+            //4- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> fourmColumn = new TableColumn<>("Level 4-");
+                fourmColumn.setMinWidth(100);
+                fourmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4m"));
+            //4 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> fourColumn = new TableColumn<>("Level 4");
+                fourColumn.setMinWidth(100);
+                fourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4"));
+            //4/4+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> fourspColumn = new TableColumn<>("Level 4/4+");
+                fourspColumn.setMinWidth(100);
+                fourspColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sp"));
+            //4+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, Double> fourpColumn = new TableColumn<>("Level 4+");
+                fourpColumn.setMinWidth(100);
+                fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
                 rubric = new TableView<>();
@@ -178,10 +241,10 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.add(new Rubric("Test 1", 66.00));
-        rubricInfo.add(new Rubric("Test 2", 89.00));
-        rubricInfo.add(new Rubric("Quiz 1", 98.00));
-        rubricInfo.add(new Rubric("Presentation 1", 90.00));
+        rubricInfo.add(new Rubric("Expectation A1", 66.00, 
+                80.00, 81.00, 82.00, 83.00, 84.00, 85.00, 
+                86.00, 87.00, 88.00, 89.00, 90.00, 91.00, 
+                92.00, 93.00, 94.00));
         return rubricInfo;
     }
 
