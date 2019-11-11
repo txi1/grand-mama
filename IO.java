@@ -82,4 +82,35 @@ public class IO
   {
     fileIn.close();
   }
+  public static void deleteLine(String n){
+      
+      String fileName = n;
+      String tempFileName = new String("myTempFile.txt");
+try
+    {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName));
+    }
+    catch (FileNotFoundException e)
+    {
+      System.out.println("***Cannot open " + fileName + "***");
+    }
+    catch (IOException e){
+        System.out.println("*** Cannot create file: " + n + " ***");
+    }
+  
+
+String lineToRemove = "bbb";
+String currentLine;
+
+while((currentLine = reader.readLine()) != null) {
+    // trim newline when comparing with lineToRemove
+    String trimmedLine = currentLine.trim();
+    if(trimmedLine.equals(lineToRemove)) continue;
+    writer.write(currentLine + System.getProperty("line.separator"));
+}
+writer.close(); 
+reader.close(); 
+boolean successful = tempFile.renameTo(inputFile);
+  }
 }
