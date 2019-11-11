@@ -36,14 +36,22 @@ public class IO
     }
   }
   
-  public static void print(String text)
+  public void print(String filePath, String text)
   {
-    fileOut.print(text);
+    try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+    bufferedWriter.write(text);
+} catch (IOException e) {
+    // exception handling
+}
   }
   
-  public static void println(String text)
+  public void println(String filePath, String text)
   {
-    fileOut.println(text);
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+    bufferedWriter.write(text + "\n");
+} catch (IOException e) {
+    // exception handling
+}
   }
   
   public static void closeOutputFile()

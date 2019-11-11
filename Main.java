@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +37,7 @@ public class Main extends Application{
     public void start(Stage primaryStage)throws Exception{
         
         IO io = new IO();
-        io.createOutputFile(filePath);
+        
 
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
@@ -68,6 +71,7 @@ public class Main extends Application{
             if(!isEmpty(temp)){
                 System.out.println(temp);
             classroom.setAll(new Classroom(temp, 0));
+            io.println(filePath, temp);
             classList.getItems().addAll(classroom.get(0));
             count++;
             }
