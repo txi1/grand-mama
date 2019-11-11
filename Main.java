@@ -50,19 +50,19 @@ public class Main extends Application{
         menuLayout.setHgap(10);
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
-        menuLayout.setConstraints(classList, 1, 0);
+        classList.setConstraints(classList, 1, 0);
 
         Label label1 = new Label("Select Classroom");
-        menuLayout.setConstraints(label1, 1, 1);
+        label1.setConstraints(label1, 1, 1);
 
         Button button1 = new Button("Enter this classroom");
-        menuLayout.setConstraints(button1, 1, 2);
+        button1.setConstraints(button1, 1, 2);
         button1.setOnAction(e -> {
             mainWindow.setScene(classMenu);
             });
 
         Button makeClass = new Button("Make a new Classroom");
-        menuLayout.setConstraints(makeClass, 1, 3);
+        makeClass.setConstraints(makeClass, 1, 3);
         makeClass.setOnAction(e -> {
             String temp = createClassroom.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
@@ -77,7 +77,7 @@ public class Main extends Application{
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
             Button Rubric = new Button("Go to Rubric");
-            menuLayout.setConstraints(Rubric, 1, 5);
+            Rubric.setConstraints(Rubric, 1, 5);
             Rubric.setOnAction(e -> {
                 mainWindow.setScene(rubricMenu);
             });
