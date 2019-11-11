@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -82,14 +83,30 @@ public class IO
   {
     fileIn.close();
   }
-  public static void deleteLine(String n){
+  public static void deleteLine(String n, String delete){
       
-      String fileName = n;
-      String tempFileName = new String("myTempFile.txt");
+      File fileName = new File(n);
+      File tempFileName = new File("myTempFile.txt");
 try
     {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName));
+
+        String lineToRemove = delete;
+        String currentLine;
+
+        while((currentLine = reader.readLine()) != null) {
+          // trim newline when comparing with lineToRemove
+          String trimmedLine = currentLine.trim();
+          if(trimmedLine.equals(lineToRemove)) continue;
+          writer.write(currentLine + System.getProperty("line.separator"));
+      }
+      writer.close(); 
+      reader.close(); 
+      boolean deletedFile = fileName.delete();
+      boolean successful = tempFileName.renameTo(fileName);
+      
+
     }
     catch (FileNotFoundException e)
     {
@@ -100,17 +117,8 @@ try
     }
   
 
-String lineToRemove = "bbb";
-String currentLine;
 
-while((currentLine = reader.readLine()) != null) {
-    // trim newline when comparing with lineToRemove
-    String trimmedLine = currentLine.trim();
-    if(trimmedLine.equals(lineToRemove)) continue;
-    writer.write(currentLine + System.getProperty("line.separator"));
-}
-writer.close(); 
-reader.close(); 
-boolean successful = tempFile.renameTo(inputFile);
+
+
   }
 }

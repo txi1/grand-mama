@@ -64,6 +64,13 @@ public class Main extends Application{
             mainWindow.setScene(classMenu);
             });
 
+        Button deleteButton = new Button("Delete this classroom");
+        menuLayout.setConstraints(deleteButton, 2, 2);
+        deleteButton.setOnAction(e -> {
+            System.out.println(classList.getValue().getName());
+            io.deleteLine(filePath, classList.getValue().getName());
+        });
+
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
         makeClass.setOnAction(e -> {
@@ -87,7 +94,7 @@ public class Main extends Application{
             });
             
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, label1, button1, makeClass, Rubric);
+            menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass, Rubric);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 200, 200);
