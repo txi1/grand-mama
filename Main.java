@@ -136,11 +136,11 @@ public class Main extends Application{
             */
             GridPane rubricLayout = new GridPane();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(8);
+               rubricLayout.setVgap(20);
                rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
-            rubricMenu = new Scene(rubricLayout, 500, 500);
+            rubricMenu = new Scene(rubricLayout, 750, 750);
             
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
@@ -153,7 +153,7 @@ public class Main extends Application{
             //1- Column that will show the grades that student got during the duration of the course
                 TableColumn<Rubric, String> onemColumn = new TableColumn<>("Level 1-");
                 onemColumn.setMinWidth(50);
-                onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr1m"));
+                onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1m"));
             //1 Column that will show the grades that student got during the duration of the course
                 TableColumn<Rubric, String> oneColumn = new TableColumn<>("Level 1");
                 oneColumn.setMinWidth(50);
@@ -250,10 +250,11 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.add(new Rubric("Expectation A1", 
-                "81", "82", "83", "84", "85", "86", 
-                "87", "88", "89", "90", "91", "92", 
-                "93", "94", "95"));
+        rubricInfo.add(new Rubric("A4","0",
+                "", "", "", 
+                "", "", "", 
+                "", "78", "", 
+                "", "", "", "", ""));
         return rubricInfo;
     }
 
