@@ -1,7 +1,6 @@
 public class Rubric {
     
     public String expectation;
-    public Double percent;
     public String lvlr;
     public String lvl1m;
     public String lvl1;
@@ -21,7 +20,6 @@ public class Rubric {
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
             this.expectation = "";
-            this.percent = 0.00;
             this.lvlr = "";
             this.lvl1m = "";
             this.lvl1 = "";
@@ -39,13 +37,12 @@ public class Rubric {
             this.lvl4p = "";
         }
 
-        public Rubric(String expectation, Double percent, String lvlr,
+        public Rubric(String expectation, String lvlr,
                 String lvl1m, String lvl1, String lvl1p,
                 String lvl2m, String lvl2, String lvl2p,
                 String lvl3m, String lvl3, String lvl3p,
                 String lvl34, String lvl4m, String lvl4, String lvl4sp, String lvl4p){
             this.expectation = expectation;
-            this.percent = percent;
             this.lvlr = lvlr;
             this.lvl1m = lvl1m;
             this.lvl1 = lvl1;
@@ -72,17 +69,9 @@ public class Rubric {
         public void setExpecation(String expectation){
             this.expectation = expectation;
         }
-        
-        
-    //Get and Set method for percent value
-        public Double getpercent(){
-            return percent;
-        }
-
-        public void setPercent(Double percent){
-            this.percent = percent;
-        }
      
+        
+        
         
     //Get and Set method for Level R
         public String getlvlr(){

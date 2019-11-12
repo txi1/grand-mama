@@ -15,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -66,19 +65,19 @@ public class Main extends Application{
                 }});
                 
         
-        Label label1 = new Label("Select Classroom");
-        label1.setConstraints(label1, 1, 1);
+            Label label1 = new Label("Select Classroom");
+            menuLayout.setConstraints(label1, 1, 1);
 
-        Button button1 = new Button("Enter this classroom");
-        button1.setConstraints(button1, 1, 2);
-        button1.setOnAction(e -> {
-            mainWindow.setScene(classMenu);
-            });
+            Button button1 = new Button("Enter this classroom");
+            menuLayout.setConstraints(button1, 1, 2);
+            button1.setOnAction(e -> {
+                mainWindow.setScene(classMenu);
+                });
             
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
             Button Rubric = new Button("Go to Rubric");
-            Rubric.setConstraints(Rubric, 1, 5);
+            menuLayout.setConstraints(Rubric, 1, 5);
             Rubric.setOnAction(e -> {
                 mainWindow.setScene(rubricMenu);
             });
@@ -145,77 +144,77 @@ public class Main extends Application{
             
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
-                expectationColumn.setMinWidth(200);
-                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
-            //Grade Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
-                percentColumn.setMinWidth(100);
-                percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
+                expectationColumn.setMinWidth(100);
+                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation")); 
             //R Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> rColumn = new TableColumn<>("Level R");
-                rColumn.setMinWidth(100);
+                TableColumn<Rubric, String> rColumn = new TableColumn<>("Level R");
+                rColumn.setMinWidth(50);
                 rColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr"));
             //1- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> onemColumn = new TableColumn<>("Level 1-");
-                onemColumn.setMinWidth(100);
+                TableColumn<Rubric, String> onemColumn = new TableColumn<>("Level 1-");
+                onemColumn.setMinWidth(50);
                 onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr1m"));
             //1 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> oneColumn = new TableColumn<>("Level 1");
-                oneColumn.setMinWidth(100);
+                TableColumn<Rubric, String> oneColumn = new TableColumn<>("Level 1");
+                oneColumn.setMinWidth(50);
                 oneColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1"));
             //1+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> onepColumn = new TableColumn<>("Level 1+");
-                onepColumn.setMinWidth(100);
+                TableColumn<Rubric, String> onepColumn = new TableColumn<>("Level 1+");
+                onepColumn.setMinWidth(50);
                 onepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1p"));
             //2- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> twomColumn = new TableColumn<>("Level 2-");
-                twomColumn.setMinWidth(100);
+                TableColumn<Rubric, String> twomColumn = new TableColumn<>("Level 2-");
+                twomColumn.setMinWidth(50);
                 twomColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2m"));
             //2 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> twoColumn = new TableColumn<>("Level 2");
-                twoColumn.setMinWidth(100);
+                TableColumn<Rubric, String> twoColumn = new TableColumn<>("Level 2");
+                twoColumn.setMinWidth(50);
                 twoColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2"));
             //2+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> twopColumn = new TableColumn<>("Level 2+");
-                twopColumn.setMinWidth(100);
+                TableColumn<Rubric, String> twopColumn = new TableColumn<>("Level 2+");
+                twopColumn.setMinWidth(50);
                 twopColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2p"));
             //3- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> threemColumn = new TableColumn<>("Level 3-");
-                threemColumn.setMinWidth(100);
+                TableColumn<Rubric, String> threemColumn = new TableColumn<>("Level 3-");
+                threemColumn.setMinWidth(50);
                 threemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3m"));
             //3 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> threeColumn = new TableColumn<>("Level 3");
-                threeColumn.setMinWidth(100);
+                TableColumn<Rubric, String> threeColumn = new TableColumn<>("Level 3");
+                threeColumn.setMinWidth(50);
                 threeColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3"));
             //3+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> threepColumn = new TableColumn<>("Level 3+");
-                threepColumn.setMinWidth(100);
+                TableColumn<Rubric, String> threepColumn = new TableColumn<>("Level 3+");
+                threepColumn.setMinWidth(50);
                 threepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3p"));
             //3+/4- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> threefourColumn = new TableColumn<>("Level 3+/4-");
-                threefourColumn.setMinWidth(100);
+                TableColumn<Rubric, String> threefourColumn = new TableColumn<>("Level 3+/4-");
+                threefourColumn.setMinWidth(50);
                 threefourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl34"));
             //4- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> fourmColumn = new TableColumn<>("Level 4-");
-                fourmColumn.setMinWidth(100);
+                TableColumn<Rubric, String> fourmColumn = new TableColumn<>("Level 4-");
+                fourmColumn.setMinWidth(50);
                 fourmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4m"));
             //4 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> fourColumn = new TableColumn<>("Level 4");
-                fourColumn.setMinWidth(100);
+                TableColumn<Rubric, String> fourColumn = new TableColumn<>("Level 4");
+                fourColumn.setMinWidth(50);
                 fourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4"));
             //4/4+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> fourspColumn = new TableColumn<>("Level 4/4+");
-                fourspColumn.setMinWidth(100);
+                TableColumn<Rubric, String> fourspColumn = new TableColumn<>("Level 4/4+");
+                fourspColumn.setMinWidth(50);
                 fourspColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sp"));
             //4+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> fourpColumn = new TableColumn<>("Level 4+");
-                fourpColumn.setMinWidth(100);
+                TableColumn<Rubric, String> fourpColumn = new TableColumn<>("Level 4+");
+                fourpColumn.setMinWidth(50);
                 fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
-                rubric.getColumns().addAll(expectationColumn, percentColumn);
+                rubric.getColumns().addAll(expectationColumn, rColumn, 
+                        onemColumn, oneColumn, onepColumn,
+                        twomColumn, twoColumn, twopColumn,
+                        threemColumn, threeColumn, threepColumn,
+                        threefourColumn, fourmColumn, fourColumn, fourspColumn, fourpColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
@@ -251,10 +250,10 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.add(new Rubric("Expectation A1", 66.00, 
-                80.00, 81.00, 82.00, 83.00, 84.00, 85.00, 
-                86.00, 87.00, 88.00, 89.00, 90.00, 91.00, 
-                92.00, 93.00, 94.00));
+        rubricInfo.add(new Rubric("Expectation A1", 
+                "81", "82", "83", "84", "85", "86", 
+                "87", "88", "89", "90", "91", "92", 
+                "93", "94", "95"));
         return rubricInfo;
     }
 
