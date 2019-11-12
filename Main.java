@@ -44,7 +44,6 @@ public class Main extends Application{
             });
 
         //Setup for intro menu
-<<<<<<< HEAD
             //GridPane code that will setup the Choicebox
             //in order to choose which classroom to enter
                 GridPane menuLayout = new GridPane();
@@ -67,16 +66,6 @@ public class Main extends Application{
                 }});
                 
         
-=======
-        GridPane menuLayout = new GridPane();
-        menuLayout.setPadding(new Insets(10,10,10,10));
-        menuLayout.setVgap(8);
-        menuLayout.setHgap(10);
-                
-        ChoiceBox<Classroom> classList = new ChoiceBox<>();
-        classList.setConstraints(classList, 1, 0);
-
->>>>>>> 1f2fc73711541967201899f1ca41510ee5b9922d
         Label label1 = new Label("Select Classroom");
         label1.setConstraints(label1, 1, 1);
 
@@ -85,22 +74,6 @@ public class Main extends Application{
         button1.setOnAction(e -> {
             mainWindow.setScene(classMenu);
             });
-<<<<<<< HEAD
-=======
-
-        Button makeClass = new Button("Make a new Classroom");
-        makeClass.setConstraints(makeClass, 1, 3);
-        makeClass.setOnAction(e -> {
-            String temp = createClassroom.display("Class","Classroom Creation");
-            if(!isEmpty(temp)){
-                System.out.println(temp);
-            classroom.setAll(new Classroom(temp, 0));
-            classList.getItems().addAll(classroom.get(0));
-            count++;
-            }
-        });
-
->>>>>>> 1f2fc73711541967201899f1ca41510ee5b9922d
             
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
