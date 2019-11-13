@@ -99,7 +99,7 @@ try
           // trim newline when comparing with lineToRemove
           String trimmedLine = currentLine.trim();
           if(trimmedLine.equals(lineToRemove)) continue;
-          writer.write(currentLine + System.getProperty("line.separator"));
+          writer.write(trimmedLine + System.getProperty("line.separator"));
       }
       writer.close(); 
       reader.close(); 

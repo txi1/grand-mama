@@ -37,7 +37,7 @@ public class Main extends Application{
     public void start(Stage primaryStage)throws Exception{
         
         IO io = new IO();
-        
+       
 
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
@@ -54,7 +54,14 @@ public class Main extends Application{
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
         menuLayout.setConstraints(classList, 1, 0);
-
+        String line;
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            classroom.setAll(new Classroom(line, 0));
+            classList.getItems().addAll(classroom.get(0));
+        }
+        io.closeInputFile();
+        
         Label label1 = new Label("Select Classroom");
         menuLayout.setConstraints(label1, 1, 1);
 
@@ -69,6 +76,7 @@ public class Main extends Application{
         deleteButton.setOnAction(e -> {
             System.out.println(classList.getValue().getName());
             io.deleteLine(filePath, classList.getValue().getName());
+            classList.getItems().remove(classList.getValue());
         });
 
         Button makeClass = new Button("Make a new Classroom");

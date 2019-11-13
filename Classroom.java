@@ -7,6 +7,7 @@ public class Classroom{
     private String name;
     private int ID;
     private ObservableList<Student> students = FXCollections.observableArrayList();
+    private ObservableList<Expectation> expectations = FXCollections.observableArrayList();
 
     public Classroom(String n, int i){
         this.name = n;
