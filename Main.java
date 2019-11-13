@@ -54,6 +54,7 @@ public class Main extends Application{
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
         menuLayout.setConstraints(classList, 1, 0);
+        
         String line;
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
@@ -75,7 +76,7 @@ public class Main extends Application{
         menuLayout.setConstraints(deleteButton, 2, 2);
         deleteButton.setOnAction(e -> {
             System.out.println(classList.getValue().getName());
-            io.deleteLine(filePath, classList.getValue().getName());
+            io.completeDestruction(filePath, classList.getValue().getName());
             classList.getItems().remove(classList.getValue());
         });
 
@@ -86,7 +87,7 @@ public class Main extends Application{
             if(!isEmpty(temp)){
                 System.out.println(temp);
             classroom.setAll(new Classroom(temp, 0));
-            io.println(filePath, temp);
+            io.storeInfo(filePath, temp, "name", temp);
             classList.getItems().addAll(classroom.get(0));
             count++;
             }
@@ -216,4 +217,7 @@ public class Main extends Application{
         return rubricInfo;
     }
 
-}
+}   
+
+
+
