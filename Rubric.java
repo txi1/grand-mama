@@ -13,6 +13,7 @@ public class Rubric {
     public String lvl3p;
     public String lvl34;
     public String lvl4m;
+    public String lvl4sm;
     public String lvl4;
     public String lvl4sp;
     public String lvl4p;
@@ -32,6 +33,7 @@ public class Rubric {
             this.lvl3p = "";
             this.lvl34 = "";
             this.lvl4m = "";
+            this.lvl4sm = "";
             this.lvl4 = "";
             this.lvl4sp = "";
             this.lvl4p = "";
@@ -41,7 +43,7 @@ public class Rubric {
                 String lvl1m, String lvl1, String lvl1p,
                 String lvl2m, String lvl2, String lvl2p,
                 String lvl3m, String lvl3, String lvl3p,
-                String lvl34, String lvl4m, String lvl4, String lvl4sp, String lvl4p){
+                String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p){
             this.expectation = expectation;
             this.lvlr = lvlr;
             this.lvl1m = lvl1m;
@@ -54,6 +56,7 @@ public class Rubric {
             this.lvl3 = lvl3;
             this.lvl3p = lvl3p;
             this.lvl34 = lvl34;
+            this.lvl4sm = lvl4sm;
             this.lvl4m = lvl4m;
             this.lvl4 = lvl4;
             this.lvl4sp = lvl4sp;
@@ -191,6 +194,15 @@ public class Rubric {
 
         public void setlvl4m(String lvl4m){
             this.lvl4m = lvl4m;
+        }
+        
+    //Get and Set method for Level 4-/4
+        public String getlvl4sm(){
+            return lvl4sm;
+        }
+
+        public void setlvl4sm(String lvl4sm){
+            this.lvl4sm = lvl4sm;
         }
         
     //Get and Set method for Level 4

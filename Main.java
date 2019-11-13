@@ -194,6 +194,10 @@ public class Main extends Application{
                 TableColumn<Rubric, String> fourmColumn = new TableColumn<>("Level 4-");
                 fourmColumn.setMinWidth(50);
                 fourmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4m"));
+            //4-/4 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> foursmColumn = new TableColumn<>("Level 4-/4");
+                foursmColumn.setMinWidth(50);
+                foursmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sm"));
             //4 Column that will show the grades that student got during the duration of the course
                 TableColumn<Rubric, String> fourColumn = new TableColumn<>("Level 4");
                 fourColumn.setMinWidth(50);
@@ -214,7 +218,7 @@ public class Main extends Application{
                         onemColumn, oneColumn, onepColumn,
                         twomColumn, twoColumn, twopColumn,
                         threemColumn, threeColumn, threepColumn,
-                        threefourColumn, fourmColumn, fourColumn, fourspColumn, fourpColumn);
+                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
@@ -250,11 +254,16 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.add(new Rubric("A4","0",
+        rubricInfo.add(new Rubric("A4", "0",
                 "", "", "", 
                 "", "", "", 
                 "", "78", "", 
-                "", "", "", "", ""));
+                "", "", "", "", "", ""));
+        rubricInfo.add(new Rubric("B4", "",
+                "", "", "", 
+                "", "", "", 
+                "", "", "", 
+                "80", "", "", "", "", "98"));
         return rubricInfo;
     }
 
