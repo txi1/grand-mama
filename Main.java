@@ -37,7 +37,7 @@ public class Main extends Application{
     public void start(Stage primaryStage)throws Exception{
         
         IO io = new IO();
-       
+        
 
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
@@ -58,6 +58,8 @@ public class Main extends Application{
         String line;
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
+            line = getValue(line);
+            if(line.equals("invalid")) continue;
             classroom.setAll(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(0));
         }
@@ -217,6 +219,34 @@ public class Main extends Application{
         return rubricInfo;
     }
 
+    public String getValue(String l){
+        String trimmedLine = l.trim();
+        int counter = 0;
+        String infoName = "";
+        for(int i = 0; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.') counter ++;
+            else counter ++; break;
+        }
+        for(int i = 0; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.'){
+            infoName += trimmedLine.charAt(counter);
+            counter++;
+            }else counter += 2; break;
+        }
+        if(infoName.equals("name")){
+            String value = "";
+            for(int i = 0; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '\"'){
+            value += trimmedLine.charAt(counter);
+            counter++;
+            System.out.println(value);
+            }else break;
+            }
+            System.out.println(value);
+            return value;
+        }else System.out.println("invalid"); return "invalid";
+    }
+    
 }   
 
 

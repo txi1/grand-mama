@@ -37,6 +37,7 @@ public class IO
     }
   }
   
+  
   public void print(String filePath, String text)
   {
     try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -68,6 +69,7 @@ public class IO
     }
     catch (FileNotFoundException e)
     {
+        createOutputFile(fileName);
       System.out.println("***Cannot open " + fileName + "***");
     }
   }
