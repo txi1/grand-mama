@@ -1,22 +1,22 @@
 public class Rubric {
     
-    public String expectation;
-    public String lvlr;
-    public String lvl1m;
-    public String lvl1;
-    public String lvl1p;
-    public String lvl2m;
-    public String lvl2;
-    public String lvl2p;
-    public String lvl3m;
-    public String lvl3;
-    public String lvl3p;
-    public String lvl34;
-    public String lvl4m;
-    public String lvl4sm;
-    public String lvl4;
-    public String lvl4sp;
-    public String lvl4p;
+    private String expectation;
+    private String lvlr;
+    private String lvl1m;
+    private String lvl1;
+    private String lvl1p;
+    private String lvl2m;
+    private String lvl2;
+    private String lvl2p;
+    private String lvl3m;
+    private String lvl3;
+    private String lvl3p;
+    private String lvl34;
+    private String lvl4m;
+    private String lvl4sm;
+    private String lvl4;
+    private String lvl4sp;
+    private String lvl4p;
     
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
@@ -77,11 +77,11 @@ public class Rubric {
         
         
     //Get and Set method for Level R
-        public String getlvlr(){
+        public String getLvlr(){
             return lvlr;
         }
 
-        public void setlvlr(String lvlr){
+        public void setLvlr(String lvlr){
             this.lvlr = lvlr;
         }
         
@@ -89,29 +89,29 @@ public class Rubric {
         
         
     //Get and Set method for Level 1-
-        public String getlvl1m(){
-            return lvlr;
+        public String getLvl1m(){
+            return lvl1m;
         }
 
-        public void setlvl1m(String lvl1m){
+        public void setLvl1m(String lvl1m){
             this.lvl1m = lvl1m;
         }
         
     //Get and Set method for Level 1
-        public String getlvl1(){
+        public String getLvl1(){
             return lvl1;
         }
 
-        public void setlvl1(String lvl1){
+        public void setLvl1(String lvl1){
             this.lvl1 = lvl1;
         }
         
     //Get and Set method for Level 1+
-        public String getlvl1p(){
+        public String getLvl1p(){
             return lvl1p;
         }
 
-        public void setlvl1p(String lvl1p){
+        public void setLvl1p(String lvl1p){
             this.lvl1p = lvl1p;
         }
         
@@ -119,29 +119,29 @@ public class Rubric {
         
         
     //Get and Set method for Level 2-
-        public String getlvl2m(){
+        public String getLvl2m(){
             return lvl2m;
         }
 
-        public void setlvl2m(String lvl2m){
+        public void setLvl2m(String lvl2m){
             this.lvl2m = lvl2m;
         }
         
     //Get and Set method for Level 2
-        public String getlvl2(){
+        public String getLvl2(){
             return lvl2;
         }
 
-        public void setlvl2(String lvl2){
+        public void setLvl2(String lvl2){
             this.lvl2 = lvl2;
         }
         
     //Get and Set method for Level 2p
-        public String getlvl2p(){
+        public String getLvl2p(){
             return lvl2p;
         }
 
-        public void setlvl2p(String lvl2p){
+        public void setLvl2p(String lvl2p){
             this.lvl2p = lvl2p;
         }
         
@@ -149,29 +149,29 @@ public class Rubric {
         
         
     //Get and Set method for Level 3- A1
-        public String getlvl3m(){
-            return lvl2m;
+        public String getLvl3m(){
+            return lvl3m;
         }
 
-        public void setlvl3m(String lvl3m){
+        public void setLvl3m(String lvl3m){
             this.lvl3m = lvl3m;
         }
         
     //Get and Set method for Level 3
-        public String getlvl3(){
+        public String getLvl3(){
             return lvl3;
         }
 
-        public void setlvl3(String lvl3){
+        public void setLvl3(String lvl3){
             this.lvl3 = lvl3;
         }
         
     //Get and Set method for Level 3+
-        public String getlvl3p(){
+        public String getLvl3p(){
             return lvl3p;
         }
 
-        public void setlvl3p(String lvl3p){
+        public void setLvl3p(String lvl3p){
             this.lvl3p = lvl3p;
         }
         
@@ -179,56 +179,56 @@ public class Rubric {
         
         
     //Get and Set method for Level 3+/4-
-        public String getlvl34(){
+        public String getLvl34(){
             return lvl34;
         }
 
-        public void setlvl34(String lvl34){
+        public void setLvl34(String lvl34){
             this.lvl34 = lvl34;
         }
         
     //Get and Set method for Level 4-
-        public String getlvl4m(){
+        public String getLvl4m(){
             return lvl4m;
         }
 
-        public void setlvl4m(String lvl4m){
+        public void setLvl4m(String lvl4m){
             this.lvl4m = lvl4m;
         }
         
     //Get and Set method for Level 4-/4
-        public String getlvl4sm(){
+        public String getLvl4sm(){
             return lvl4sm;
         }
 
-        public void setlvl4sm(String lvl4sm){
+        public void setLvl4sm(String lvl4sm){
             this.lvl4sm = lvl4sm;
         }
         
     //Get and Set method for Level 4
-        public String getlvl4(){
+        public String getLvl4(){
             return lvl4;
         }
 
-        public void setlvl4(String lvl4){
+        public void setLvl4(String lvl4){
             this.lvl4 = lvl4;
         }
         
     //Get and Set method for Level 4/4+
-        public String getlvl4sp(){
+        public String getLvl4sp(){
             return lvl4sp;
         }
 
-        public void setlvl4sp(String lvl4sp){
+        public void setLvl4sp(String lvl4sp){
             this.lvl4sp = lvl4sp;
         }
         
     //Get and Set method for Level 4+
-        public String getlvl4p(){
+        public String getLvl4p(){
             return lvl4p;
         }
 
-        public void setlvl4p(String lvl4p){
+        public void setLvl4p(String lvl4p){
             this.lvl4p = lvl4p;
         }
     
