@@ -122,7 +122,7 @@ try
   public void storeInfo(String filePath, String identifier, String name, String value)
     {
           try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
-      bufferedWriter.write(identifier + "." + name + ".\"" + value + "\"\n");
+      bufferedWriter.write(identifier + "." + name + "." + value + "\n");
   } catch (IOException e) {
       // exception handling
   }

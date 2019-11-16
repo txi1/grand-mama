@@ -56,6 +56,7 @@ public class Main extends Application{
         menuLayout.setConstraints(classList, 1, 0);
         
         String line;
+        
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
             line = getValue(line);
@@ -225,26 +226,24 @@ public class Main extends Application{
         String infoName = "";
         for(int i = 0; i < trimmedLine.length(); i++){
             if(trimmedLine.charAt(i) != '.') counter ++;
-            else counter ++; break;
+            else break;
         }
-        for(int i = 0; i < trimmedLine.length(); i++){
+        counter ++;
+        for(int i = counter; i < trimmedLine.length(); i++){
             if(trimmedLine.charAt(i) != '.'){
             infoName += trimmedLine.charAt(counter);
             counter++;
-            }else counter += 2; break;
+            }else break;
         }
+        counter ++;
         if(infoName.equals("name")){
             String value = "";
-            for(int i = 0; i < trimmedLine.length(); i++){
-            if(trimmedLine.charAt(i) != '\"'){
+            for(int i = counter; i < trimmedLine.length(); i++){
             value += trimmedLine.charAt(counter);
             counter++;
-            System.out.println(value);
-            }else break;
             }
-            System.out.println(value);
             return value;
-        }else System.out.println("invalid"); return "invalid";
+        }else return "invalid";
     }
     
 }   
