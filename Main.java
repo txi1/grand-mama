@@ -86,7 +86,7 @@ public class Main extends Application{
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
         makeClass.setOnAction(e -> {
-            String temp = createClassroom.display("Class","Classroom Creation");
+            String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
                 System.out.println(temp);
             classroom.setAll(new Classroom(temp, 0));
