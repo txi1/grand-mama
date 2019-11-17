@@ -167,7 +167,6 @@ public class Main extends Application{
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
             returnMenuButton.setOnAction(e -> {
                 mainWindow.setScene(firstMenu);
-                selectedClass = null;
             });
             manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
