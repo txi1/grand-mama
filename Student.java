@@ -6,6 +6,7 @@ public class Student{
     private String lastName;
     private String fullName;
     private int averageGrade;
+    private int urdedomegalul;
     private int[] grade;
 
     public Student(String n){

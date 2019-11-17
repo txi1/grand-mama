@@ -7,7 +7,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.*;
 
-public class createClassroom{
+public class textWindow{
 
         static String name;
 
@@ -27,7 +27,7 @@ public class createClassroom{
         
         
         TextField className = new TextField();
-        className.setPromptText("Enter your classroom name here");
+        className.setPromptText("Enter your name here");
 
         Button closeButton = new Button("Cancel");
         closeButton.setOnAction(e -> makeClass.close());

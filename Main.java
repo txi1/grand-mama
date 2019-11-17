@@ -54,7 +54,18 @@ public class Main extends Application{
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
         menuLayout.setConstraints(classList, 1, 0);
-
+        
+        String line;
+        
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            line = getValue(line);
+            if(line.equals("invalid")) continue;
+            classroom.setAll(new Classroom(line, 0));
+            classList.getItems().addAll(classroom.get(0));
+        }
+        io.closeInputFile();
+        
         Label label1 = new Label("Select Classroom");
         menuLayout.setConstraints(label1, 1, 1);
 
@@ -68,17 +79,18 @@ public class Main extends Application{
         menuLayout.setConstraints(deleteButton, 2, 2);
         deleteButton.setOnAction(e -> {
             System.out.println(classList.getValue().getName());
-            io.deleteLine(filePath, classList.getValue().getName());
+            io.completeDestruction(filePath, classList.getValue().getName());
+            classList.getItems().remove(classList.getValue());
         });
 
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
         makeClass.setOnAction(e -> {
-            String temp = createClassroom.display("Class","Classroom Creation");
+            String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
                 System.out.println(temp);
             classroom.setAll(new Classroom(temp, 0));
-            io.println(filePath, temp);
+            io.storeInfo(filePath, temp, "name", temp);
             classList.getItems().addAll(classroom.get(0));
             count++;
             }
@@ -208,4 +220,33 @@ public class Main extends Application{
         return rubricInfo;
     }
 
-}
+    public String getValue(String l){
+        String trimmedLine = l.trim();
+        int counter = 0;
+        String infoName = "";
+        for(int i = 0; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.') counter ++;
+            else break;
+        }
+        counter ++;
+        for(int i = counter; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.'){
+            infoName += trimmedLine.charAt(counter);
+            counter++;
+            }else break;
+        }
+        counter ++;
+        if(infoName.equals("name")){
+            String value = "";
+            for(int i = counter; i < trimmedLine.length(); i++){
+            value += trimmedLine.charAt(counter);
+            counter++;
+            }
+            return value;
+        }else return "invalid";
+    }
+    
+}   
+
+
+
