@@ -29,7 +29,7 @@ public class Main extends Application{
     int count = 0;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-
+    String selectedClass;
     public static void main(String[] args) {
         launch(args);
     }
@@ -55,11 +55,14 @@ public class Main extends Application{
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
         menuLayout.setConstraints(classList, 1, 0);
         
+
+        Label classroomLabel = new Label();
+
         String line;
-        
+
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
-            line = getValue(line);
+            line = getValue(line, "name");
             if(line.equals("invalid")) continue;
             classroom.setAll(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(0));
@@ -73,7 +76,10 @@ public class Main extends Application{
         menuLayout.setConstraints(button1, 1, 2);
         button1.setOnAction(e -> {
             mainWindow.setScene(classMenu);
+            classroomLabel.setText(selectedClass);
             });
+
+            button1.setDisable(true);
 
         Button deleteButton = new Button("Delete this classroom");
         menuLayout.setConstraints(deleteButton, 2, 2);
@@ -96,7 +102,13 @@ public class Main extends Application{
             }
         });
 
-            
+        classList.getSelectionModel().selectedItemProperty().addListener(( v, oldValue, newValue) -> {
+            if(newValue != null){
+            selectedClass = newValue.getName(); 
+            button1.setDisable(false);
+            }
+        });    
+
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
             Button Rubric = new Button("Go to Rubric");
@@ -117,9 +129,33 @@ public class Main extends Application{
             Menu navigateMenu = new Menu("_Navigate");
 
             //Adding the menu items
-            manageMenu.getItems().add(new MenuItem("Create New Student..."));
-            manageMenu.getItems().add(new MenuItem("Create New Assignment..."));
-            manageMenu.getItems().add(new MenuItem("Create New Expectation..."));
+            MenuItem createStudent = new MenuItem("Create New Student...");
+            createStudent.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new student...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createStudent);
+            MenuItem createAssignment = new MenuItem("Create New Assignment...");
+            createAssignment.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Assignment...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createAssignment);
+            MenuItem createExpectation = new MenuItem("Create New Expectation...");
+            createExpectation.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Expectation...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addExpectation(temp, temp);
+                }
+            });
+            manageMenu.getItems().add(createExpectation);
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
@@ -129,7 +165,10 @@ public class Main extends Application{
             manageMenu.getItems().add(new SeparatorMenuItem());
             
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
-            returnMenuButton.setOnAction(e -> mainWindow.setScene(firstMenu));
+            returnMenuButton.setOnAction(e -> {
+                mainWindow.setScene(firstMenu);
+                selectedClass = null;
+            });
             manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
@@ -146,10 +185,11 @@ public class Main extends Application{
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
 
+
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
             classLayout.setTop(menuBar);
-            
+            classLayout.setLeft(classroomLabel);
             classMenu = new Scene(classLayout, 400, 300);
             
             
@@ -220,7 +260,7 @@ public class Main extends Application{
         return rubricInfo;
     }
 
-    public String getValue(String l){
+    public String getValue(String l, String info){
         String trimmedLine = l.trim();
         int counter = 0;
         String infoName = "";
@@ -236,7 +276,7 @@ public class Main extends Application{
             }else break;
         }
         counter ++;
-        if(infoName.equals("name")){
+        if(infoName.equals(info)){
             String value = "";
             for(int i = counter; i < trimmedLine.length(); i++){
             value += trimmedLine.charAt(counter);
