@@ -7,6 +7,7 @@ public class Classroom{
     private String name;
     private int ID;
     private ObservableList<Student> students = FXCollections.observableArrayList();
+    private ObservableList<Expectation> expectations = FXCollections.observableArrayList();
 
     public Classroom(String n, int i){
         this.name = n;
@@ -29,6 +30,13 @@ public class Classroom{
         students.setAll(new Student(s.getName()));
     }
 
+    public void addStudent(String n){
+        students.setAll(new Student(n));
+    }
+
+    public void addExpectation(String i, String d){
+        expectations.setAll(new Expectation(i, d));
+    }
     
 
 }

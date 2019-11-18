@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +28,7 @@ public class Main extends Application{
     int count = 0;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-
+    String selectedClass;
     public static void main(String[] args) {
         launch(args);
     }
@@ -33,7 +36,7 @@ public class Main extends Application{
     public void start(Stage primaryStage)throws Exception{
         
         IO io = new IO();
-        io.createOutputFile(filePath);
+        
 
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
@@ -50,30 +53,63 @@ public class Main extends Application{
                 menuLayout.setVgap(8);
                 menuLayout.setHgap(10);
                 
-                ChoiceBox<Classroom> classList = new ChoiceBox<>();
-                menuLayout.setConstraints(classList, 1, 0);
-
-
-            Button makeClass = new Button("Make a new Classroom");
-            menuLayout.setConstraints(makeClass, 1, 3);
-            makeClass.setOnAction(e -> {
-                String temp = createClassroom.display("Class","Classroom Creation");
-                if(!isEmpty(temp)){
-                classroom.setAll(new Classroom(temp, 0));
-                classList.getItems().addAll(classroom.get(0));
-                count++;
-                }});
-                
+        ChoiceBox<Classroom> classList = new ChoiceBox<>();
+        menuLayout.setConstraints(classList, 1, 0);
         
-            Label label1 = new Label("Select Classroom");
-            menuLayout.setConstraints(label1, 1, 1);
 
-            Button button1 = new Button("Enter this classroom");
-            menuLayout.setConstraints(button1, 1, 2);
-            button1.setOnAction(e -> {
-                mainWindow.setScene(classMenu);
-                });
-            
+        Label classroomLabel = new Label();
+
+        String line;
+
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            line = getValue(line, "name");
+            if(line.equals("invalid")) continue;
+            classroom.setAll(new Classroom(line, 0));
+            classList.getItems().addAll(classroom.get(0));
+        }
+        io.closeInputFile();
+        
+        Label label1 = new Label("Select Classroom");
+        menuLayout.setConstraints(label1, 1, 1);
+
+        Button button1 = new Button("Enter this classroom");
+        menuLayout.setConstraints(button1, 1, 2);
+        button1.setOnAction(e -> {
+            mainWindow.setScene(classMenu);
+            classroomLabel.setText(selectedClass);
+            });
+
+            button1.setDisable(true);
+
+        Button deleteButton = new Button("Delete this classroom");
+        menuLayout.setConstraints(deleteButton, 2, 2);
+        deleteButton.setOnAction(e -> {
+            System.out.println(classList.getValue().getName());
+            io.completeDestruction(filePath, classList.getValue().getName());
+            classList.getItems().remove(classList.getValue());
+        });
+
+        Button makeClass = new Button("Make a new Classroom");
+        menuLayout.setConstraints(makeClass, 1, 3);
+        makeClass.setOnAction(e -> {
+            String temp = textWindow.display("Class","Classroom Creation");
+            if(!isEmpty(temp)){
+                System.out.println(temp);
+            classroom.setAll(new Classroom(temp, 0));
+            io.storeInfo(filePath, temp, "name", temp);
+            classList.getItems().addAll(classroom.get(0));
+            count++;
+            }
+        });
+
+        classList.getSelectionModel().selectedItemProperty().addListener(( v, oldValue, newValue) -> {
+            if(newValue != null){
+            selectedClass = newValue.getName(); 
+            button1.setDisable(false);
+            }
+        });    
+
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
             Button Rubric = new Button("Go to Rubric");
@@ -83,7 +119,7 @@ public class Main extends Application{
             });
             
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, label1, button1, makeClass, Rubric);
+            menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass, Rubric);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 200, 200);
@@ -94,9 +130,33 @@ public class Main extends Application{
             Menu navigateMenu = new Menu("_Navigate");
 
             //Adding the menu items
-            manageMenu.getItems().add(new MenuItem("Create New Student..."));
-            manageMenu.getItems().add(new MenuItem("Create New Assignment..."));
-            manageMenu.getItems().add(new MenuItem("Create New Expectation..."));
+            MenuItem createStudent = new MenuItem("Create New Student...");
+            createStudent.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new student...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createStudent);
+            MenuItem createAssignment = new MenuItem("Create New Assignment...");
+            createAssignment.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Assignment...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createAssignment);
+            MenuItem createExpectation = new MenuItem("Create New Expectation...");
+            createExpectation.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Expectation...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addExpectation(temp, temp);
+                }
+            });
+            manageMenu.getItems().add(createExpectation);
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
@@ -106,7 +166,9 @@ public class Main extends Application{
             manageMenu.getItems().add(new SeparatorMenuItem());
             
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
-            returnMenuButton.setOnAction(e -> mainWindow.setScene(firstMenu));
+            returnMenuButton.setOnAction(e -> {
+                mainWindow.setScene(firstMenu);
+            });
             manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
@@ -123,10 +185,11 @@ public class Main extends Application{
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
 
+
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
             classLayout.setTop(menuBar);
-            
+            classLayout.setLeft(classroomLabel);
             classMenu = new Scene(classLayout, 400, 300);
             
             
@@ -273,4 +336,33 @@ public class Main extends Application{
         return rubricInfo;
     }
 
-}
+    public String getValue(String l, String info){
+        String trimmedLine = l.trim();
+        int counter = 0;
+        String infoName = "";
+        for(int i = 0; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.') counter ++;
+            else break;
+        }
+        counter ++;
+        for(int i = counter; i < trimmedLine.length(); i++){
+            if(trimmedLine.charAt(i) != '.'){
+            infoName += trimmedLine.charAt(counter);
+            counter++;
+            }else break;
+        }
+        counter ++;
+        if(infoName.equals(info)){
+            String value = "";
+            for(int i = counter; i < trimmedLine.length(); i++){
+            value += trimmedLine.charAt(counter);
+            counter++;
+            }
+            return value;
+        }else return "invalid";
+    }
+    
+}   
+
+
+
