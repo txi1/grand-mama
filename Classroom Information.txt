@@ -1,3 +1,1 @@
-asd.name.asd
-ICS4U.name.ICS4U
-Test.name.Test
+ISC4U.name.ISC4U
