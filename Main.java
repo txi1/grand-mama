@@ -18,7 +18,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -29,7 +28,7 @@ public class Main extends Application{
     int count = 0;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-
+    String selectedClass;
     public static void main(String[] args) {
         launch(args);
     }
@@ -47,19 +46,24 @@ public class Main extends Application{
             });
 
         //Setup for intro menu
-        GridPane menuLayout = new GridPane();
-        menuLayout.setPadding(new Insets(10,10,10,10));
-        menuLayout.setVgap(8);
-        menuLayout.setHgap(10);
+            //GridPane code that will setup the Choicebox
+            //in order to choose which classroom to enter
+                GridPane menuLayout = new GridPane();
+                menuLayout.setPadding(new Insets(10,10,10,10));
+                menuLayout.setVgap(8);
+                menuLayout.setHgap(10);
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
         menuLayout.setConstraints(classList, 1, 0);
         
+
+        Label classroomLabel = new Label();
+
         String line;
-        
+
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
-            line = getValue(line);
+            line = getValue(line, "name");
             if(line.equals("invalid")) continue;
             classroom.setAll(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(0));
@@ -73,7 +77,10 @@ public class Main extends Application{
         menuLayout.setConstraints(button1, 1, 2);
         button1.setOnAction(e -> {
             mainWindow.setScene(classMenu);
+            classroomLabel.setText(selectedClass);
             });
+
+            button1.setDisable(true);
 
         Button deleteButton = new Button("Delete this classroom");
         menuLayout.setConstraints(deleteButton, 2, 2);
@@ -96,7 +103,13 @@ public class Main extends Application{
             }
         });
 
-            
+        classList.getSelectionModel().selectedItemProperty().addListener(( v, oldValue, newValue) -> {
+            if(newValue != null){
+            selectedClass = newValue.getName(); 
+            button1.setDisable(false);
+            }
+        });    
+
             //Button in the mainMenu that allows for direct access to the rubric
             //(Can be changed and placed in a different scene later)
             Button Rubric = new Button("Go to Rubric");
@@ -117,9 +130,33 @@ public class Main extends Application{
             Menu navigateMenu = new Menu("_Navigate");
 
             //Adding the menu items
-            manageMenu.getItems().add(new MenuItem("Create New Student..."));
-            manageMenu.getItems().add(new MenuItem("Create New Assignment..."));
-            manageMenu.getItems().add(new MenuItem("Create New Expectation..."));
+            MenuItem createStudent = new MenuItem("Create New Student...");
+            createStudent.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new student...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createStudent);
+            MenuItem createAssignment = new MenuItem("Create New Assignment...");
+            createAssignment.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Assignment...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addStudent(temp);
+                }
+            });
+            manageMenu.getItems().add(createAssignment);
+            MenuItem createExpectation = new MenuItem("Create New Expectation...");
+            createExpectation.setOnAction(e -> {
+                String temp = textWindow.display("Class","Create a new Expectation...");
+                if(!isEmpty(temp)){
+                    System.out.println(temp);
+                classroom.get(0).addExpectation(temp, temp);
+                }
+            });
+            manageMenu.getItems().add(createExpectation);
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
@@ -129,7 +166,9 @@ public class Main extends Application{
             manageMenu.getItems().add(new SeparatorMenuItem());
             
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
-            returnMenuButton.setOnAction(e -> mainWindow.setScene(firstMenu));
+            returnMenuButton.setOnAction(e -> {
+                mainWindow.setScene(firstMenu);
+            });
             manageMenu.getItems().add(returnMenuButton);
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
@@ -146,10 +185,11 @@ public class Main extends Application{
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
 
+
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
             classLayout.setTop(menuBar);
-            
+            classLayout.setLeft(classroomLabel);
             classMenu = new Scene(classLayout, 400, 300);
             
             
@@ -159,25 +199,89 @@ public class Main extends Application{
             */
             GridPane rubricLayout = new GridPane();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(8);
+               rubricLayout.setVgap(20);
                rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
-            rubricMenu = new Scene(rubricLayout, 500, 500);
+            rubricMenu = new Scene(rubricLayout, 750, 750);
             
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
-                expectationColumn.setMinWidth(200);
-                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation"));
-            //Grade Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, Double> percentColumn = new TableColumn<>("Grade");
-                percentColumn.setMinWidth(100);
-                percentColumn.setCellValueFactory(new PropertyValueFactory<>("percent"));
+                expectationColumn.setMinWidth(100);
+                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation")); 
+            //R Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> rColumn = new TableColumn<>("R");
+                rColumn.setMinWidth(50);
+                rColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr"));
+            //1- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> onemColumn = new TableColumn<>("1-");
+                onemColumn.setMinWidth(50);
+                onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1m"));
+            //1 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> oneColumn = new TableColumn<>("1");
+                oneColumn.setMinWidth(50);
+                oneColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1"));
+            //1+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> onepColumn = new TableColumn<>("1+");
+                onepColumn.setMinWidth(50);
+                onepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1p"));
+            //2- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> twomColumn = new TableColumn<>("2-");
+                twomColumn.setMinWidth(50);
+                twomColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2m"));
+            //2 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> twoColumn = new TableColumn<>("2");
+                twoColumn.setMinWidth(50);
+                twoColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2"));
+            //2+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> twopColumn = new TableColumn<>("2+");
+                twopColumn.setMinWidth(50);
+                twopColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2p"));
+            //3- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> threemColumn = new TableColumn<>("3-");
+                threemColumn.setMinWidth(50);
+                threemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3m"));
+            //3 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> threeColumn = new TableColumn<>("3");
+                threeColumn.setMinWidth(50);
+                threeColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3"));
+            //3+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> threepColumn = new TableColumn<>("3+");
+                threepColumn.setMinWidth(50);
+                threepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3p"));
+            //3+/4- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> threefourColumn = new TableColumn<>("3+/4-");
+                threefourColumn.setMinWidth(50);
+                threefourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl34"));
+            //4- Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourmColumn = new TableColumn<>("4-");
+                fourmColumn.setMinWidth(50);
+                fourmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4m"));
+            //4-/4 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> foursmColumn = new TableColumn<>("4-/4");
+                foursmColumn.setMinWidth(50);
+                foursmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sm"));
+            //4 Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourColumn = new TableColumn<>("4");
+                fourColumn.setMinWidth(50);
+                fourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4"));
+            //4/4+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourspColumn = new TableColumn<>("4/4+");
+                fourspColumn.setMinWidth(50);
+                fourspColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sp"));
+            //4+ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourpColumn = new TableColumn<>("4+");
+                fourpColumn.setMinWidth(50);
+                fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
-                rubric.getColumns().addAll(expectationColumn, percentColumn);
+                rubric.getColumns().addAll(expectationColumn, rColumn, 
+                        onemColumn, oneColumn, onepColumn,
+                        twomColumn, twoColumn, twopColumn,
+                        threemColumn, threeColumn, threepColumn,
+                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
@@ -213,14 +317,26 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.add(new Rubric("Test 1", 66.00));
-        rubricInfo.add(new Rubric("Test 2", 89.00));
-        rubricInfo.add(new Rubric("Quiz 1", 98.00));
-        rubricInfo.add(new Rubric("Presentation 1", 90.00));
+        rubricInfo.addAll(new Rubric("A4", "Test 3",
+                "", "", "", 
+                "", "", "", 
+                "", "", "Test 4", 
+                "", "", "", "", "", ""));
+        rubricInfo.addAll(new Rubric("B4", "",
+                "Presentation 5", "", "", 
+                "", "", "", 
+                "", "", "", 
+                "", "", "", "", "", "Quiz 37"));
+        rubricInfo.addAll(new Rubric("C7", "",
+                "", "", "", 
+                "", "", "", 
+                "", "", "", 
+                "", "", "", "", "", "Summative"));
+        
         return rubricInfo;
     }
 
-    public String getValue(String l){
+    public String getValue(String l, String info){
         String trimmedLine = l.trim();
         int counter = 0;
         String infoName = "";
@@ -236,7 +352,7 @@ public class Main extends Application{
             }else break;
         }
         counter ++;
-        if(infoName.equals("name")){
+        if(infoName.equals(info)){
             String value = "";
             for(int i = counter; i < trimmedLine.length(); i++){
             value += trimmedLine.charAt(counter);
@@ -247,6 +363,3 @@ public class Main extends Application{
     }
     
 }   
-
-
-
