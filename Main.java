@@ -88,7 +88,13 @@ public class Main extends Application{
             System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
             classList.getItems().remove(classList.getValue());
+            if(classList.getValue() == null){
+                deleteButton.setDisable(true);
+                button1.setDisable(true);
+            }
         });
+        
+            deleteButton.setDisable(true);
 
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
@@ -107,6 +113,7 @@ public class Main extends Application{
             if(newValue != null){
             selectedClass = newValue.getName(); 
             button1.setDisable(false);
+            deleteButton.setDisable(false);
             }
         });    
 
