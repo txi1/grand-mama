@@ -37,7 +37,8 @@ public class Main extends Application{
         
         IO io = new IO();
         
-
+        //Lines of code beneath are what set up the window that is shown
+        //when the program is run
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -138,6 +139,7 @@ public class Main extends Application{
                 classroom.get(0).addStudent(temp);
                 }
             });
+            //Adding the new assignment button
             manageMenu.getItems().add(createStudent);
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
@@ -147,12 +149,14 @@ public class Main extends Application{
                 classroom.get(0).addStudent(temp);
                 }
             });
+            //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
             createExpectation.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Expectation...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
+                    io.storeInfo(filePath, selectedClass, "expectationName", temp);
                 classroom.get(0).addExpectation(temp, temp);
                 }
             });
@@ -273,6 +277,10 @@ public class Main extends Application{
                 TableColumn<Rubric, String> fourpColumn = new TableColumn<>("4+");
                 fourpColumn.setMinWidth(50);
                 fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
+            //4++ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourppColumn = new TableColumn<>("4++");
+                fourppColumn.setMinWidth(50);
+                fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
                 rubric = new TableView<>();
@@ -281,7 +289,7 @@ public class Main extends Application{
                         onemColumn, oneColumn, onepColumn,
                         twomColumn, twoColumn, twopColumn,
                         threemColumn, threeColumn, threepColumn,
-                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn);
+                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
@@ -296,6 +304,7 @@ public class Main extends Application{
     }
 
     //Method used in the main method in order to close the program on command
+    //when the 'X' button is clicked at the top right corner
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
         if(answer)
@@ -317,22 +326,24 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.addAll(new Rubric("A4", "Test 3",
+        //Row 1 in the rubric
+        rubricInfo.addAll(new Rubric(getValue("ISC4U.expectationName.G7","expectationName"), "Test 3",
                 "", "", "", 
                 "", "", "", 
                 "", "", "Test 4", 
-                "", "", "", "", "", ""));
+                "", "", "", "", "", "", ""));
+        //Row 2 in the rubric
         rubricInfo.addAll(new Rubric("B4", "",
                 "Presentation 5", "", "", 
                 "", "", "", 
                 "", "", "", 
-                "", "", "", "", "", "Quiz 37"));
+                "", "", "", "", "", "Quiz 37", "Test 5"));
+        //Row 3 in the rubric
         rubricInfo.addAll(new Rubric("C7", "",
                 "", "", "", 
                 "", "", "", 
                 "", "", "", 
-                "", "", "", "", "", "Summative"));
-        
+                "", "", "", "", "", "Summative", ""));
         return rubricInfo;
     }
 
