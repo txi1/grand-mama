@@ -15,8 +15,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -89,7 +91,13 @@ public class Main extends Application{
             System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
             classList.getItems().remove(classList.getValue());
+            if(classList.getValue() == null){
+                deleteButton.setDisable(true);
+                button1.setDisable(true);
+            }
         });
+        
+            deleteButton.setDisable(true);
 
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
@@ -108,6 +116,7 @@ public class Main extends Application{
             if(newValue != null){
             selectedClass = newValue.getName(); 
             button1.setDisable(false);
+            deleteButton.setDisable(false);
             }
         });    
 
@@ -136,7 +145,12 @@ public class Main extends Application{
                 String temp = textWindow.display("Class","Create a new student...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
-                classroom.get(0).addStudent(temp);
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(classroom.get(i).getName() == selectedClass){
+                            classroom.get(i).addStudent(temp); 
+                            io.storeInfo(filePath, selectedClass, "studentName", temp);
+                        } 
+                    }
                 }
             });
             //Adding the new assignment button
@@ -146,7 +160,6 @@ public class Main extends Application{
                 String temp = textWindow.display("Class","Create a new Assignment...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
-                classroom.get(0).addStudent(temp);
                 }
             });
             //Adding the new expecation button
@@ -158,6 +171,11 @@ public class Main extends Application{
                     System.out.println(temp);
                     io.storeInfo(filePath, selectedClass, "expectationName", temp);
                 classroom.get(0).addExpectation(temp, temp);
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(classroom.get(i).getName() == selectedClass){
+                            classroom.get(i).addExpectation(temp, temp); 
+                        } 
+                    }
                 }
             });
             manageMenu.getItems().add(createExpectation);
@@ -294,6 +312,27 @@ public class Main extends Application{
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
             rubricLayout.getChildren().addAll(rubric);
+            //Line below is what makes the table editable
+            rubric.setEditable(true);
+            //Lines below state which columns can be edited
+            expectationColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            onemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            oneColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            onepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twomColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twopColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threefourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            foursmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourspColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourpColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourppColumn.setCellFactory(TextFieldTableCell.forTableColumn());
                 
 
         //Allows for the first scene to be shown when the program is run
@@ -327,23 +366,23 @@ public class Main extends Application{
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
         //Row 1 in the rubric
-        rubricInfo.addAll(new Rubric(getValue("ISC4U.expectationName.G7","expectationName"), "Test 3",
+        rubricInfo.addAll(new Rubric("A1", "",
                 "", "", "", 
                 "", "", "", 
-                "", "", "Test 4", 
+                "", "", "", 
                 "", "", "", "", "", "", ""));
         //Row 2 in the rubric
-        rubricInfo.addAll(new Rubric("B4", "",
-                "Presentation 5", "", "", 
+        rubricInfo.addAll(new Rubric("A2", "",
                 "", "", "", 
                 "", "", "", 
-                "", "", "", "", "", "Quiz 37", "Test 5"));
+                "", "", "", 
+                "", "", "", "", "", "", ""));
         //Row 3 in the rubric
-        rubricInfo.addAll(new Rubric("C7", "",
+        rubricInfo.addAll(new Rubric("A3", "",
                 "", "", "", 
                 "", "", "", 
                 "", "", "", 
-                "", "", "", "", "", "Summative", ""));
+                "", "", "", "", "", "", ""));
         return rubricInfo;
     }
 
@@ -373,4 +412,78 @@ public class Main extends Application{
         }else return "invalid";
     }
     
-}   
+    public void changeExpectationCellEvent(CellEditEvent editedCell){
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the expecation column
+        Rubric expectationSelected = rubric.getSelectionModel().getSelectedItem();
+        expectationSelected.setExpecation(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level R column
+        Rubric lvlrSelected = rubric.getSelectionModel().getSelectedItem();
+        lvlrSelected.setLvlr(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 1- column
+        Rubric lvl1mSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl1mSelected.setLvl1m(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 1 column
+        Rubric lvl1Selected = rubric.getSelectionModel().getSelectedItem();
+        lvl1Selected.setLvl1(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 1+ column
+        Rubric lvl1pSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl1pSelected.setLvl1p(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 2- column
+        Rubric lvl2mSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl2mSelected.setLvl2m(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 2 column
+        Rubric lvl2Selected = rubric.getSelectionModel().getSelectedItem();
+        lvl2Selected.setLvl2(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 2+ column
+        Rubric lvl2pSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl2pSelected.setLvl2p(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 3- column
+        Rubric lvl3mSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl3mSelected.setLvl3m(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 3 column
+        Rubric lvl3Selected = rubric.getSelectionModel().getSelectedItem();
+        lvl3Selected.setLvl3(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 3+ column
+        Rubric lvl3pSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl3pSelected.setLvl3p(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 3+/4- column
+        Rubric lvl34Selected = rubric.getSelectionModel().getSelectedItem();
+        lvl34Selected.setLvl34(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4- column
+        Rubric lvl4mSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl4mSelected.setLvl4m(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4-/4 column
+        Rubric lvl4smSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl4smSelected.setLvl4sm(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4 column
+        Rubric lvl4Selected = rubric.getSelectionModel().getSelectedItem();
+        lvl4Selected.setLvl4(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4-/4+ column
+        Rubric lvl4spSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl4spSelected.setLvl4sp(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4+ column
+        Rubric lvl4pSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl4pSelected.setLvl4p(editedCell.getNewValue().toString());
+        //2 Lines of code beneath are needed in order to be able to select
+        //and edit the table for the Level 4++ column
+        Rubric lvl4ppSelected = rubric.getSelectionModel().getSelectedItem();
+        lvl4ppSelected.setLvl4pp(editedCell.getNewValue().toString());
+    }
+}
