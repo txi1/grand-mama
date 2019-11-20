@@ -139,13 +139,13 @@ public class Main extends Application{
             //Adding the menu items
             MenuItem createStudent = new MenuItem("Create New Student...");
             createStudent.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new student...");
+                Student temp = createStudentWindow.display("Class","Create a new student...");
                 if(!isEmpty(temp)){
-                    System.out.println(temp);
                 classroom.get(0).addStudent(temp);
                 }
             });
             manageMenu.getItems().add(createStudent);
+
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Assignment...");
@@ -155,6 +155,7 @@ public class Main extends Application{
                 }
             });
             manageMenu.getItems().add(createAssignment);
+
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
             createExpectation.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Expectation...");
@@ -164,6 +165,7 @@ public class Main extends Application{
                 }
             });
             manageMenu.getItems().add(createExpectation);
+            
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
