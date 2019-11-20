@@ -11,7 +11,7 @@ public class Student{
     public Student(String f, String l){
         firstName = f;
         firstName = l;
-        
+        fullName = firstName +" " +lastName;
     }
 
 
@@ -36,10 +36,6 @@ public class Student{
         return lastName;
     }
 
-    public String getFullName(){
-        return firstName +" " +lastName;
-    }
-
     public void setGrade(int i, int g){
         grade[i] = g;
         averageGrade = IntStream.of(grade).sum() / grade.length;
@@ -59,7 +55,7 @@ public class Student{
 
     }
     
-    public String getName(){
+    public String getFullName(){
         return fullName;
     }
 

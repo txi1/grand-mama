@@ -139,8 +139,8 @@ public class Main extends Application{
             //Adding the menu items
             MenuItem createStudent = new MenuItem("Create New Student...");
             createStudent.setOnAction(e -> {
-                Student temp = createStudentWindow.display("Class","Create a new student...");
-                if(!isEmpty(temp)){
+                Student temp = createStudentWindow.display();
+                if(!isEmpty(temp.getFullName())){
                 classroom.get(0).addStudent(temp);
                 }
             });
@@ -150,8 +150,6 @@ public class Main extends Application{
             createAssignment.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Assignment...");
                 if(!isEmpty(temp)){
-                    System.out.println(temp);
-                classroom.get(0).addStudent(temp);
                 }
             });
             manageMenu.getItems().add(createAssignment);
