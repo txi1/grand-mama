@@ -142,12 +142,7 @@ public class Main extends Application{
                 String temp = textWindow.display("Class","Create a new student...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(classroom.get(i).getName() == selectedClass){
-                            classroom.get(i).addStudent(temp); 
-                            io.storeInfo(filePath, selectedClass, "studentName", temp);
-                        } 
-                    }
+                classroom.get(0).addStudent(temp);
                 }
             });
             manageMenu.getItems().add(createStudent);
@@ -156,6 +151,7 @@ public class Main extends Application{
                 String temp = textWindow.display("Class","Create a new Assignment...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
+                classroom.get(0).addStudent(temp);
                 }
             });
             manageMenu.getItems().add(createAssignment);
@@ -164,11 +160,7 @@ public class Main extends Application{
                 String temp = textWindow.display("Class","Create a new Expectation...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(classroom.get(i).getName() == selectedClass){
-                            classroom.get(i).addExpectation(temp, temp); 
-                        } 
-                    }
+                classroom.get(0).addExpectation(temp, temp);
                 }
             });
             manageMenu.getItems().add(createExpectation);
