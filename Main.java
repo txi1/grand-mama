@@ -21,7 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+    
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
@@ -140,8 +140,15 @@ public class Main extends Application{
             MenuItem createStudent = new MenuItem("Create New Student...");
             createStudent.setOnAction(e -> {
                 Student temp = createStudentWindow.display();
-                if(!isEmpty(temp.getFullName())){
-                classroom.get(0).addStudent(temp);
+                if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
+                    System.out.println(temp.getFullName());
+                for(int i = 0; i < classroom.size(); i++){
+                    if(selectedClass.equals(classroom.get(i).getName())) {
+                        classroom.get(i).addStudent(temp);
+                        io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
+                    }
+                    
+                }
                 }
             });
             manageMenu.getItems().add(createStudent);

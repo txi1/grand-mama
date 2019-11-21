@@ -14,7 +14,8 @@ public class createStudentWindow{
 
     public static Student display(){
         Stage makeClass = new Stage();
-
+        student = new Student(null,null);
+        
         GridPane layout = new GridPane();
                  layout.setPadding(new Insets(10,10,10,10));
                  layout.setVgap(8);
@@ -43,7 +44,11 @@ public class createStudentWindow{
         layout.setConstraints(closeButton, 3, 3);
         Button enterButton = new Button("Confirm");
         enterButton.setOnAction(e -> {
-            student = new Student(firstName.getText(), lastName.getText());
+            student.setFirstName(firstName.getText());
+            System.out.println(firstName.getText());
+            
+            student.setLastName(lastName.getText());
+            System.out.println(lastName.getText());
             makeClass.close();
         });
         layout.setConstraints(enterButton, 2, 3);

@@ -22,10 +22,12 @@ public class Student{
 
     public void setFirstName(String n){
         firstName = n;
+        fullName = firstName +" " +lastName;
     }
 
     public void setLastName(String n){
         lastName = n;
+        fullName = firstName +" " +lastName;
     }
 
     public String getFirstName(){
