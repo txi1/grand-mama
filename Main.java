@@ -23,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+    
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
@@ -142,43 +142,40 @@ public class Main extends Application{
             //Adding the menu items
             MenuItem createStudent = new MenuItem("Create New Student...");
             createStudent.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new student...");
-                if(!isEmpty(temp)){
-                    System.out.println(temp);
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(classroom.get(i).getName() == selectedClass){
-                            classroom.get(i).addStudent(temp); 
-                            io.storeInfo(filePath, selectedClass, "studentName", temp);
-                        } 
+                Student temp = createStudentWindow.display();
+                if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
+                    System.out.println(temp.getFullName());
+                for(int i = 0; i < classroom.size(); i++){
+                    if(selectedClass.equals(classroom.get(i).getName())) {
+                        classroom.get(i).addStudent(temp);
+                        io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
                     }
+                    
+                }
                 }
             });
             //Adding the new assignment button
             manageMenu.getItems().add(createStudent);
+
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Assignment...");
                 if(!isEmpty(temp)){
-                    System.out.println(temp);
                 }
             });
             //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
+
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
             createExpectation.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Expectation...");
                 if(!isEmpty(temp)){
                     System.out.println(temp);
-                    io.storeInfo(filePath, selectedClass, "expectationName", temp);
                 classroom.get(0).addExpectation(temp, temp);
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(classroom.get(i).getName() == selectedClass){
-                            classroom.get(i).addExpectation(temp, temp); 
-                        } 
-                    }
                 }
             });
             manageMenu.getItems().add(createExpectation);
+            
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
