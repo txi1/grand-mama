@@ -17,9 +17,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -31,6 +33,7 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
+    TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
     }
@@ -301,6 +304,22 @@ public class Main extends Application{
                 fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
+            
+            //Following 3 lines of code are used in order to set up the textfield
+            //that will be used to add in expectation manually
+            expectationInput = new TextField();
+            expectationInput.setPromptText("Name");
+            expectationInput.setMinWidth(100);
+            //Button
+            Button addButton = new Button("Add");
+            Button killButton = new Button("Delete");
+            //The area in the bottom on the rubric that will allow for
+            //the manipulation of rows
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10, 10, 10, 10));
+            hbox.setSpacing(10);
+            hbox.getChildren().addAll(expectationInput, addButton, killButton);
+            
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
@@ -311,7 +330,7 @@ public class Main extends Application{
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric);
+            rubricLayout.getChildren().addAll(rubric, hbox);
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
@@ -370,16 +389,16 @@ public class Main extends Application{
         String line = "";
         io.openInputFile(filePath);
         try{
-        while((line = io.readLine()) != null){
-            line = getValue(line, "expectation");
-            if(line.equals("invalid")) continue;
-            rubricInfo.addAll(new Rubric(line, "",
-                "", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "", ""));
-        }
-        io.closeInputFile();
+            while((line = io.readLine()) != null){
+                line = getValue(line, "expectation");
+                if(line.equals("invalid")) continue;
+                rubricInfo.addAll(new Rubric(line, "",
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", "", "", "", ""));
+            }
+            io.closeInputFile();
         }catch(IOException e){
             System.out.println("NENI TF");
         }
