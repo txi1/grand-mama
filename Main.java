@@ -366,23 +366,23 @@ public class Main extends Application{
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
         //Row 1 in the rubric
-        rubricInfo.addAll(new Rubric("A1", "",
+        IO io = new IO();
+        String line = "";
+        io.openInputFile(filePath);
+        try{
+        while((line = io.readLine()) != null){
+            line = getValue(line, "expectation");
+            if(line.equals("invalid")) continue;
+            rubricInfo.addAll(new Rubric(line, "",
                 "", "", "", 
                 "", "", "", 
                 "", "", "", 
                 "", "", "", "", "", "", ""));
-        //Row 2 in the rubric
-        rubricInfo.addAll(new Rubric("A2", "",
-                "", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "", ""));
-        //Row 3 in the rubric
-        rubricInfo.addAll(new Rubric("A3", "",
-                "", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "", ""));
+        }
+        io.closeInputFile();
+        }catch(IOException e){
+            System.out.println("NENI TF");
+        }
         return rubricInfo;
     }
 
@@ -412,78 +412,4 @@ public class Main extends Application{
         }else return "invalid";
     }
     
-    public void changeExpectationCellEvent(CellEditEvent editedCell){
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the expecation column
-        Rubric expectationSelected = rubric.getSelectionModel().getSelectedItem();
-        expectationSelected.setExpecation(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level R column
-        Rubric lvlrSelected = rubric.getSelectionModel().getSelectedItem();
-        lvlrSelected.setLvlr(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 1- column
-        Rubric lvl1mSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl1mSelected.setLvl1m(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 1 column
-        Rubric lvl1Selected = rubric.getSelectionModel().getSelectedItem();
-        lvl1Selected.setLvl1(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 1+ column
-        Rubric lvl1pSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl1pSelected.setLvl1p(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 2- column
-        Rubric lvl2mSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl2mSelected.setLvl2m(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 2 column
-        Rubric lvl2Selected = rubric.getSelectionModel().getSelectedItem();
-        lvl2Selected.setLvl2(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 2+ column
-        Rubric lvl2pSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl2pSelected.setLvl2p(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 3- column
-        Rubric lvl3mSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl3mSelected.setLvl3m(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 3 column
-        Rubric lvl3Selected = rubric.getSelectionModel().getSelectedItem();
-        lvl3Selected.setLvl3(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 3+ column
-        Rubric lvl3pSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl3pSelected.setLvl3p(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 3+/4- column
-        Rubric lvl34Selected = rubric.getSelectionModel().getSelectedItem();
-        lvl34Selected.setLvl34(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4- column
-        Rubric lvl4mSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl4mSelected.setLvl4m(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4-/4 column
-        Rubric lvl4smSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl4smSelected.setLvl4sm(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4 column
-        Rubric lvl4Selected = rubric.getSelectionModel().getSelectedItem();
-        lvl4Selected.setLvl4(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4-/4+ column
-        Rubric lvl4spSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl4spSelected.setLvl4sp(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4+ column
-        Rubric lvl4pSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl4pSelected.setLvl4p(editedCell.getNewValue().toString());
-        //2 Lines of code beneath are needed in order to be able to select
-        //and edit the table for the Level 4++ column
-        Rubric lvl4ppSelected = rubric.getSelectionModel().getSelectedItem();
-        lvl4ppSelected.setLvl4pp(editedCell.getNewValue().toString());
-    }
 }
