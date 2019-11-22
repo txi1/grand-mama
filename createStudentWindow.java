@@ -29,29 +29,29 @@ public class createStudentWindow{
         
 
         Label label = new Label();
-        label.setText("Enter the first and last name of your student:");
-        layout.setConstraints(label, 2, 1);
+        label.setText("Enter the name of your student:");
+        layout.setConstraints(label, 1, 1);
         
         TextField firstName = new TextField();
         firstName.setPromptText("First Name");
         layout.setConstraints(firstName, 1, 2);
         TextField lastName = new TextField();
         lastName.setPromptText("Last Name");
-        layout.setConstraints(lastName, 3, 2);
+        layout.setConstraints(lastName, 2, 2);
 
         Button closeButton = new Button("Cancel");
         closeButton.setOnAction(e -> makeClass.close());
-        layout.setConstraints(closeButton, 3, 3);
+        layout.setConstraints(closeButton, 2, 3);
         Button enterButton = new Button("Confirm");
         enterButton.setOnAction(e -> {
-            student.setFirstName(firstName.getText());
+            student.setFirstName(firstName.getText().trim());
             System.out.println(firstName.getText());
             
-            student.setLastName(lastName.getText());
+            student.setLastName(lastName.getText().trim());
             System.out.println(lastName.getText());
             makeClass.close();
         });
-        layout.setConstraints(enterButton, 2, 3);
+        layout.setConstraints(enterButton, 1, 3);
         layout.getChildren().setAll(label, firstName, lastName, closeButton, enterButton);
         Scene scene = new Scene(layout);
         makeClass.setScene(scene);

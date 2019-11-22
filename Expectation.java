@@ -20,6 +20,14 @@ public class Expectation{
         return detail;
     }
 
+    public void setSection(String s){
+        section = s;
+    }
+
+    public void setDetail(String d){
+        detail = d;
+    }
+
     public void updateExpectation(String i, String d){
         if(i != null){
             section = i;
