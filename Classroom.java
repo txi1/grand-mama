@@ -30,8 +30,8 @@ public class Classroom{
         students.setAll(new Student(s.getFirstName(), s.getLastName()));
     }
     
-    public void addExpectation(String i, String d){
-        expectations.setAll(new Expectation(i, d));
+    public void addExpectation(Expectation e){
+        expectations.setAll(new Expectation(e.getSection(), e.getDetails()));
     }
     
 

@@ -150,7 +150,6 @@ public class Main extends Application{
                         classroom.get(i).addStudent(temp);
                         io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
                     }
-                    
                 }
                 }
             });
@@ -168,10 +167,14 @@ public class Main extends Application{
 
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
             createExpectation.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new Expectation...");
-                if(!isEmpty(temp)){
-                    System.out.println(temp);
-                classroom.get(0).addExpectation(temp, temp);
+                Expectation temp = createExpectationWindow.display();
+                if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(selectedClass.equals(classroom.get(i).getName())) {
+                            classroom.get(i).addExpectation(temp);
+                            io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
+                        }
+                    }
                 }
             });
             manageMenu.getItems().add(createExpectation);
