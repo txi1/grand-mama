@@ -400,7 +400,7 @@ public class Main extends Application{
             }
             io.closeInputFile();
         }catch(IOException e){
-            System.out.println("NENI TF");
+            System.out.println("File could not be read!");
         }
         return rubricInfo;
     }
