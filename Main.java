@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -222,10 +223,10 @@ public class Main extends Application{
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
-            GridPane rubricLayout = new GridPane();
+            VBox rubricLayout = new VBox();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(20);
-               rubricLayout.setHgap(10);
+               //rubricLayout.setVgap(20);
+               //rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 750, 750);
@@ -312,7 +313,9 @@ public class Main extends Application{
             expectationInput.setMinWidth(100);
             //Button
             Button addButton = new Button("Add");
+            addButton.setOnAction(e -> addButtonClicked());
             Button killButton = new Button("Delete");
+            killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
             HBox hbox = new HBox();
@@ -358,7 +361,22 @@ public class Main extends Application{
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("Main Menu");
         mainWindow.show();
-
+    }
+    
+    //Method that's used in order to add expectations to the rubric
+    public void addButtonClicked(){
+        Rubric addColumn = new Rubric();
+        addColumn.setExpectation(expectationInput.getText());
+        rubric.getItems().add(addColumn);
+        expectationInput.clear();
+    }
+    //Method that's used to delete expectations in the rubric
+    public void killButtonClicked(){
+        ObservableList<Rubric> expectationSelected, allExpectation;
+        allExpectation = rubric.getItems();
+        expectationSelected = rubric.getSelectionModel().getSelectedItems();
+        expectationSelected.forEach(allExpectation::remove);
+        
     }
 
     //Method used in the main method in order to close the program on command
@@ -400,7 +418,7 @@ public class Main extends Application{
             }
             io.closeInputFile();
         }catch(IOException e){
-            System.out.println("NENI TF");
+            System.out.println("Something's wrong I can feel it");
         }
         return rubricInfo;
     }
