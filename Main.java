@@ -375,7 +375,7 @@ public class Main extends Application{
         }
         counter ++;
         if(infoName.equals(info)){
-            String va>lue = "";
+            String value = "";
             for(int i = counter; i < trimmedLine.length(); i++){
             value += trimmedLine.charAt(counter);
             counter++;
