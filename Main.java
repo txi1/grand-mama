@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -222,10 +223,10 @@ public class Main extends Application{
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
-            GridPane rubricLayout = new GridPane();
+            VBox rubricLayout = new VBox();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(20);
-               rubricLayout.setHgap(10);
+               //rubricLayout.setVgap(20);
+               //rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 750, 750);
