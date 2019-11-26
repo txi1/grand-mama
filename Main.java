@@ -365,10 +365,22 @@ public class Main extends Application{
     
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
-        Rubric addColumn = new Rubric();
-        addColumn.setExpectation(expectationInput.getText());
-        rubric.getItems().add(addColumn);
-        expectationInput.clear();
+        IO io = new IO();
+        String line = "";
+        io.openInputFile(filePath);
+        try{
+            while((line = io.readLine()) != null){
+                line = getValue(line, "expectation");
+                if(line.equals("invalid")) continue;
+                    Rubric addColumn = new Rubric();
+                    addColumn.setExpectation(expectationInput.getText());
+                    rubric.getItems().add(addColumn);
+                    expectationInput.clear();
+            }
+            io.closeInputFile();
+        }catch(IOException e){
+            System.out.println("Something's wrong I can feel it");
+        }
     }
     //Method that's used to delete expectations in the rubric
     public void killButtonClicked(){
@@ -376,7 +388,6 @@ public class Main extends Application{
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
         expectationSelected.forEach(allExpectation::remove);
-        
     }
 
     //Method used in the main method in order to close the program on command
