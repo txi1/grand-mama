@@ -372,7 +372,6 @@ public class Main extends Application{
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
         IO io = new IO();
-        
         Rubric addColumn = new Rubric();
         addColumn.setExpectation(expectationInput.getText());
         io.storeInfo(filePath, selectedClass, "expectation", expectationInput.getText());
