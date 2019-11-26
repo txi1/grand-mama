@@ -15,9 +15,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -29,6 +34,7 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
+    TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
     }
@@ -37,7 +43,8 @@ public class Main extends Application{
         
         IO io = new IO();
         
-
+        //Lines of code beneath are what set up the window that is shown
+        //when the program is run
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -63,7 +70,7 @@ public class Main extends Application{
 
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
-            line = getValue(line, "unicornpotatolamas", "name");
+            line = getValue(line, "name");
             if(line.equals("invalid")) continue;
             classroom.setAll(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(0));
@@ -150,6 +157,7 @@ public class Main extends Application{
                 }
                 }
             });
+            //Adding the new assignment button
             manageMenu.getItems().add(createStudent);
 
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
@@ -158,6 +166,7 @@ public class Main extends Application{
                 if(!isEmpty(temp)){
                 }
             });
+            //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
 
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
@@ -214,10 +223,10 @@ public class Main extends Application{
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
-            GridPane rubricLayout = new GridPane();
+            VBox rubricLayout = new VBox();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(20);
-               rubricLayout.setHgap(10);
+               //rubricLayout.setVgap(20);
+               //rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 750, 750);
@@ -290,29 +299,88 @@ public class Main extends Application{
                 TableColumn<Rubric, String> fourpColumn = new TableColumn<>("4+");
                 fourpColumn.setMinWidth(50);
                 fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
+            //4++ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourppColumn = new TableColumn<>("4++");
+                fourppColumn.setMinWidth(50);
+                fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
+            
+            //Following 3 lines of code are used in order to set up the textfield
+            //that will be used to add in expectation manually
+            expectationInput = new TextField();
+            expectationInput.setPromptText("Name");
+            expectationInput.setMinWidth(100);
+            //Button
+            Button addButton = new Button("Add");
+            addButton.setOnAction(e -> addButtonClicked());
+            Button killButton = new Button("Delete");
+            killButton.setOnAction(e -> killButtonClicked());
+            //The area in the bottom on the rubric that will allow for
+            //the manipulation of rows
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10, 10, 10, 10));
+            hbox.setSpacing(10);
+            hbox.getChildren().addAll(expectationInput, addButton, killButton);
+            
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
                         onemColumn, oneColumn, onepColumn,
                         twomColumn, twoColumn, twopColumn,
                         threemColumn, threeColumn, threepColumn,
-                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn);
+                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric);
+            rubricLayout.getChildren().addAll(rubric, hbox);
+            //Line below is what makes the table editable
+            rubric.setEditable(true);
+            //Lines below state which columns can be edited
+            expectationColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            onemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            oneColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            onepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twomColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            twopColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            threefourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            foursmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourspColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourpColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            fourppColumn.setCellFactory(TextFieldTableCell.forTableColumn());
                 
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("Main Menu");
         mainWindow.show();
-
+    }
+    
+    //Method that's used in order to add expectations to the rubric
+    public void addButtonClicked(){
+        Rubric addColumn = new Rubric();
+        addColumn.setExpectation(expectationInput.getText());
+        rubric.getItems().add(addColumn);
+        expectationInput.clear();
+    }
+    //Method that's used to delete expectations in the rubric
+    public void killButtonClicked(){
+        ObservableList<Rubric> expectationSelected, allExpectation;
+        allExpectation = rubric.getItems();
+        expectationSelected = rubric.getSelectionModel().getSelectedItems();
+        expectationSelected.forEach(allExpectation::remove);
+        
     }
 
     //Method used in the main method in order to close the program on command
+    //when the 'X' button is clicked at the top right corner
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
         if(answer)
@@ -334,39 +402,36 @@ public class Main extends Application{
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
         ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.addAll(new Rubric("A4", "Test 3",
-                "", "", "", 
-                "", "", "", 
-                "", "", "Test 4", 
-                "", "", "", "", "", ""));
-        rubricInfo.addAll(new Rubric("B4", "",
-                "Presentation 5", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "Quiz 37"));
-        rubricInfo.addAll(new Rubric("C7", "",
-                "", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "Summative"));
-        
+        //Row 1 in the rubric
+        IO io = new IO();
+        String line = "";
+        io.openInputFile(filePath);
+        try{
+            while((line = io.readLine()) != null){
+                line = getValue(line, "expectation");
+                if(line.equals("invalid")) continue;
+                rubricInfo.addAll(new Rubric(line, "",
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", "", "", "", ""));
+            }
+            io.closeInputFile();
+        }catch(IOException e){
+            System.out.println("Something's wrong I can feel it");
+        }
         return rubricInfo;
     }
 
-    public String getValue(String l, String c, String info){
+    public String getValue(String l, String info){
         String trimmedLine = l.trim();
         int counter = 0;
         String infoName = "";
-        String classroomName = "";
         for(int i = 0; i < trimmedLine.length(); i++){
-            if(trimmedLine.charAt(i) != '.'){
-                classroomName += trimmedLine.charAt(i);
-                counter ++;
-            }
+            if(trimmedLine.charAt(i) != '.') counter ++;
             else break;
         }
         counter ++;
-        if(classroomName.equals(c) || c.equals("unicornpotatolamas")){
         for(int i = counter; i < trimmedLine.length(); i++){
             if(trimmedLine.charAt(i) != '.'){
             infoName += trimmedLine.charAt(counter);
@@ -382,6 +447,6 @@ public class Main extends Application{
             }
             return value;
         }else return "invalid";
-    }else return "invalid";
+    }
+    
 }
-}   
