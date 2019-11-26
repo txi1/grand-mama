@@ -1,8 +1,12 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javafx.beans.Observable;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -356,6 +360,8 @@ public class Main extends Application{
             fourpColumn.setCellFactory(TextFieldTableCell.forTableColumn());
             fourppColumn.setCellFactory(TextFieldTableCell.forTableColumn());
                 
+            killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
+            
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
@@ -365,17 +371,24 @@ public class Main extends Application{
     
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
+        IO io = new IO();
+        
         Rubric addColumn = new Rubric();
         addColumn.setExpectation(expectationInput.getText());
+        io.storeInfo(filePath, selectedClass, "expectation", expectationInput.getText());
         rubric.getItems().add(addColumn);
         expectationInput.clear();
+        
     }
     //Method that's used to delete expectations in the rubric
     public void killButtonClicked(){
+        IO io = new IO();
         ObservableList<Rubric> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
+        io.deleteLine(filePath, selectedClass +".expectation." +expectationSelected.get(0).getExpectation());
         expectationSelected.forEach(allExpectation::remove);
+        
         
     }
 
@@ -401,7 +414,29 @@ public class Main extends Application{
 
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
-        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList(rubric ->
+    new Observable[] {
+                rubric.getExpectationProperty()
+            });
+        rubricInfo.addListener((Change<? extends Rubric> c) -> {
+           while (c.next()) {
+               if (c.wasAdded()) {
+                   System.out.println("Added:");
+                   c.getAddedSubList().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasRemoved()) {
+                   System.out.println("Removed:");
+                   c.getRemoved().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasUpdated()) {
+                   System.out.println("Updated:");
+                   rubricInfo.subList(c.getFrom(), c.getTo()).forEach(System.out::println);
+                   System.out.println();
+               }
+           }
+        });
         //Row 1 in the rubric
         IO io = new IO();
         String line = "";
