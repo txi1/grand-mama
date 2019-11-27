@@ -72,7 +72,7 @@ public class Rubric {
             return expectation;
         }
 
-        public void setExpecation(String expectation){
+        public void setExpectation(String expectation){
             this.expectation = expectation;
         }
      
