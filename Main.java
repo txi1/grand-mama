@@ -229,12 +229,15 @@ public class Main extends Application{
             a complete rubric to be created
             */
             VBox rubricLayout = new VBox();
-               rubricLayout.setPadding(new Insets(10,10,10,10));
-               //rubricLayout.setVgap(20);
-               //rubricLayout.setHgap(10);
+                 rubricLayout.setPadding(new Insets(10,10,10,10));
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 750, 750);
+            
+            Button MenuButton = new Button("Return to Main Menu");
+            MenuButton.setOnAction(e -> {
+                mainWindow.setScene(firstMenu);
+            });
             
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
@@ -338,7 +341,7 @@ public class Main extends Application{
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric, hbox);
+            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton);
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
@@ -355,6 +358,17 @@ public class Main extends Application{
                     }
             );
             rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            rColumn.setOnEditCommit(
+                    new EventHandler<CellEditEvent<Rubric, String>>(){
+                        public void handle(CellEditEvent<Rubric, String> t){
+                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
+                            ((Rubric) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                            ).setLvlr(t.getNewValue());
+                        }
+                    }
+            );
             onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
             oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
             onepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
