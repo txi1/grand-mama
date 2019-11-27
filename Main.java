@@ -341,24 +341,24 @@ public class Main extends Application{
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
-            expectationColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            onemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            oneColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            onepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twomColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twopColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threefourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            foursmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourspColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourpColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourppColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            expectationColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twomColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twoColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twopColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threeColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threefourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            foursmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourspColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourpColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourppColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
                 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
