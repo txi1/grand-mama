@@ -1,9 +1,14 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javafx.beans.Observable;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,13 +20,18 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+    
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
@@ -29,6 +39,7 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
+    TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
     }
@@ -37,7 +48,8 @@ public class Main extends Application{
         
         IO io = new IO();
         
-
+        //Lines of code beneath are what set up the window that is shown
+        //when the program is run
         mainWindow = primaryStage;
         mainWindow.setTitle("GrandMAMA");
         mainWindow.setOnCloseRequest(e -> {
@@ -88,7 +100,13 @@ public class Main extends Application{
             System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
             classList.getItems().remove(classList.getValue());
+            if(classList.getValue() == null){
+                deleteButton.setDisable(true);
+                button1.setDisable(true);
+            }
         });
+        
+            deleteButton.setDisable(true);
 
         Button makeClass = new Button("Make a new Classroom");
         menuLayout.setConstraints(makeClass, 1, 3);
@@ -107,6 +125,7 @@ public class Main extends Application{
             if(newValue != null){
             selectedClass = newValue.getName(); 
             button1.setDisable(false);
+            deleteButton.setDisable(false);
             }
         });    
 
@@ -132,31 +151,43 @@ public class Main extends Application{
             //Adding the menu items
             MenuItem createStudent = new MenuItem("Create New Student...");
             createStudent.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new student...");
-                if(!isEmpty(temp)){
-                    System.out.println(temp);
-                classroom.get(0).addStudent(temp);
+                Student temp = createStudentWindow.display();
+                if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
+                    System.out.println(temp.getFullName());
+                for(int i = 0; i < classroom.size(); i++){
+                    if(selectedClass.equals(classroom.get(i).getName())) {
+                        classroom.get(i).addStudent(temp);
+                        io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
+                    }
+                }
                 }
             });
+            //Adding the new assignment button
             manageMenu.getItems().add(createStudent);
+
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
                 String temp = textWindow.display("Class","Create a new Assignment...");
                 if(!isEmpty(temp)){
-                    System.out.println(temp);
-                classroom.get(0).addStudent(temp);
                 }
             });
+            //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
+
             MenuItem createExpectation = new MenuItem("Create New Expectation...");
             createExpectation.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new Expectation...");
-                if(!isEmpty(temp)){
-                    System.out.println(temp);
-                classroom.get(0).addExpectation(temp, temp);
+                Expectation temp = createExpectationWindow.display();
+                if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(selectedClass.equals(classroom.get(i).getName())) {
+                            classroom.get(i).addExpectation(temp);
+                            io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
+                        }
+                    }
                 }
             });
             manageMenu.getItems().add(createExpectation);
+            
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
@@ -176,7 +207,9 @@ public class Main extends Application{
             navigateMenu.getItems().add(new MenuItem("Back"));
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
-            navigateMenu.getItems().add(new MenuItem("Students"));
+            MenuItem navStudent = new MenuItem("Students");
+            
+            navigateMenu.getItems().add(navStudent);
             navigateMenu.getItems().add(new MenuItem("Assignments"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
             navigateMenu.getItems().add(new MenuItem("Expectations"));
@@ -184,23 +217,35 @@ public class Main extends Application{
             //The menu bar
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
-
-
+            MenuBar studentBar = new MenuBar();
+            studentBar.getMenus().addAll(menuBar.getMenus().get(0),menuBar.getMenus().get(1));
+            
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
+            BorderPane studentLayout = new BorderPane();
             classLayout.setTop(menuBar);
             classLayout.setLeft(classroomLabel);
+            studentLayout.setTop(studentBar);
+            
             classMenu = new Scene(classLayout, 400, 300);
+            studentMenu = new Scene(studentLayout, 400, 300);
+
+            
+            navStudent.setOnAction(e -> {
+                mainWindow.setScene(studentMenu);
+            });
+            
+            
             
             
             /*The layout type that will be used in order to have the rubric 
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
-            GridPane rubricLayout = new GridPane();
+            VBox rubricLayout = new VBox();
                rubricLayout.setPadding(new Insets(10,10,10,10));
-               rubricLayout.setVgap(20);
-               rubricLayout.setHgap(10);
+               //rubricLayout.setVgap(20);
+               //rubricLayout.setHgap(10);
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 750, 750);
@@ -273,29 +318,107 @@ public class Main extends Application{
                 TableColumn<Rubric, String> fourpColumn = new TableColumn<>("4+");
                 fourpColumn.setMinWidth(50);
                 fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
+            //4++ Column that will show the grades that student got during the duration of the course
+                TableColumn<Rubric, String> fourppColumn = new TableColumn<>("4++");
+                fourppColumn.setMinWidth(50);
+                fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
+            
+            //Following 3 lines of code are used in order to set up the textfield
+            //that will be used to add in expectation manually
+            expectationInput = new TextField();
+            expectationInput.setPromptText("Name");
+            expectationInput.setMinWidth(100);
+            //Buttons used to add in or delete the expectations
+            Button addButton = new Button("Add");
+            addButton.setOnAction(e -> addButtonClicked());
+            Button killButton = new Button("Delete");
+            killButton.setOnAction(e -> killButtonClicked());
+            //The area in the bottom on the rubric that will allow for
+            //the manipulation of rows
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10, 10, 10, 10));
+            hbox.setSpacing(10);
+            hbox.getChildren().addAll(expectationInput, addButton, killButton);
+            
                 rubric = new TableView<>();
                 rubric.setItems(getRubricInfo());
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
                         onemColumn, oneColumn, onepColumn,
                         twomColumn, twoColumn, twopColumn,
                         threemColumn, threeColumn, threepColumn,
-                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn);
+                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric);
+            rubricLayout.getChildren().addAll(rubric, hbox);
+            //Line below is what makes the table editable
+            rubric.setEditable(true);
+            //Lines below state which columns can be edited
+            expectationColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            expectationColumn.setOnEditCommit(
+                    new EventHandler<CellEditEvent<Rubric, String>>(){
+                        public void handle(CellEditEvent<Rubric, String> t){
+                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
+                            ((Rubric) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                            ).setExpectation(t.getNewValue());
+                        }
+                    }
+            );
+            rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twomColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twoColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twopColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threeColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threefourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            foursmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourspColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourpColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourppColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
                 
+            killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
+            
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("Main Menu");
         mainWindow.show();
-
+    }
+    
+    //Method that's used in order to add expectations to the rubric
+    public void addButtonClicked(){
+        IO io = new IO();
+        Rubric addColumn = new Rubric();
+        addColumn.setExpectation(expectationInput.getText());
+        io.storeInfo(filePath, selectedClass, "expectation", expectationInput.getText());
+        rubric.getItems().add(addColumn);
+        expectationInput.clear();
+        
+    }
+    //Method that's used to delete expectations in the rubric
+    public void killButtonClicked(){
+        IO io = new IO();
+        ObservableList<Rubric> expectationSelected, allExpectation;
+        allExpectation = rubric.getItems();
+        expectationSelected = rubric.getSelectionModel().getSelectedItems();
+        io.deleteLine(filePath, selectedClass +".expectation." +expectationSelected.get(0).getExpectation());
+        expectationSelected.forEach(allExpectation::remove);
+        
+        
     }
 
     //Method used in the main method in order to close the program on command
+    //when the 'X' button is clicked at the top right corner
     private void closeProgram(){
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
         if(answer)
@@ -316,23 +439,47 @@ public class Main extends Application{
 
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
-        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
-        rubricInfo.addAll(new Rubric("A4", "Test 3",
-                "", "", "", 
-                "", "", "", 
-                "", "", "Test 4", 
-                "", "", "", "", "", ""));
-        rubricInfo.addAll(new Rubric("B4", "",
-                "Presentation 5", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "Quiz 37"));
-        rubricInfo.addAll(new Rubric("C7", "",
-                "", "", "", 
-                "", "", "", 
-                "", "", "", 
-                "", "", "", "", "", "Summative"));
-        
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList(rubric ->
+    new Observable[] {
+                rubric.getExpectationProperty()
+            });
+        rubricInfo.addListener((Change<? extends Rubric> c) -> {
+           while (c.next()) {
+               if (c.wasAdded()) {
+                   System.out.println("Added:");
+                   c.getAddedSubList().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasRemoved()) {
+                   System.out.println("Removed:");
+                   c.getRemoved().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasUpdated()) {
+                   System.out.println("Updated:");
+                   rubricInfo.subList(c.getFrom(), c.getTo()).forEach(System.out::println);
+                   System.out.println();
+               }
+           }
+        });
+        //Row 1 in the rubric
+        IO io = new IO();
+        String line = "";
+        io.openInputFile(filePath);
+        try{
+            while((line = io.readLine()) != null){
+                line = getValue(line, "expectation");
+                if(line.equals("invalid")) continue;
+                rubricInfo.addAll(new Rubric(line, "",
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", 
+                    "", "", "", "", "", "", ""));
+            }
+            io.closeInputFile();
+        }catch(IOException e){
+            System.out.println("Error");
+        }
         return rubricInfo;
     }
 
@@ -362,4 +509,4 @@ public class Main extends Application{
         }else return "invalid";
     }
     
-}   
+}

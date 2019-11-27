@@ -1,6 +1,10 @@
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Rubric {
     
-    private String expectation;
+    private StringProperty expectation;
     private String lvlr;
     private String lvl1m;
     private String lvl1;
@@ -17,10 +21,11 @@ public class Rubric {
     private String lvl4;
     private String lvl4sp;
     private String lvl4p;
+    private String lvl4pp;
     
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
-            this.expectation = "";
+            this.expectation = new SimpleStringProperty("");
             this.lvlr = "";
             this.lvl1m = "";
             this.lvl1 = "";
@@ -37,14 +42,15 @@ public class Rubric {
             this.lvl4 = "";
             this.lvl4sp = "";
             this.lvl4p = "";
+            this.lvl4pp = "";
         }
 
         public Rubric(String expectation, String lvlr,
                 String lvl1m, String lvl1, String lvl1p,
                 String lvl2m, String lvl2, String lvl2p,
                 String lvl3m, String lvl3, String lvl3p,
-                String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p){
-            this.expectation = expectation;
+                String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p, String lvl4pp){
+            this.expectation = this.expectation = new SimpleStringProperty(expectation);
             this.lvlr = lvlr;
             this.lvl1m = lvl1m;
             this.lvl1 = lvl1;
@@ -61,16 +67,21 @@ public class Rubric {
             this.lvl4 = lvl4;
             this.lvl4sp = lvl4sp;
             this.lvl4p = lvl4p;
+            this.lvl4pp = lvl4pp;
         }
     
         
     //Get and Set method for expectation
         public String getExpectation(){
-            return expectation;
+            return expectation.get();
         }
 
-        public void setExpecation(String expectation){
-            this.expectation = expectation;
+        public void setExpectation(String expectation){
+            this.expectation = this.expectation = new SimpleStringProperty(expectation);
+        }
+        
+        public StringProperty getExpectationProperty(){
+            return expectation;
         }
      
         
@@ -230,6 +241,15 @@ public class Rubric {
 
         public void setLvl4p(String lvl4p){
             this.lvl4p = lvl4p;
+        }
+        
+    //Get and Set method for Level 4++
+        public String getLvl4pp(){
+            return lvl4pp;
+        }
+
+        public void setLvl4pp(String lvl4pp){
+            this.lvl4pp = lvl4pp;
         }
     
 }

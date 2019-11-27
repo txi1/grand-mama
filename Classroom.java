@@ -27,15 +27,11 @@ public class Classroom{
     }
 
     public void addStudent(Student s){
-        students.setAll(new Student(s.getName()));
+        students.setAll(new Student(s.getFirstName(), s.getLastName()));
     }
-
-    public void addStudent(String n){
-        students.setAll(new Student(n));
-    }
-
-    public void addExpectation(String i, String d){
-        expectations.setAll(new Expectation(i, d));
+    
+    public void addExpectation(Expectation e){
+        expectations.setAll(new Expectation(e.getSection(), e.getDetails()));
     }
     
 

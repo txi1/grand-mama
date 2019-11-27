@@ -8,18 +8,10 @@ public class Student{
     private int averageGrade;
     private int[] grade;
 
-    public Student(String n){
-        int temp = 1;
-        for(int i = 0; i < n.length() && n.charAt(i) != ' '; i++){
-                firstName += n.charAt(i); 
-                temp ++;
-            }
-            
-        for(int i = temp; i < n.length() && n.charAt(i) != ' '; i++){
-                lastName += n.charAt(i);
-        }
-        fullName = n;
-        
+    public Student(String f, String l){
+        firstName = f;
+        firstName = l;
+        fullName = firstName +" " +lastName;
     }
 
 
@@ -30,10 +22,12 @@ public class Student{
 
     public void setFirstName(String n){
         firstName = n;
+        fullName = firstName +" " +lastName;
     }
 
     public void setLastName(String n){
         lastName = n;
+        fullName = firstName +" " +lastName;
     }
 
     public String getFirstName(){
@@ -63,7 +57,7 @@ public class Student{
 
     }
     
-    public String getName(){
+    public String getFullName(){
         return fullName;
     }
 
