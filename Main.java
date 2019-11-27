@@ -207,7 +207,9 @@ public class Main extends Application{
             navigateMenu.getItems().add(new MenuItem("Back"));
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
-            navigateMenu.getItems().add(new MenuItem("Students"));
+            MenuItem navStudent = new MenuItem("Students");
+            
+            navigateMenu.getItems().add(navStudent);
             navigateMenu.getItems().add(new MenuItem("Assignments"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
             navigateMenu.getItems().add(new MenuItem("Expectations"));
@@ -215,13 +217,25 @@ public class Main extends Application{
             //The menu bar
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
-
-
+            MenuBar studentBar = new MenuBar();
+            studentBar.getMenus().addAll(menuBar.getMenus().get(0),menuBar.getMenus().get(1));
+            
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane classLayout = new BorderPane();
+            BorderPane studentLayout = new BorderPane();
             classLayout.setTop(menuBar);
             classLayout.setLeft(classroomLabel);
+            studentLayout.setTop(studentBar);
+            
             classMenu = new Scene(classLayout, 400, 300);
+            studentMenu = new Scene(studentLayout, 400, 300);
+
+            
+            navStudent.setOnAction(e -> {
+                mainWindow.setScene(studentMenu);
+            });
+            
+            
             
             
             /*The layout type that will be used in order to have the rubric 
