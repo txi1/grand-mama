@@ -1,6 +1,10 @@
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Rubric {
     
-    private String expectation;
+    private StringProperty expectation;
     private String lvlr;
     private String lvl1m;
     private String lvl1;
@@ -21,7 +25,7 @@ public class Rubric {
     
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
-            this.expectation = "";
+            this.expectation = new SimpleStringProperty("");
             this.lvlr = "";
             this.lvl1m = "";
             this.lvl1 = "";
@@ -46,7 +50,7 @@ public class Rubric {
                 String lvl2m, String lvl2, String lvl2p,
                 String lvl3m, String lvl3, String lvl3p,
                 String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p, String lvl4pp){
-            this.expectation = expectation;
+            this.expectation = this.expectation = new SimpleStringProperty(expectation);
             this.lvlr = lvlr;
             this.lvl1m = lvl1m;
             this.lvl1 = lvl1;
@@ -69,11 +73,15 @@ public class Rubric {
         
     //Get and Set method for expectation
         public String getExpectation(){
-            return expectation;
+            return expectation.get();
         }
 
         public void setExpectation(String expectation){
-            this.expectation = expectation;
+            this.expectation = this.expectation = new SimpleStringProperty(expectation);
+        }
+        
+        public StringProperty getExpectationProperty(){
+            return expectation;
         }
      
         

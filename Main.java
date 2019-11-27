@@ -1,8 +1,12 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import javafx.beans.Observable;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -337,25 +341,27 @@ public class Main extends Application{
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
-            expectationColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            rColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            onemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            oneColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            onepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twomColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            twopColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threemColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threepColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            threefourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            foursmColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourspColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourpColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            fourppColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            expectationColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            onepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twomColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twoColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            twopColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threeColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            threefourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            foursmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourspColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourpColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            fourppColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
                 
+            killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
+            
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
@@ -365,17 +371,24 @@ public class Main extends Application{
     
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
+        IO io = new IO();
         Rubric addColumn = new Rubric();
         addColumn.setExpectation(expectationInput.getText());
+        io.storeInfo(filePath, selectedClass, "expectation", expectationInput.getText());
         rubric.getItems().add(addColumn);
         expectationInput.clear();
+        
     }
     //Method that's used to delete expectations in the rubric
     public void killButtonClicked(){
+        IO io = new IO();
         ObservableList<Rubric> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
+        io.deleteLine(filePath, selectedClass +".expectation." +expectationSelected.get(0).getExpectation());
         expectationSelected.forEach(allExpectation::remove);
+        
+        
     }
 
     //Method used in the main method in order to close the program on command
@@ -400,7 +413,29 @@ public class Main extends Application{
 
     //Method that manually adds each item into the Rubric table(Will change later)
     public ObservableList<Rubric> getRubricInfo(){
-        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList(rubric ->
+    new Observable[] {
+                rubric.getExpectationProperty()
+            });
+        rubricInfo.addListener((Change<? extends Rubric> c) -> {
+           while (c.next()) {
+               if (c.wasAdded()) {
+                   System.out.println("Added:");
+                   c.getAddedSubList().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasRemoved()) {
+                   System.out.println("Removed:");
+                   c.getRemoved().forEach(System.out::println);
+                   System.out.println();
+               }
+               if (c.wasUpdated()) {
+                   System.out.println("Updated:");
+                   rubricInfo.subList(c.getFrom(), c.getTo()).forEach(System.out::println);
+                   System.out.println();
+               }
+           }
+        });
         //Row 1 in the rubric
         IO io = new IO();
         String line = "";

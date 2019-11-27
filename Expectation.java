@@ -1,9 +1,13 @@
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+
 public class Expectation{
 
-    String section;
-    String detail;
-
+    private String section;
+    private String detail;
+    private ObservableList<Assignment> assignment = FXCollections.observableArrayList();
 
     public Expectation(String s, String d){
 
@@ -41,4 +45,8 @@ public class Expectation{
         return section;
     }
 
+    public void addAssignment(String a){
+        assignment.setAll(new Assignment(a));
+    }
+    
 }

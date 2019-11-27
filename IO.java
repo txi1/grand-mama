@@ -13,6 +13,7 @@ public class IO
   private static PrintWriter fileOut;
   private static BufferedReader fileIn;
   
+  //Creates an output file. Do not use, will wipe entire text file
   public static void createOutputFile(String fileName)
   {
     try
@@ -25,6 +26,7 @@ public class IO
     }
   }
   
+  //Same thing, except minus the file wiping part
   public static void appendOutputFile(String fileName)
   {
     try
@@ -37,7 +39,7 @@ public class IO
     }
   }
   
-  
+  //Prints a line in the selected file
   public void print(String filePath, String text)
   {
     try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -47,6 +49,7 @@ public class IO
 }
   }
   
+  //Prints a line with a newline character at the very end of the selected file
   public void println(String filePath, String text)
   {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -56,11 +59,13 @@ public class IO
 }
   }
   
+  //Closes the output file
   public static void closeOutputFile()
   {
     fileOut.close();
   }
   
+  //Opens an input file for reading
   public static void openInputFile(String fileName)
   {
     try
@@ -74,17 +79,21 @@ public class IO
     }
   }
   
+  //Returns the String that the reader is currently on in the text file
   public static String readLine() throws IOException    
     //Note: if there's an error in this method it will return IOException
   {
     return fileIn.readLine();
   }
   
+  //Close the input file
   public static void closeInputFile() throws IOException
     //Note: if there's an error in this method it will return IOException
   {
     fileIn.close();
   }
+
+  //Deletes a line that has the indicated text within it
   public static void deleteLine(String n, String delete){
       
       File fileName = new File(n);
@@ -119,6 +128,7 @@ try
     }
   }
 
+  //Simply the println method, but prints the information with a specific format. The name of the classroom, followed by the type of information, followed by its value
   public void storeInfo(String filePath, String identifier, String name, String value)
     {
           try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -128,6 +138,7 @@ try
   }
     }  
 
+    //I think it's literally identical to deleteLine for now
  public static void completeDestruction(String n, String delete){
       
       File fileName = new File(n);
@@ -169,6 +180,7 @@ try
   }
 
 
+  //Reads through the entire text file and returns the first time the indicated information is found within the selected classroom
 public static String getInfo(String n, String classroomName, String info){
       
   File fileName = new File(n);
