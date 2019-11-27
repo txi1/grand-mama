@@ -311,7 +311,7 @@ public class Main extends Application{
             expectationInput = new TextField();
             expectationInput.setPromptText("Name");
             expectationInput.setMinWidth(100);
-            //Button
+            //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
             addButton.setOnAction(e -> addButtonClicked());
             Button killButton = new Button("Delete");
@@ -365,22 +365,10 @@ public class Main extends Application{
     
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
-        IO io = new IO();
-        String line = "";
-        io.openInputFile(filePath);
-        try{
-            while((line = io.readLine()) != null){
-                line = getValue(line, "expectation");
-                if(line.equals("invalid")) continue;
-                    Rubric addColumn = new Rubric();
-                    addColumn.setExpectation(expectationInput.getText());
-                    rubric.getItems().add(addColumn);
-                    expectationInput.clear();
-            }
-            io.closeInputFile();
-        }catch(IOException e){
-            System.out.println("Something's wrong I can feel it");
-        }
+        Rubric addColumn = new Rubric();
+        addColumn.setExpectation(expectationInput.getText());
+        rubric.getItems().add(addColumn);
+        expectationInput.clear();
     }
     //Method that's used to delete expectations in the rubric
     public void killButtonClicked(){
