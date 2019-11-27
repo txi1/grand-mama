@@ -346,6 +346,8 @@ public class Main extends Application{
             expectationColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
+                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                             ).setExpectation(t.getNewValue());
