@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -342,6 +343,15 @@ public class Main extends Application{
             rubric.setEditable(true);
             //Lines below state which columns can be edited
             expectationColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+            expectationColumn.setOnEditCommit(
+                    new EventHandler<CellEditEvent<Rubric, String>>(){
+                        public void handle(CellEditEvent<Rubric, String> t){
+                            ((Rubric) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                            ).setExpectation(t.getNewValue());
+                        }
+                    }
+            );
             rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
             onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
             oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
@@ -452,7 +462,7 @@ public class Main extends Application{
             }
             io.closeInputFile();
         }catch(IOException e){
-            System.out.println("Something's wrong I can feel it");
+            System.out.println("Error");
         }
         return rubricInfo;
     }
