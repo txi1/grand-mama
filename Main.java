@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -228,8 +229,8 @@ public class Main extends Application{
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
-            VBox rubricLayout = new VBox();
-                 rubricLayout.setPadding(new Insets(10,10,10,10));
+            AnchorPane rubricLayout = new AnchorPane();
+                rubricLayout.setPadding(new Insets(10,10,10,10));
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 1000, 500);
@@ -342,6 +343,12 @@ public class Main extends Application{
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
             rubricLayout.getChildren().addAll(rubric, hbox, MenuButton);
+            //AnchorPane sets the specific locations of each child in the rubric layout
+            AnchorPane.setTopAnchor(rubric, 10d);
+            AnchorPane.setBottomAnchor(hbox, 10d);
+            AnchorPane.setLeftAnchor(hbox, 325d);
+            AnchorPane.setBottomAnchor(MenuButton, 20d);
+            AnchorPane.setLeftAnchor(MenuButton, 10d);
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
@@ -387,7 +394,6 @@ public class Main extends Application{
             fourppColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
                 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
-            
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
