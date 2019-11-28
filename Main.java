@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -221,11 +222,14 @@ public class Main extends Application{
             studentBar.getMenus().addAll(menuBar.getMenus().get(0),menuBar.getMenus().get(1));
             
             //Layout configuration for the classroom menu and adding the elements to the menu
-            BorderPane classLayout = new BorderPane();
+            AnchorPane classLayout = new AnchorPane();
+            classLayout.setPadding(new Insets(0,10,10,10));
             BorderPane studentLayout = new BorderPane();
-            classLayout.setTop(menuBar);
-            classLayout.setLeft(classroomLabel);
+            classLayout.setTopAnchor(menuBar, 0d);
+            classLayout.setTopAnchor(classroomLabel, 100d);
+            classLayout.setLeftAnchor(classroomLabel, 150d);
             studentLayout.setTop(studentBar);
+            classLayout.getChildren().addAll(menuBar, classroomLabel);
             
             classMenu = new Scene(classLayout, 400, 300);
             studentMenu = new Scene(studentLayout, 400, 300);
