@@ -141,7 +141,7 @@ public class Main extends Application{
             menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass, Rubric);
         
             //Layout configuration for the intro menu and adding the elements to the menu
-            firstMenu = new Scene(menuLayout, 200, 200);
+            firstMenu = new Scene(menuLayout, 400, 400);
             
             
             //Starting to create the items for the classroom menu
@@ -232,7 +232,7 @@ public class Main extends Application{
                  rubricLayout.setPadding(new Insets(10,10,10,10));
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
-            rubricMenu = new Scene(rubricLayout, 750, 750);
+            rubricMenu = new Scene(rubricLayout, 1000, 500);
             
             Button MenuButton = new Button("Return to Main Menu");
             MenuButton.setOnAction(e -> {
@@ -317,7 +317,7 @@ public class Main extends Application{
             //Following 3 lines of code are used in order to set up the textfield
             //that will be used to add in expectation manually
             expectationInput = new TextField();
-            expectationInput.setPromptText("Name");
+            expectationInput.setPromptText("Enter New Expectation");
             expectationInput.setMinWidth(100);
             //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
