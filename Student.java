@@ -10,7 +10,7 @@ public class Student{
 
     public Student(String f, String l){
         firstName = f;
-        firstName = l;
+        lastName = l;
         fullName = firstName +" " +lastName;
     }
 

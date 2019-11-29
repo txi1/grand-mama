@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -36,6 +38,7 @@ public class Main extends Application{
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
+    ObservableList<Student> students = FXCollections.observableArrayList();
     int count = 0;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
@@ -218,25 +221,40 @@ public class Main extends Application{
             //The menu bar
             MenuBar menuBar = new MenuBar();
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
-            MenuBar studentBar = new MenuBar();
-            studentBar.getMenus().addAll(menuBar.getMenus().get(0),menuBar.getMenus().get(1));
             
             //Layout configuration for the classroom menu and adding the elements to the menu
             AnchorPane classLayout = new AnchorPane();
             classLayout.setPadding(new Insets(0,10,10,10));
-            BorderPane studentLayout = new BorderPane();
             classLayout.setTopAnchor(menuBar, 0d);
             classLayout.setTopAnchor(classroomLabel, 100d);
             classLayout.setLeftAnchor(classroomLabel, 150d);
-            studentLayout.setTop(studentBar);
+            
             classLayout.getChildren().addAll(menuBar, classroomLabel);
             
             classMenu = new Scene(classLayout, 400, 300);
-            studentMenu = new Scene(studentLayout, 400, 300);
-
             
+            ListView<Student> listOfStudents = new ListView<>(students);
+            listOfStudents.setCellFactory(param -> new ListCell<Student>() {
+            
+                @Override
+            protected void updateItem(Student item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty || item == null || item.getFullName() == null) {
+                setText(null);
+            } else {
+                    setText(item.getFullName());
+                }
+            }
+        });
+            classLayout.setTopAnchor(listOfStudents, 30d);
+            students.add(new Student("Bo", "Burnham"));
+            students.add(new Student("Alexander", "Nedev"));
+            students.add(new Student("Taylor", "Xi"));
             navStudent.setOnAction(e -> {
-                mainWindow.setScene(studentMenu);
+                classLayout.getChildren().remove(1);
+                classLayout.getChildren().addAll(listOfStudents);
+                navStudent.setDisable(true);
             });
             
             
