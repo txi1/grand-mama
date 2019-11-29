@@ -258,8 +258,6 @@ public class Main extends Application{
             });
             
             
-            
-            
             /*The layout type that will be used in order to have the rubric 
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
