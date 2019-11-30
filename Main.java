@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -40,6 +41,7 @@ public class Main extends Application{
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
     int count = 0;
+    String selectedStudent;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
@@ -158,7 +160,7 @@ public class Main extends Application{
                 Student temp = createStudentWindow.display();
                 if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
                     System.out.println(temp.getFullName());
-                for(int i = 0; i < classroom.size(); i++){
+                for(int i = 0; i < students.size(); i++){
                     if(selectedClass.equals(classroom.get(i).getName())) {
                         classroom.get(i).addStudent(temp);
                         io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
@@ -185,7 +187,9 @@ public class Main extends Application{
                     for(int i = 0; i < classroom.size(); i++){
                         if(selectedClass.equals(classroom.get(i).getName())) {
                             classroom.get(i).addExpectation(temp);
-                            io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
+                            for(int j = 0; i < students.size();j++){
+                                io.storeInfo(filePath, classroom.get(i).getName(), students.get(j).getFullName() +"expectation", temp.getExpectation());
+                            }
                         }
                     }
                 }
@@ -256,6 +260,7 @@ public class Main extends Application{
                 classLayout.getChildren().addAll(listOfStudents);
                 navStudent.setDisable(true);
             });
+            
             
             
             /*The layout type that will be used in order to have the rubric 
@@ -363,7 +368,6 @@ public class Main extends Application{
             hbox.getChildren().addAll(expectationInput, addButton, killButton);
             
                 rubric = new TableView<>();
-                rubric.setItems(getRubricInfo());
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
                         onemColumn, oneColumn, onepColumn,
                         twomColumn, twoColumn, twopColumn,
@@ -382,9 +386,7 @@ public class Main extends Application{
                         public void handle(CellEditEvent<Rubric, String> t){
                             io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
                             io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
-                            ((Rubric) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())
-                            ).setExpectation(t.getNewValue());
+                            ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
                         }
                     }
             );
@@ -408,6 +410,16 @@ public class Main extends Application{
                 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
+            listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    mainWindow.setScene(rubricMenu);
+                    selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
+                    System.out.println("Clicked on " + selectedStudent);
+                    rubric.setItems(getRubricInfo(selectedStudent));
+                }
+            });
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
@@ -420,7 +432,7 @@ public class Main extends Application{
         IO io = new IO();
         Rubric addColumn = new Rubric();
         addColumn.setExpectation(expectationInput.getText());
-        io.storeInfo(filePath, selectedClass, "expectation", expectationInput.getText());
+        io.storeInfo(filePath, selectedClass, selectedStudent+"expectation", expectationInput.getText());
         rubric.getItems().add(addColumn);
         expectationInput.clear();
         
@@ -431,9 +443,8 @@ public class Main extends Application{
         ObservableList<Rubric> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
-        io.deleteLine(filePath, selectedClass +".expectation." +expectationSelected.get(0).getExpectation());
+        io.deleteLine(filePath, selectedClass +"." +selectedStudent +"expectation." +expectationSelected.get(0).getExpectation());
         expectationSelected.forEach(allExpectation::remove);
-        
         
     }
 
@@ -458,37 +469,17 @@ public class Main extends Application{
     }
 
     //Method that manually adds each item into the Rubric table(Will change later)
-    public ObservableList<Rubric> getRubricInfo(){
-        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList(rubric ->
-    new Observable[] {
-                rubric.getExpectationProperty()
-            });
-        rubricInfo.addListener((Change<? extends Rubric> c) -> {
-           while (c.next()) {
-               if (c.wasAdded()) {
-                   System.out.println("Added:");
-                   c.getAddedSubList().forEach(System.out::println);
-                   System.out.println();
-               }
-               if (c.wasRemoved()) {
-                   System.out.println("Removed:");
-                   c.getRemoved().forEach(System.out::println);
-                   System.out.println();
-               }
-               if (c.wasUpdated()) {
-                   System.out.println("Updated:");
-                   rubricInfo.subList(c.getFrom(), c.getTo()).forEach(System.out::println);
-                   System.out.println();
-               }
-           }
-        });
+    public ObservableList<Rubric> getRubricInfo(String s){
+        
+        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+       
         //Row 1 in the rubric
         IO io = new IO();
         String line = "";
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
-                line = getValue(line, "expectation");
+                line = getValue(line, s+"expectation");
                 if(line.equals("invalid")) continue;
                 rubricInfo.addAll(new Rubric(line, "",
                     "", "", "", 
