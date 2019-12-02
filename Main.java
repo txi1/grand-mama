@@ -356,7 +356,7 @@ public class Main extends Application{
             expectationColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
+                            io.deleteLine(filePath, selectedClass +".expectation." + t.getOldValue());
                             io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
@@ -368,8 +368,8 @@ public class Main extends Application{
             rColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
+                            io.deleteLine(filePath, selectedClass +".lvlr." + t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, "lvlr", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                             ).setLvlr(t.getNewValue());
@@ -468,21 +468,35 @@ public class Main extends Application{
                }
            }
         });
-        //Row 1 in the rubric
+        //*Placeholder text*
         IO io = new IO();
-        String line = "";
+        String expectation = "";
+        String lvlr = "";
         io.openInputFile(filePath);
-        try{
-            while((line = io.readLine()) != null){
-                line = getValue(line, "expectation");
-                if(line.equals("invalid")) continue;
-                rubricInfo.addAll(new Rubric(line, "",
-                    "", "", "", 
-                    "", "", "", 
-                    "", "", "", 
-                    "", "", "", "", "", "", ""));
+        try{  
+            if((expectation = io.readLine()) != null){
+                while((expectation = io.readLine()) != null){
+                    expectation = getValue(expectation, "expectation");
+                    if(expectation.equals("invalid")) continue;
+                    rubricInfo.addAll(new Rubric(expectation, "",
+                        "", "", "", 
+                        "", "", "", 
+                        "", "", "", 
+                        "", "", "", "", "", "", ""));
+                }
             }
-            io.closeInputFile();
+            if((lvlr = io.readLine()) != null){
+                while((lvlr = io.readLine()) != null){
+                        lvlr = getValue(lvlr, "lvlr");
+                        if(lvlr.equals("invalid")) continue;
+                        rubricInfo.addAll(new Rubric("", lvlr,
+                            "", "", "", 
+                            "", "", "", 
+                            "", "", "", 
+                            "", "", "", "", "", "", ""));
+                }
+            }
+                io.closeInputFile();      
         }catch(IOException e){
             System.out.println("Error");
         }
