@@ -45,6 +45,7 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
+    Scene previousScene;
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -62,7 +63,7 @@ public class Main extends Application{
             e.consume();   
             closeProgram();
             });
-
+        
         //Setup for intro menu
             //GridPane code that will setup the Choicebox
             //in order to choose which classroom to enter
@@ -97,9 +98,10 @@ public class Main extends Application{
         menuLayout.setConstraints(button1, 1, 2);
         button1.setOnAction(e -> {
             mainWindow.setScene(classMenu);
+            previousScene = firstMenu;
             classroomLabel.setText(selectedClass);
             });
-
+            
             button1.setDisable(true);
 
         Button deleteButton = new Button("Delete this classroom");
@@ -215,7 +217,12 @@ public class Main extends Application{
             manageMenu.getItems().add(new MenuItem("Exit the Program"));
 
             //Adding the navigate menus
-            navigateMenu.getItems().add(new MenuItem("Back"));
+            MenuItem backButton = new MenuItem("Back");
+            backButton.setOnAction(e -> {
+                mainWindow.setScene(previousScene);
+                backButton.setDisable(true);
+            });
+            navigateMenu.getItems().add(backButton);
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
             MenuItem navStudent = new MenuItem("Students");
@@ -238,6 +245,14 @@ public class Main extends Application{
             
             classLayout.getChildren().addAll(menuBar, classroomLabel);
             
+            AnchorPane studentLayout = new AnchorPane();
+            studentLayout.setPadding(new Insets(0,10,10,10));
+            studentLayout.setTopAnchor(menuBar, 0d);
+            studentLayout.setTopAnchor(listOfStudents, 30d);
+            studentLayout.getChildren().addAll(listOfStudents);
+            
+            studentMenu = new Scene(studentLayout, 400, 300);
+            
             classMenu = new Scene(classLayout, 400, 300);
             
             
@@ -254,11 +269,11 @@ public class Main extends Application{
                 }
             }
         });
-            classLayout.setTopAnchor(listOfStudents, 30d);
             navStudent.setOnAction(e -> {
-                classLayout.getChildren().remove(1);
                 listOfStudents.setItems(classroom.get(0).getStudents());
-                classLayout.getChildren().addAll(listOfStudents);
+                studentLayout.getChildren().add(menuBar);
+                previousScene = classMenu;
+                mainWindow.setScene(studentMenu);
                 navStudent.setDisable(true);
             });
             
