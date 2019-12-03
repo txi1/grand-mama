@@ -27,10 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-<<<<<<< HEAD
 import javafx.scene.input.MouseEvent;
-=======
->>>>>>> 60b320f861f8a50b459d67f54e460e576685b2f4
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -90,6 +87,8 @@ public class Main extends Application{
             classList.getItems().addAll(classroom.get(0));
         }
         io.closeInputFile();
+
+        ListView<Student> listOfStudents = new ListView<>(students);
         
         Label label1 = new Label("Select Classroom");
         menuLayout.setConstraints(label1, 1, 1);
@@ -163,9 +162,10 @@ public class Main extends Application{
                 Student temp = createStudentWindow.display();
                 if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
                     System.out.println(temp.getFullName());
-                for(int i = 0; i < students.size(); i++){
+                for(int i = 0; i < classroom.size(); i++){
                     if(selectedClass.equals(classroom.get(i).getName())) {
                         classroom.get(i).addStudent(temp);
+                        listOfStudents.getItems().add(temp);
                         io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
                     }
                 }
@@ -190,8 +190,8 @@ public class Main extends Application{
                     for(int i = 0; i < classroom.size(); i++){
                         if(selectedClass.equals(classroom.get(i).getName())) {
                             classroom.get(i).addExpectation(temp);
-                            for(int j = 0; i < students.size();j++){
-                                io.storeInfo(filePath, classroom.get(i).getName(), students.get(j).getFullName() +"expectation", temp.getExpectation());
+                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
+                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
                             }
                         }
                     }
@@ -240,7 +240,7 @@ public class Main extends Application{
             
             classMenu = new Scene(classLayout, 400, 300);
             
-            ListView<Student> listOfStudents = new ListView<>(students);
+            
             listOfStudents.setCellFactory(param -> new ListCell<Student>() {
             
                 @Override
@@ -255,11 +255,9 @@ public class Main extends Application{
             }
         });
             classLayout.setTopAnchor(listOfStudents, 30d);
-            students.add(new Student("Bo", "Burnham"));
-            students.add(new Student("Alexander", "Nedev"));
-            students.add(new Student("Taylor", "Xi"));
             navStudent.setOnAction(e -> {
                 classLayout.getChildren().remove(1);
+                listOfStudents.setItems(classroom.get(0).getStudents());
                 classLayout.getChildren().addAll(listOfStudents);
                 navStudent.setDisable(true);
             });
@@ -437,11 +435,13 @@ public class Main extends Application{
 
                 @Override
                 public void handle(MouseEvent event) {
+                    if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                     mainWindow.setScene(rubricMenu);
                     selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                     System.out.println("Clicked on " + selectedStudent);
                     rubric.setItems(getRubricInfo(selectedStudent));
                 }
+            }
             });
 
         //Allows for the first scene to be shown when the program is run

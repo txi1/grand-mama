@@ -27,12 +27,15 @@ public class Classroom{
     }
 
     public void addStudent(Student s){
-        students.setAll(new Student(s.getFirstName(), s.getLastName()));
+        students.add(new Student(s.getFirstName(), s.getLastName()));
     }
     
     public void addExpectation(Expectation e){
         expectations.setAll(new Expectation(e.getSection(), e.getDetails()));
     }
-    
+    public ObservableList<Student> getStudents(){
+        return students;
+    }
+
 
 }
