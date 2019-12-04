@@ -33,6 +33,7 @@ public class Classroom{
     public void addExpectation(Expectation e){
         expectations.setAll(new Expectation(e.getSection(), e.getDetails()));
     }
+    
     public ObservableList<Student> getStudents(){
         return students;
     }

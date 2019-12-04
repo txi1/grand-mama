@@ -95,12 +95,7 @@ public class Main extends Application{
         menuLayout.setConstraints(label1, 1, 1);
 
         Button button1 = new Button("Enter this classroom");
-        menuLayout.setConstraints(button1, 1, 2);
-        button1.setOnAction(e -> {
-            mainWindow.setScene(classMenu);
-            previousScene = firstMenu;
-            classroomLabel.setText(selectedClass);
-            });
+        
             
             button1.setDisable(true);
 
@@ -218,10 +213,7 @@ public class Main extends Application{
 
             //Adding the navigate menus
             MenuItem backButton = new MenuItem("Back");
-            backButton.setOnAction(e -> {
-                mainWindow.setScene(previousScene);
-                backButton.setDisable(true);
-            });
+           
             navigateMenu.getItems().add(backButton);
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
@@ -237,25 +229,26 @@ public class Main extends Application{
             menuBar.getMenus().addAll(manageMenu, navigateMenu);
             
             //Layout configuration for the classroom menu and adding the elements to the menu
-            AnchorPane classLayout = new AnchorPane();
-            classLayout.setPadding(new Insets(0,10,10,10));
-            classLayout.setTopAnchor(menuBar, 0d);
-            classLayout.setTopAnchor(classroomLabel, 100d);
-            classLayout.setLeftAnchor(classroomLabel, 150d);
-            
-            classLayout.getChildren().addAll(menuBar, classroomLabel);
+            BorderPane topLayer = new BorderPane();
+            topLayer.setPadding(new Insets(0,10,10,10));
+            topLayer.setTop(menuBar);
             
             AnchorPane studentLayout = new AnchorPane();
             studentLayout.setPadding(new Insets(0,10,10,10));
-            studentLayout.setTopAnchor(menuBar, 0d);
-            studentLayout.setTopAnchor(listOfStudents, 30d);
+            studentLayout.setTopAnchor(listOfStudents, 0d);
             studentLayout.getChildren().addAll(listOfStudents);
             
             studentMenu = new Scene(studentLayout, 400, 300);
             
-            classMenu = new Scene(classLayout, 400, 300);
+            classMenu = new Scene(topLayer, 400, 300);
             
+            AnchorPane classLayout = new AnchorPane();
+            classLayout.setPadding(new Insets(10,10,10,10));
+            classLayout.setTopAnchor(classroomLabel, 30d);
+            classLayout.getChildren().addAll(classroomLabel);
             
+            topLayer.setCenter(classLayout);
+
             listOfStudents.setCellFactory(param -> new ListCell<Student>() {
             
                 @Override
@@ -271,13 +264,16 @@ public class Main extends Application{
         });
             navStudent.setOnAction(e -> {
                 listOfStudents.setItems(classroom.get(0).getStudents());
-                studentLayout.getChildren().add(menuBar);
                 previousScene = classMenu;
-                mainWindow.setScene(studentMenu);
+                topLayer.setCenter(studentLayout);
+                backButton.setDisable(false);
                 navStudent.setDisable(true);
             });
             
-            
+            backButton.setOnAction(e -> {
+                mainWindow.setScene(previousScene);
+                backButton.setDisable(true);
+            });
             
             /*The layout type that will be used in order to have the rubric 
             displayed along with other features(Such as sidebars) that allow for
@@ -393,6 +389,14 @@ public class Main extends Application{
                         threemColumn, threeColumn, threepColumn,
                         threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
+                        menuLayout.setConstraints(button1, 1, 2);
+                        button1.setOnAction(e -> {
+                            mainWindow.setScene(classMenu);
+                            backButton.setDisable(true);
+                            previousScene = firstMenu;
+                            classroomLabel.setText(selectedClass);
+                            });
+
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
             rubricLayout.getChildren().addAll(rubric, hbox, MenuButton);
