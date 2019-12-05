@@ -271,7 +271,8 @@ public class Main extends Application{
             });
             
             backButton.setOnAction(e -> {
-            mainWindow.setScene(previousScene);
+                topLayer.setCenter(classLayout);
+                navStudent.setDisable(false);
                 backButton.setDisable(true);
             });
             
