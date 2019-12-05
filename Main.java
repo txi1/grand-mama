@@ -271,7 +271,7 @@ public class Main extends Application{
             });
             
             backButton.setOnAction(e -> {
-                mainWindow.setScene(previousScene);
+            mainWindow.setScene(previousScene);
                 backButton.setDisable(true);
             });
             
