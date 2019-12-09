@@ -82,13 +82,39 @@ public class Main extends Application{
 
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
-            line = getValue(line, "name");
+            line = getValue(line, "name", "unicornpotatollama");
             if(line.equals("invalid")) continue;
             classroom.setAll(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(0));
         }
         io.closeInputFile();
 
+        for(int i = 0; i < classroom.size(); i++){
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            line = getValue(line, "studentName", classroom.get(i).getName());
+            System.out.println(line);
+            if(line.equals("invalid")) continue;
+            String fn = "";
+            String ln = "";
+            boolean switched = false;
+            for(int j = 0; j < line.length(); j++){
+                if(!switched){
+                    fn += line.charAt(j);
+                }
+                if(switched){
+                    ln += line.charAt(j);
+                }
+                if(line.charAt(j) == ' ') switched = true; 
+            }
+            System.out.println(fn);
+            System.out.println(ln);
+            classroom.get(i).addStudent(new Student(fn, ln));
+        }
+        io.closeInputFile();
+}
+  
+        
         ListView<Student> listOfStudents = new ListView<>(students);
         
         Label label1 = new Label("Select Classroom");
@@ -414,8 +440,8 @@ public class Main extends Application{
             expectationColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
+                            io.deleteLine(filePath, selectedClass +selectedStudent +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, selectedStudent+ "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
                         }
                     }
@@ -424,8 +450,11 @@ public class Main extends Application{
             rColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, "expectation", t.getNewValue());
+                            io.deleteLine(filePath, selectedClass +"." +selectedStudent +t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).getExpectationID()+
+                                    "lvlr." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass, selectedStudent +t.getTableView().getItems().get(
+                                t.getTablePosition().getRow()).getExpectationID()+"lvlr", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
                             ).setLvlr(t.getNewValue());
@@ -522,30 +551,59 @@ public class Main extends Application{
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
-                line = getValue(line, s+"expectation");
+                line = getValue(line, s+"expectation", "unicornpotatollama");
                 if(line.equals("invalid")) continue;
+                String ID = "";
+                for(int i = 0; i <= line.length(); i++){
+                    if(line.charAt(i) != ':') ID += line.charAt(i);
+                            else break;
+                }
                 rubricInfo.addAll(new Rubric(line, "",
                     "", "", "", 
                     "", "", "", 
                     "", "", "", 
-                    "", "", "", "", "", "", ""));
+                    "", "", "", "", "", "", "", ID));
             }
             io.closeInputFile();
+            
         }catch(IOException e){
             System.out.println("Error");
         }
+        
+        
+        try{
+            for(int i = 0; i < rubricInfo.size(); i++){
+                io.openInputFile(filePath);
+            while((line = io.readLine()) != null){
+                 line = getValue(line, s+ rubricInfo.get(i).getExpectationID()+"lvlr", "unicornpotatollama");
+                 if(line.equals("invalid")) continue;
+                 rubricInfo.get(i).setLvlr(line);
+            } 
+            io.closeInputFile();
+            }
+        }catch(IOException e){
+            System.out.println("Error");
+        }
+
+        
         return rubricInfo;
     }
 
-    public String getValue(String l, String info){
+    public String getValue(String l, String info, String classroom){
         String trimmedLine = l.trim();
         int counter = 0;
         String infoName = "";
+        String className = "";
+        
         for(int i = 0; i < trimmedLine.length(); i++){
-            if(trimmedLine.charAt(i) != '.') counter ++;
+            if(trimmedLine.charAt(i) != '.'){
+                className += trimmedLine.charAt(i);
+                counter ++;
+            }
             else break;
         }
         counter ++;
+        if(className.equals(classroom) || classroom.equals("unicornpotatollama")){
         for(int i = counter; i < trimmedLine.length(); i++){
             if(trimmedLine.charAt(i) != '.'){
             infoName += trimmedLine.charAt(counter);
@@ -561,6 +619,7 @@ public class Main extends Application{
             }
             return value;
         }else return "invalid";
+    }else return "invalid";
     }
     
 }
