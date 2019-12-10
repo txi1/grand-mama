@@ -38,6 +38,7 @@ public class Main extends Application{
     
     Stage mainWindow;
     Scene firstMenu, classMenu, studentMenu, rubricMenu;
+    ObservableList<AnchorPane> layouts = FXCollections.observableArrayList();
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
     int count = 0;
@@ -209,7 +210,11 @@ public class Main extends Application{
                 mainWindow.setScene(firstMenu);
             });
             manageMenu.getItems().add(returnMenuButton);
-            manageMenu.getItems().add(new MenuItem("Exit the Program"));
+            MenuItem exitProgram = new MenuItem("Exit the Program");
+            exitProgram.setOnAction(e -> {
+                closeProgram();
+            });
+            manageMenu.getItems().add(exitProgram);
 
             //Adding the navigate menus
             MenuItem backButton = new MenuItem("Back");
