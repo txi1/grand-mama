@@ -5,6 +5,9 @@ import javafx.beans.property.StringProperty;
 public class Rubric {
     
     private StringProperty expectation;
+    private String expectationID;
+
+    
     private String lvlr;
     private String lvl1m;
     private String lvl1;
@@ -26,6 +29,7 @@ public class Rubric {
     //Constructors that allow for default values to exist if nothing is present
         public Rubric(){
             this.expectation = new SimpleStringProperty("");
+            this.expectationID = "";
             this.lvlr = "";
             this.lvl1m = "";
             this.lvl1 = "";
@@ -49,8 +53,10 @@ public class Rubric {
                 String lvl1m, String lvl1, String lvl1p,
                 String lvl2m, String lvl2, String lvl2p,
                 String lvl3m, String lvl3, String lvl3p,
-                String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p, String lvl4pp){
+                String lvl34, String lvl4m, String lvl4sm, String lvl4, String lvl4sp, String lvl4p, String lvl4pp,
+                String expectationID){
             this.expectation = this.expectation = new SimpleStringProperty(expectation);
+            this.expectationID = expectationID;
             this.lvlr = lvlr;
             this.lvl1m = lvl1m;
             this.lvl1 = lvl1;
@@ -251,5 +257,13 @@ public class Rubric {
         public void setLvl4pp(String lvl4pp){
             this.lvl4pp = lvl4pp;
         }
+        
+        public String getExpectationID() {
+        return expectationID;
+    }
+
+    public void setExpectationID(String expectationID) {
+        this.expectationID = expectationID;
+    }
     
 }
