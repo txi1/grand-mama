@@ -404,9 +404,7 @@ public class Main extends Application{
             
             //Following 3 lines of code are used in order to set up the textfield
             //that will be used to add in expectation manually
-            expectationInput = new TextField();
-            expectationInput.setPromptText("Enter New Expectation");
-            expectationInput.setMinWidth(100);
+
             //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
             addButton.setOnAction(e -> addButtonClicked());
@@ -417,7 +415,7 @@ public class Main extends Application{
             HBox hbox = new HBox();
             hbox.setPadding(new Insets(10, 10, 10, 10));
             hbox.setSpacing(10);
-            hbox.getChildren().addAll(expectationInput, addButton, killButton);
+            hbox.getChildren().addAll(addButton, killButton);
             
                 rubric = new TableView<>();
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
@@ -513,10 +511,20 @@ public class Main extends Application{
     public void addButtonClicked(){
         IO io = new IO();
         Rubric addColumn = new Rubric();
-        addColumn.setExpectation(expectationInput.getText());
-        io.storeInfo(filePath, selectedClass, selectedStudent+"expectation", expectationInput.getText());
-        rubric.getItems().add(addColumn);
-        expectationInput.clear();
+        Expectation temp = createExpectationWindow.display();
+                if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(selectedClass.equals(classroom.get(i).getName())) {
+                            classroom.get(i).addExpectation(temp);
+                            addColumn.setExpectation(temp.getExpectation());
+                            rubric.getItems().add(addColumn);
+                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
+                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
+                                
+                            }
+                        }
+                    }
+                }
         
     }
     //Method that's used to delete expectations in the rubric
