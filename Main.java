@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
     
     Stage mainWindow;
-    Scene firstMenu, classMenu, studentMenu, rubricMenu;
+    Scene firstMenu, classMenu, studentMenu, rubricMenu, previousScene;
     ObservableList<AnchorPane> layouts = FXCollections.observableArrayList();
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
@@ -46,7 +46,6 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
-    Scene previousScene;
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -163,18 +162,10 @@ public class Main extends Application{
             button1.setDisable(false);
             deleteButton.setDisable(false);
             }
-        });    
-
-            //Button in the mainMenu that allows for direct access to the rubric
-            //(Can be changed and placed in a different scene later)
-            Button Rubric = new Button("Go to Rubric");
-            menuLayout.setConstraints(Rubric, 1, 5);
-            Rubric.setOnAction(e -> {
-                mainWindow.setScene(rubricMenu);
-            });
+        });
             
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass, Rubric);
+            menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 400, 400);
@@ -322,9 +313,9 @@ public class Main extends Application{
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 1000, 500);
             
-            Button MenuButton = new Button("Return to Main Menu");
+            Button MenuButton = new Button("Back to Class");
             MenuButton.setOnAction(e -> {
-                mainWindow.setScene(firstMenu);
+                mainWindow.setScene(classMenu);
             });
             
             //Expecation Column that will show the expectations that student has to meet in the course
@@ -401,9 +392,6 @@ public class Main extends Application{
                 fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
             //These lines of code are what allow for the table itself to be
             //generated and shown when called
-            
-            //Following 3 lines of code are used in order to set up the textfield
-            //that will be used to add in expectation manually
 
             //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
@@ -565,8 +553,7 @@ public class Main extends Application{
        
         //Row 1 in the rubric
         IO io = new IO();
-        String expectation = "";
-        String lvlr = "";
+        String line = "";
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
