@@ -12,7 +12,6 @@ public class optionsMenu{
 
         static Student student;
         static boolean displayConfirmation = true;
-        static int 
 
     public static Student display(){
         Stage makeClass = new Stage();

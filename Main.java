@@ -80,13 +80,16 @@ public class Main extends Application{
         Label classroomLabel = new Label();
 
         String line;
-
+        int t = 0;
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
+           
             line = getValue(line, "name", "unicornpotatollama");
             if(line.equals("invalid")) continue;
-            classroom.setAll(new Classroom(line, 0));
-            classList.getItems().addAll(classroom.get(0));
+            classroom.add(new Classroom(line, 0));
+            classList.getItems().addAll(classroom.get(t));
+            t++;
+            System.out.println(t);
         }
         io.closeInputFile();
 
@@ -94,6 +97,7 @@ public class Main extends Application{
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
             line = getValue(line, "studentName", classroom.get(i).getName());
+            System.out.println(classroom.get(i).getName());
             System.out.println(line);
             if(line.equals("invalid")) continue;
             String fn = "";
@@ -189,7 +193,6 @@ public class Main extends Application{
                 for(int i = 0; i < classroom.size(); i++){
                     if(selectedClass.equals(classroom.get(i).getName())) {
                         classroom.get(i).addStudent(temp);
-                        listOfStudents.getItems().add(temp);
                         io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
                     }
                 }
@@ -294,7 +297,9 @@ public class Main extends Application{
             }
         });
             navStudent.setOnAction(e -> {
-                listOfStudents.setItems(classroom.get(0).getStudents());
+                for(int i = 0; i < classroom.size(); i++){
+                    if(classroom.get(i).getName().equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
+                }
                 previousScene = classMenu;
                 topLayer.setCenter(studentLayout);
                 backButton.setDisable(false);
