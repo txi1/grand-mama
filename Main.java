@@ -327,6 +327,7 @@ public class Main extends Application{
                 mainWindow.setScene(firstMenu);
             });
             
+            
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
                 expectationColumn.setMinWidth(100);
@@ -427,6 +428,7 @@ public class Main extends Application{
                         menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
                             mainWindow.setScene(classMenu);
+                            topLayer.setCenter(classLayout);
                             backButton.setDisable(true);
                             previousScene = firstMenu;
                             classroomLabel.setText(selectedClass);
@@ -500,6 +502,25 @@ public class Main extends Application{
                 }
             }
             });
+            
+            ListView<Assignment> listOfAssignments = new ListView<>();
+            listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
+            
+                @Override
+            protected void updateItem(Assignment item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty || item == null || item.getName() == null) {
+                setText(null);
+            } else {
+                    setText(item.getName());
+                }
+            }
+        });
+           
+           
+            
+            
 
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);

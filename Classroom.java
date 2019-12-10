@@ -8,6 +8,7 @@ public class Classroom{
     private int ID;
     private ObservableList<Student> students = FXCollections.observableArrayList();
     private ObservableList<Expectation> expectations = FXCollections.observableArrayList();
+    private ObservableList<Assignment> assignments = FXCollections.observableArrayList();
 
     public Classroom(String n, int i){
         this.name = n;
@@ -31,12 +32,22 @@ public class Classroom{
     }
     
     public void addExpectation(Expectation e){
-        expectations.setAll(new Expectation(e.getSection(), e.getDetails()));
+        expectations.add(new Expectation(e.getSection(), e.getDetails()));
     }
     
     public ObservableList<Student> getStudents(){
         return students;
     }
+
+    public ObservableList<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void addAssignment(String a) {
+        assignments.add(new Assignment(a));
+    }
+    
+    
 
 
 }
