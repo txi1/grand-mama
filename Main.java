@@ -104,17 +104,22 @@ public class Main extends Application{
             String ln = "";
             boolean switched = false;
             for(int j = 0; j < line.length(); j++){
+                if(line.charAt(j) == ' '){
+                    switched = true;
+                    j++;
+                } 
                 if(!switched){
                     fn += line.charAt(j);
                 }
                 if(switched){
                     ln += line.charAt(j);
                 }
-                if(line.charAt(j) == ' ') switched = true; 
+                
             }
             System.out.println(fn);
             System.out.println(ln);
             classroom.get(i).addStudent(new Student(fn, ln));
+            System.out.println(classroom.get(i).getStudents().get(0).getFullName());
         }
         io.closeInputFile();
 }
@@ -135,6 +140,9 @@ public class Main extends Application{
         deleteButton.setOnAction(e -> {
             System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
+            for(int i = 0; i < classroom.size(); i++){
+                if(classList.getValue() == classroom.get(i)) classroom.remove(classroom.get(i));
+            }
             classList.getItems().remove(classList.getValue());
             if(classList.getValue() == null){
                 deleteButton.setDisable(true);
@@ -150,9 +158,9 @@ public class Main extends Application{
             String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
                 System.out.println(temp);
-            classroom.setAll(new Classroom(temp, 0));
+            classroom.add(new Classroom(temp, 0));
             io.storeInfo(filePath, temp, "name", temp);
-            classList.getItems().addAll(classroom.get(0));
+            classList.getItems().setAll(classroom);
             count++;
             }
         });
@@ -252,9 +260,9 @@ public class Main extends Application{
             navigateMenu.getItems().add(new MenuItem("Forward"));
             navigateMenu.getItems().add(new SeparatorMenuItem());
             MenuItem navStudent = new MenuItem("Students");
-            
             navigateMenu.getItems().add(navStudent);
-            navigateMenu.getItems().add(new MenuItem("Assignments"));
+            MenuItem navAssignments = new MenuItem("Assignments");
+            navigateMenu.getItems().add(navAssignments);
             navigateMenu.getItems().add(new SeparatorMenuItem());
             navigateMenu.getItems().add(new MenuItem("Expectations"));
 
@@ -304,12 +312,6 @@ public class Main extends Application{
                 topLayer.setCenter(studentLayout);
                 backButton.setDisable(false);
                 navStudent.setDisable(true);
-            });
-            
-            backButton.setOnAction(e -> {
-                topLayer.setCenter(classLayout);
-                navStudent.setDisable(false);
-                backButton.setDisable(true);
             });
             
             /*The layout type that will be used in order to have the rubric 
@@ -518,10 +520,28 @@ public class Main extends Application{
             }
         });
            
-           
-            
-            
+           AnchorPane assignmentLayout = new AnchorPane();
+           assignmentLayout.setPadding(new Insets(0,10,10,10));
+           assignmentLayout.setTopAnchor(listOfAssignments, 0d);
+           assignmentLayout.getChildren().add(listOfAssignments);
+         
+            navAssignments.setOnAction(e -> {
+            topLayer.setCenter(assignmentLayout);
+            for(int i = 0; i < classroom.size(); i++){
+                    if(classroom.get(i).getName().equals(selectedClass)) listOfAssignments.setItems(classroom.get(i).getAssignments());
+                }
+            navAssignments.setDisable(true);
+            backButton.setDisable(false);
+            });
 
+            
+            backButton.setOnAction(e -> {
+                topLayer.setCenter(classLayout);
+                navStudent.setDisable(false);
+                navAssignments.setDisable(false);
+                backButton.setDisable(true);
+            });
+            
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("Main Menu");
@@ -590,7 +610,7 @@ public class Main extends Application{
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
-                line = getValue(line, s+"expectation", "unicornpotatollama");
+                line = getValue(line, s+"expectation", selectedClass);
                 if(line.equals("invalid")) continue;
                 String ID = "";
                 for(int i = 0; i <= line.length(); i++){
