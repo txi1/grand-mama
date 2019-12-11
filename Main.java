@@ -415,7 +415,9 @@ public class Main extends Application{
                         menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
                             mainWindow.setScene(classMenu);
+                            topLayer.setCenter(classLayout);
                             backButton.setDisable(true);
+                            navStudent.setDisable(false);
                             previousScene = firstMenu;
                             classroomLabel.setText(selectedClass);
                             });
