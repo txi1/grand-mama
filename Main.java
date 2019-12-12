@@ -216,10 +216,13 @@ public class Main extends Application{
                     createAssignmentWindow c = new createAssignmentWindow();
                     Assignment temp = c.display(classroom.get(i));
                 if(!isEmpty(temp.getName())){
-
+                  //  classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                   // for(int j = 0; j < temp.getExpectations().size(); j++){
+                   // io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
+                            }
                 }
             }
-        }
+        
             });
             //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);

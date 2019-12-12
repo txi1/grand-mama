@@ -19,7 +19,7 @@ public class createAssignmentWindow{
 
     public Assignment display(Classroom c){
         Stage makeClass = new Stage();
-        assignment = new Assignment(null);
+        assignment = new Assignment(null,null);
         
         GridPane layout = new GridPane();
                  layout.setPadding(new Insets(10,10,10,10));
@@ -33,12 +33,12 @@ public class createAssignmentWindow{
         makeClass.setMinHeight(900);
         
 
-        Label sectionLabel = new Label();
-        sectionLabel.setText("Enter the Assignment's name");
-        layout.setConstraints(sectionLabel, 1, 1);
-        TextField expectationSection = new TextField();
-        expectationSection.setPromptText("Test 1");
-        layout.setConstraints(expectationSection, 2, 1);
+        Label assignmentLabel = new Label();
+        assignmentLabel.setText("Enter the Assignment's name");
+        layout.setConstraints(assignmentLabel, 1, 1);
+        TextField assignmentName = new TextField();
+        assignmentName.setPromptText("Test 1");
+        layout.setConstraints(assignmentName, 2, 1);
 
         expectations = c.getExpectations();
         int column = 0;
@@ -59,10 +59,15 @@ public class createAssignmentWindow{
         closeButton.setOnAction(e -> makeClass.close());
         layout.setConstraints(closeButton, 1, 8);
         Button enterButton = new Button("Confirm");
-        enterButton.setOnAction(e -> handleOptions(checkboxes));
+        enterButton.setOnAction(e -> {
+            handleOptions(checkboxes);
+            assignment.setExpectations(expectations);
+            assignment.setName(assignmentName.getText());
+            makeClass.close();
+                });
         layout.setConstraints(enterButton, 2, 8);
         layout.getChildren().addAll(checkboxes);
-        layout.getChildren().addAll(sectionLabel, expectationSection, closeButton, enterButton);
+        layout.getChildren().addAll(assignmentLabel, assignmentName, closeButton, enterButton);
 
         Scene scene = new Scene(layout);
         makeClass.setScene(scene);
@@ -79,8 +84,9 @@ public class createAssignmentWindow{
     private void handleOptions(ObservableList<CheckBox> c){
         for(int i = 0; i < c.size(); i++){
             if(c.get(i).isSelected()){
+                System.out.println(expectations.get(i).getExpectation());
                 assignment.addExpectation(expectations.get(i));
-                System.out.println(assignment.getExpectations().get(i));
+                
             }
         }
     }

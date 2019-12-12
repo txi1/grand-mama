@@ -47,8 +47,8 @@ public class Classroom{
         return assignments;
     }
 
-    public void addAssignment(String a) {
-        assignments.add(new Assignment(a));
+    public void addAssignment(String a, ObservableList<Expectation> e) {
+        assignments.add(new Assignment(a, e));
     }
     
     
