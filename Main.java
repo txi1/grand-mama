@@ -211,9 +211,15 @@ public class Main extends Application{
 
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
-                String temp = textWindow.display("Class","Create a new Assignment...");
-                if(!isEmpty(temp)){
+                for(int i = 0; i < classroom.size(); i++){
+                if(classroom.get(i).getName().equals(selectedClass)){
+                    createAssignmentWindow c = new createAssignmentWindow();
+                    Assignment temp = c.display(classroom.get(i));
+                if(!isEmpty(temp.getName())){
+
                 }
+            }
+        }
             });
             //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);

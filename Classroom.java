@@ -35,6 +35,10 @@ public class Classroom{
         expectations.add(new Expectation(e.getSection(), e.getDetails()));
     }
     
+    public ObservableList<Expectation> getExpectations(){
+        return expectations;
+    }
+
     public ObservableList<Student> getStudents(){
         return students;
     }
