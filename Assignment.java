@@ -5,12 +5,10 @@ public class Assignment{
     String name;
     ObservableList<Expectation> expectations = FXCollections.observableArrayList();
 
-    public Assignment(String s, Expectation... e){
+    public Assignment(String s, ObservableList<Expectation> e){
 
         name = s;
-        for(int i = 0; i < e.length; i++){
-            addExpectation(e[i]);
-        }
+        expectations = e;
 
     }
 
@@ -22,11 +20,15 @@ public class Assignment{
         name = n;
     }
 
-    public void addExpectation(Expectation e){
-        expectations.add(e);
+    public void addExpectation(Expectation ex){
+        expectations.add(ex);
     }
 
     public ObservableList<Expectation> getExpectations(){
         return expectations;
+    }
+    
+    public void setExpectations(ObservableList<Expectation> e){
+        expectations = e;
     }
 }
