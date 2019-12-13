@@ -19,7 +19,7 @@ public class createAssignmentWindow{
 
     public Assignment display(Classroom c){
         Stage makeClass = new Stage();
-        assignment = new Assignment(null,null);
+        assignment = new Assignment(null,FXCollections.observableArrayList());
         
         GridPane layout = new GridPane();
                  layout.setPadding(new Insets(10,10,10,10));
@@ -49,7 +49,6 @@ public class createAssignmentWindow{
                 row = 2;
             } 
             checkboxes.add(new CheckBox(expectations.get(i).getSection()));
-            System.out.println(expectations.get(i).getSection());
             layout.setConstraints(checkboxes.get(i), column, row);
             row++;
         }
@@ -61,7 +60,7 @@ public class createAssignmentWindow{
         Button enterButton = new Button("Confirm");
         enterButton.setOnAction(e -> {
             handleOptions(checkboxes);
-            assignment.setExpectations(expectations);
+            //assignment.setExpectations(expectations);
             assignment.setName(assignmentName.getText());
             makeClass.close();
                 });
@@ -84,11 +83,11 @@ public class createAssignmentWindow{
     private void handleOptions(ObservableList<CheckBox> c){
         for(int i = 0; i < c.size(); i++){
             if(c.get(i).isSelected()){
-                System.out.println(expectations.get(i).getExpectation());
+                System.out.println(expectations.get(i));
                 assignment.addExpectation(expectations.get(i));
-                
             }
         }
+        System.out.println();
     }
 
     }

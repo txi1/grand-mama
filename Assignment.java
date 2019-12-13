@@ -20,8 +20,8 @@ public class Assignment{
         name = n;
     }
 
-    public void addExpectation(Expectation e){
-        expectations.add(e);
+    public void addExpectation(Expectation ex){
+        expectations.add(ex);
     }
 
     public ObservableList<Expectation> getExpectations(){
