@@ -98,7 +98,6 @@ public class Main extends Application{
         while((line = io.readLine()) != null){
             line = getValue(line, "studentName", classroom.get(i).getName());
             System.out.println(classroom.get(i).getName());
-            System.out.println(line);
             if(line.equals("invalid")) continue;
             String fn = "";
             String ln = "";
@@ -114,7 +113,6 @@ public class Main extends Application{
                 if(switched){
                     ln += line.charAt(j);
                 }
-                
             }
             System.out.println(fn);
             System.out.println(ln);
@@ -123,6 +121,33 @@ public class Main extends Application{
         }
         io.closeInputFile();
 }
+         for(int i = 0; i < classroom.size(); i++){
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            line = getValue(line, "expectation", classroom.get(i).getName());
+            if(line.equals("invalid")) continue;
+            String fn = "";
+            String ln = "";
+            boolean switched = false;
+            for(int j = 0; j < line.length(); j++){
+                if(line.charAt(j) == ':'){
+                    switched = true;
+                    j+=2;
+                } 
+                if(!switched){
+                    fn += line.charAt(j);
+                }
+                if(switched){
+                    ln += line.charAt(j);
+                }
+            }
+            System.out.println(fn);
+            System.out.println(ln);
+            classroom.get(i).addExpectation(new Expectation(fn, ln));
+        }
+        io.closeInputFile();
+}
+        
   
         
         ListView<Student> listOfStudents = new ListView<>(students);
@@ -234,9 +259,7 @@ public class Main extends Application{
                     for(int i = 0; i < classroom.size(); i++){
                         if(selectedClass.equals(classroom.get(i).getName())) {
                             classroom.get(i).addExpectation(temp);
-                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
-                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
-                            }
+                                io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
                         }
                     }
                 }
@@ -461,8 +484,8 @@ public class Main extends Application{
             expectationColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +selectedStudent +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, selectedStudent+ "expectation", t.getNewValue());
+                            io.deleteLine(filePath, selectedClass +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass,  "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
                         }
                     }
@@ -568,10 +591,7 @@ public class Main extends Application{
                             classroom.get(i).addExpectation(temp);
                             addColumn.setExpectation(temp.getExpectation());
                             rubric.getItems().add(addColumn);
-                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
-                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
-                                
-                            }
+                            io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
                         }
                     }
                 }
@@ -583,7 +603,7 @@ public class Main extends Application{
         ObservableList<Rubric> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
-        io.deleteLine(filePath, selectedClass +"." +selectedStudent +"expectation." +expectationSelected.get(0).getExpectation());
+        io.deleteLine(filePath, selectedClass +".expectation." +expectationSelected.get(0).getExpectation());
         expectationSelected.forEach(allExpectation::remove);
         
     }
@@ -619,7 +639,7 @@ public class Main extends Application{
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
-                line = getValue(line, s+"expectation", selectedClass);
+                line = getValue(line, "expectation", selectedClass);
                 if(line.equals("invalid")) continue;
                 String ID = "";
                 for(int i = 0; i <= line.length(); i++){
