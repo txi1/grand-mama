@@ -150,18 +150,22 @@ try
 
         String lineToRemove = delete;
         String currentLine;
-        String searchAndDestroy = "";
 
         while((currentLine = reader.readLine()) != null) {
           // trim newline when comparing with lineToRemove
           String trimmedLine = currentLine.trim();
-
+          trimmedLine = trimmedLine.replaceFirst("^\uFEFF", "");
+          System.out.println(trimmedLine);
+            String searchAndDestroy = "";
           for(int i = 0; i < trimmedLine.length();i++){
             if(trimmedLine.charAt(i) != '.'){
              searchAndDestroy += trimmedLine.charAt(i);
             }else break;
           }
-          if(searchAndDestroy.equals(lineToRemove)) continue;
+          if(searchAndDestroy.equals(lineToRemove)){
+              System.out.println("Deleted line: " +trimmedLine);
+              continue;
+          } 
           writer.write(trimmedLine + System.getProperty("line.separator"));
       }
       writer.close(); 

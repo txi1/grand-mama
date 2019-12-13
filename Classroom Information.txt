@@ -1,5 +1,6 @@
-Test.name.Test
-Test.studentName.Taylor Xi
-Test.studentName.Alexander Nedev
-Test.expectation.A1
-Test.expectation.A2
+ICS4U.name.ICS4U
+Test Classroom.name.Test Classroom
+ICS4U.studentName.Taylor Xi
+ICS4U.Taylor Xiexpectation.A1: Test
+ICS4U.Taylor Xiexpectation.A2: Electric Boogaloo
+ICS4U.Taylor Xiexpectation.B4: Let's go
