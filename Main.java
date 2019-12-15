@@ -43,6 +43,7 @@ public class Main extends Application{
     ObservableList<Student> students = FXCollections.observableArrayList();
     int count = 0;
     String selectedStudent;
+    Assignment selectedAssignment;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     String selectedClass;
@@ -82,6 +83,8 @@ public class Main extends Application{
         String line;
         int t = 0;
         io.openInputFile(filePath);
+
+        //initializing each classroom
         while((line = io.readLine()) != null){
            
             line = getValue(line, "name", "unicornpotatollama");
@@ -89,15 +92,14 @@ public class Main extends Application{
             classroom.add(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(t));
             t++;
-            System.out.println(t);
         }
         io.closeInputFile();
 
+        //initializing each student within those classrooms
         for(int i = 0; i < classroom.size(); i++){
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
             line = getValue(line, "studentName", classroom.get(i).getName());
-            System.out.println(classroom.get(i).getName());
             if(line.equals("invalid")) continue;
             String fn = "";
             String ln = "";
@@ -114,13 +116,11 @@ public class Main extends Application{
                     ln += line.charAt(j);
                 }
             }
-            System.out.println(fn);
-            System.out.println(ln);
             classroom.get(i).addStudent(new Student(fn, ln));
-            System.out.println(classroom.get(i).getStudents().get(0).getFullName());
         }
         io.closeInputFile();
 }
+        //initializing each expectation within those classrooms
          for(int i = 0; i < classroom.size(); i++){
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
@@ -141,29 +141,29 @@ public class Main extends Application{
                     ln += line.charAt(j);
                 }
             }
-            System.out.println(fn);
-            System.out.println(ln);
             classroom.get(i).addExpectation(new Expectation(fn, ln));
         }
         io.closeInputFile();
 }
 
+//initializing each assignment within those classrooms
 for(int i = 0; i < classroom.size(); i++){
     io.openInputFile(filePath);
     while((line = io.readLine()) != null){
         line = getValue(line, "assignment", classroom.get(i).getName());
         if(line.equals("invalid")) continue;
-
         classroom.get(i).addAssignment(line, FXCollections.observableArrayList());
     }
     io.closeInputFile();
 }
 
+//initializing each expectation within those assignments within those classrooms
 for(int i = 0; i < classroom.size(); i++){
     io.openInputFile(filePath);
 for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     while((line = io.readLine()) != null){
         line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
+        if(line.equals("invalid")) continue;
         for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
         if(line.equals(classroom.get(i).getAssignments().get(k).getName()));
         classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
@@ -187,7 +187,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         Button deleteButton = new Button("Delete this classroom");
         menuLayout.setConstraints(deleteButton, 2, 2);
         deleteButton.setOnAction(e -> {
-            System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
             for(int i = 0; i < classroom.size(); i++){
                 if(classList.getValue() == classroom.get(i)) classroom.remove(classroom.get(i));
@@ -206,7 +205,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         makeClass.setOnAction(e -> {
             String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
-                System.out.println(temp);
             classroom.add(new Classroom(temp, 0));
             io.storeInfo(filePath, temp, "name", temp);
             classList.getItems().setAll(classroom);
@@ -246,7 +244,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             createStudent.setOnAction(e -> {
                 Student temp = createStudentWindow.display();
                 if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
-                    System.out.println(temp.getFullName());
                 for(int i = 0; i < classroom.size(); i++){
                     if(selectedClass.equals(classroom.get(i).getName())) {
                         classroom.get(i).addStudent(temp);
@@ -266,6 +263,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     Assignment temp = c.display(classroom.get(i));
                 if(!isEmpty(temp.getName())){
                     classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                    io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
                     for(int j = 0; j < temp.getExpectations().size(); j++){
                     io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
                             }
@@ -548,7 +546,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent event) {
                     if(listOfStudents.getSelectionModel().getSelectedItem() != null){
@@ -589,12 +586,42 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             backButton.setDisable(false);
             });
 
+            AnchorPane gradingLayout = new AnchorPane();
+            gradingLayout.setPadding(new Insets(0,10,10,10));
+
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
                 navStudent.setDisable(false);
                 navAssignments.setDisable(false);
                 backButton.setDisable(true);
+            });
+
+            listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
+                    topLayer.setCenter(gradingLayout);
+                    selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
+                    System.out.println("Clicked on " + selectedAssignment.getName());
+                    
+                    int numExpectations = selectedAssignment.getExpectations().size();
+                    System.out.println(numExpectations);
+                    TableView<Row> table = new TableView<>();
+                    TableColumn<Row, String> studentCol = new TableColumn<>("Students");
+                    studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
+                    table.getColumns().add(studentCol);
+                    for (int i = 0 ; i < numExpectations ; i++) {
+                    TableColumn<Row, Expectation> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                    final int colIndex = i ;
+                    col.setCellValueFactory(cellData -> cellData.getValue().getExpectations().get(colIndex));
+                    table.getColumns().add(col);
+}
+    gradingLayout.setTopAnchor(table, 0d);
+    gradingLayout.getChildren().add(table);
+                }
+            }
             });
             
         //Allows for the first scene to be shown when the program is run
