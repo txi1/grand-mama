@@ -147,7 +147,31 @@ public class Main extends Application{
         }
         io.closeInputFile();
 }
-        
+
+for(int i = 0; i < classroom.size(); i++){
+    io.openInputFile(filePath);
+    while((line = io.readLine()) != null){
+        line = getValue(line, "assignment", classroom.get(i).getName());
+        if(line.equals("invalid")) continue;
+
+        classroom.get(i).addAssignment(line, FXCollections.observableArrayList());
+    }
+    io.closeInputFile();
+}
+
+for(int i = 0; i < classroom.size(); i++){
+    io.openInputFile(filePath);
+for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
+    while((line = io.readLine()) != null){
+        line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
+        for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
+        if(line.equals(classroom.get(i).getAssignments().get(k).getName()));
+        classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
+        }
+    }
+    }
+    io.closeInputFile();
+}
   
         
         ListView<Student> listOfStudents = new ListView<>(students);
@@ -241,14 +265,13 @@ public class Main extends Application{
                     createAssignmentWindow c = new createAssignmentWindow();
                     Assignment temp = c.display(classroom.get(i));
                 if(!isEmpty(temp.getName())){
-                  //  classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
-                   // for(int j = 0; j < temp.getExpectations().size(); j++){
-                   // io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
+                    classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                    for(int j = 0; j < temp.getExpectations().size(); j++){
+                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
                             }
                 }
             }
-        
-            });
+            }});
             //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
 

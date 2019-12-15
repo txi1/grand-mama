@@ -1,5 +1,5 @@
 ICS4U.name.ICS4U
 Test Classroom.name.Test Classroom
 ICS4U.studentName.Taylor Xi
-ICS4U.Taylor Xiexpectation.A1: Test
-ICS4U.Taylor Xiexpectation.A2: Test
+ICS4U.expectation.A1: Test
+ICS4U.A1assignment.Testing
