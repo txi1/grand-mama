@@ -7,7 +7,7 @@ public class Expectation{
 
     private String section;
     private String detail;
-    private ObservableList<Assignment> assignment = FXCollections.observableArrayList();
+    private ObservableList<Assignment> assignments = FXCollections.observableArrayList();
 
     public Expectation(String s, String d){
 
@@ -45,8 +45,8 @@ public class Expectation{
         return section;
     }
 
-    public void addAssignment(String a){
-        assignment.setAll(new Assignment(a));
+    public void addAssignment(String a, ObservableList<Expectation> e){
+        assignments.add(new Assignment(a, e));
     }
     
 }
