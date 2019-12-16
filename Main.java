@@ -43,9 +43,15 @@ public class Main extends Application{
     ObservableList<Student> students = FXCollections.observableArrayList();
     int count = 0;
     String selectedStudent;
+    Assignment selectedAssignment;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
+<<<<<<< HEAD
     String selectedClass;
+=======
+    Classroom selectedClass;
+    Scene previousScene;
+>>>>>>> b0b363f8c605e0f0479eac268473b615703f681c
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -81,6 +87,8 @@ public class Main extends Application{
         String line;
         int t = 0;
         io.openInputFile(filePath);
+
+        //initializing each classroom
         while((line = io.readLine()) != null){
            
             line = getValue(line, "name", "unicornpotatollama");
@@ -88,16 +96,14 @@ public class Main extends Application{
             classroom.add(new Classroom(line, 0));
             classList.getItems().addAll(classroom.get(t));
             t++;
-            System.out.println(t);
         }
         io.closeInputFile();
 
+        //initializing each student within those classrooms
         for(int i = 0; i < classroom.size(); i++){
         io.openInputFile(filePath);
         while((line = io.readLine()) != null){
             line = getValue(line, "studentName", classroom.get(i).getName());
-            System.out.println(classroom.get(i).getName());
-            System.out.println(line);
             if(line.equals("invalid")) continue;
             String fn = "";
             String ln = "";
@@ -113,14 +119,64 @@ public class Main extends Application{
                 if(switched){
                     ln += line.charAt(j);
                 }
-                
             }
-            System.out.println(fn);
-            System.out.println(ln);
             classroom.get(i).addStudent(new Student(fn, ln));
-            System.out.println(classroom.get(i).getStudents().get(0).getFullName());
         }
         io.closeInputFile();
+}
+        //initializing each expectation within those classrooms
+         for(int i = 0; i < classroom.size(); i++){
+        io.openInputFile(filePath);
+        while((line = io.readLine()) != null){
+            line = getValue(line, "expectation", classroom.get(i).getName());
+            if(line.equals("invalid")) continue;
+            String fn = "";
+            String ln = "";
+            boolean switched = false;
+            for(int j = 0; j < line.length(); j++){
+                if(line.charAt(j) == ':'){
+                    switched = true;
+                    j+=2;
+                } 
+                if(!switched){
+                    fn += line.charAt(j);
+                }
+                if(switched){
+                    ln += line.charAt(j);
+                }
+            }
+            classroom.get(i).addExpectation(new Expectation(fn, ln));
+        }
+        io.closeInputFile();
+}
+
+//initializing each assignment within those classrooms
+for(int i = 0; i < classroom.size(); i++){
+    io.openInputFile(filePath);
+    while((line = io.readLine()) != null){
+        line = getValue(line, "assignment", classroom.get(i).getName());
+        if(line.equals("invalid")) continue;
+        classroom.get(i).addAssignment(line, FXCollections.observableArrayList());
+    }
+    io.closeInputFile();
+}
+
+//initializing each expectation within those assignments within those classrooms
+for(int i = 0; i < classroom.size(); i++){
+for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
+    io.openInputFile(filePath);
+    while((line = io.readLine()) != null){
+        line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
+        if(line.equals("invalid")) continue;
+        for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
+        if(line.equals(classroom.get(i).getAssignments().get(k).getName())){
+        classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
+        }
+    }
+    }
+    io.closeInputFile();
+    }
+    
 }
   
         
@@ -137,7 +193,6 @@ public class Main extends Application{
         Button deleteButton = new Button("Delete this classroom");
         menuLayout.setConstraints(deleteButton, 2, 2);
         deleteButton.setOnAction(e -> {
-            System.out.println(classList.getValue().getName());
             io.completeDestruction(filePath, classList.getValue().getName());
             for(int i = 0; i < classroom.size(); i++){
                 if(classList.getValue() == classroom.get(i)) classroom.remove(classroom.get(i));
@@ -156,7 +211,6 @@ public class Main extends Application{
         makeClass.setOnAction(e -> {
             String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
-                System.out.println(temp);
             classroom.add(new Classroom(temp, 0));
             io.storeInfo(filePath, temp, "name", temp);
             classList.getItems().setAll(classroom);
@@ -166,7 +220,7 @@ public class Main extends Application{
 
         classList.getSelectionModel().selectedItemProperty().addListener(( v, oldValue, newValue) -> {
             if(newValue != null){
-            selectedClass = newValue.getName(); 
+            selectedClass = newValue; 
             button1.setDisable(false);
             deleteButton.setDisable(false);
             }
@@ -188,9 +242,8 @@ public class Main extends Application{
             createStudent.setOnAction(e -> {
                 Student temp = createStudentWindow.display();
                 if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
-                    System.out.println(temp.getFullName());
                 for(int i = 0; i < classroom.size(); i++){
-                    if(selectedClass.equals(classroom.get(i).getName())) {
+                    if(selectedClass.equals(classroom.get(i))) {
                         classroom.get(i).addStudent(temp);
                         io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
                     }
@@ -203,18 +256,18 @@ public class Main extends Application{
             MenuItem createAssignment = new MenuItem("Create New Assignment...");
             createAssignment.setOnAction(e -> {
                 for(int i = 0; i < classroom.size(); i++){
-                if(classroom.get(i).getName().equals(selectedClass)){
+                if(classroom.get(i).equals(selectedClass)){
                     createAssignmentWindow c = new createAssignmentWindow();
                     Assignment temp = c.display(classroom.get(i));
                 if(!isEmpty(temp.getName())){
-                  //  classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
-                   // for(int j = 0; j < temp.getExpectations().size(); j++){
-                   // io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
+                    classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                    io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
+                    for(int j = 0; j < temp.getExpectations().size(); j++){
+                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
                             }
                 }
             }
-        
-            });
+            }});
             //Adding the new expecation button
             manageMenu.getItems().add(createAssignment);
 
@@ -223,11 +276,9 @@ public class Main extends Application{
                 Expectation temp = createExpectationWindow.display();
                 if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
                     for(int i = 0; i < classroom.size(); i++){
-                        if(selectedClass.equals(classroom.get(i).getName())) {
+                        if(selectedClass.equals(classroom.get(i))) {
                             classroom.get(i).addExpectation(temp);
-                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
-                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
-                            }
+                                io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
                         }
                     }
                 }
@@ -306,7 +357,7 @@ public class Main extends Application{
         });
             navStudent.setOnAction(e -> {
                 for(int i = 0; i < classroom.size(); i++){
-                    if(classroom.get(i).getName().equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
+                    if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
                 }
                 previousScene = classMenu;
                 topLayer.setCenter(studentLayout);
@@ -431,7 +482,7 @@ public class Main extends Application{
                             backButton.setDisable(true);
                             navStudent.setDisable(false);
                             previousScene = firstMenu;
-                            classroomLabel.setText(selectedClass);
+                            classroomLabel.setText(selectedClass.getName());
                             });
 
             //The crucial line of code that allows the rubric to be displayed
@@ -450,8 +501,8 @@ public class Main extends Application{
             expectationColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +selectedStudent +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, selectedStudent+ "expectation", t.getNewValue());
+                            io.deleteLine(filePath, selectedClass.getName() +".expectation." +t.getOldValue());
+                            io.storeInfo(filePath, selectedClass.getName(),  "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
                         }
                     }
@@ -460,10 +511,10 @@ public class Main extends Application{
             rColumn.setOnEditCommit(
                     new EventHandler<CellEditEvent<Rubric, String>>(){
                         public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass +"." +selectedStudent +t.getTableView().getItems().get(
+                            io.deleteLine(filePath, selectedClass.getName() +"." +selectedStudent +t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).getExpectationID()+
                                     "lvlr." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass, selectedStudent +t.getTableView().getItems().get(
+                            io.storeInfo(filePath, selectedClass.getName(), selectedStudent +t.getTableView().getItems().get(
                                 t.getTablePosition().getRow()).getExpectationID()+"lvlr", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())
@@ -491,7 +542,6 @@ public class Main extends Application{
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent event) {
                     if(listOfStudents.getSelectionModel().getSelectedItem() != null){
@@ -526,12 +576,15 @@ public class Main extends Application{
             navAssignments.setOnAction(e -> {
             topLayer.setCenter(assignmentLayout);
             for(int i = 0; i < classroom.size(); i++){
-                    if(classroom.get(i).getName().equals(selectedClass)) listOfAssignments.setItems(classroom.get(i).getAssignments());
+                    if(classroom.get(i).equals(selectedClass)) listOfAssignments.setItems(classroom.get(i).getAssignments());
                 }
             navAssignments.setDisable(true);
             backButton.setDisable(false);
             navStudent.setDisable(false);
             });
+
+            AnchorPane gradingLayout = new AnchorPane();
+            gradingLayout.setPadding(new Insets(0,10,10,10));
 
             
             backButton.setOnAction(e -> {
@@ -539,6 +592,38 @@ public class Main extends Application{
                 navStudent.setDisable(false);
                 navAssignments.setDisable(false);
                 backButton.setDisable(true);
+            });
+
+            listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent event) {
+                    if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
+                    topLayer.setCenter(gradingLayout);
+                    selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
+                    System.out.println("Clicked on " + selectedAssignment.getName());
+                    
+                    int numExpectations = selectedAssignment.getExpectations().size();
+                    System.out.println(numExpectations);
+                    TableView<Row> table = new TableView<>();
+                    TableColumn<Row, String> studentCol = new TableColumn<>("Students");
+                    studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
+                    table.getColumns().add(studentCol);
+                    for (int i = 0 ; i < numExpectations ; i++) {
+                    TableColumn<Row, Expectation> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                    final int colIndex = i ;
+                    col.setCellValueFactory(cellData -> cellData.getValue().getExpectations().get(colIndex));
+                    table.getColumns().add(col);
+                    }
+                    ObservableList<Row> rows = FXCollections.observableArrayList();
+                    for(int i = 0; i < selectedClass.getStudents().size(); i++){
+                        rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
+}
+table.setItems(rows);
+    gradingLayout.setTopAnchor(table, 0d);
+    gradingLayout.getChildren().add(table);
+                }
+            }
             });
             
         //Allows for the first scene to be shown when the program is run
@@ -554,14 +639,11 @@ public class Main extends Application{
         Expectation temp = createExpectationWindow.display();
                 if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
                     for(int i = 0; i < classroom.size(); i++){
-                        if(selectedClass.equals(classroom.get(i).getName())) {
+                        if(selectedClass.equals(classroom.get(i))) {
                             classroom.get(i).addExpectation(temp);
                             addColumn.setExpectation(temp.getExpectation());
                             rubric.getItems().add(addColumn);
-                            for(int j = 0; j < classroom.get(i).getStudents().size(); j++){
-                                io.storeInfo(filePath, classroom.get(i).getName(), classroom.get(i).getStudents().get(j).getFullName() +"expectation", temp.getExpectation());
-                                
-                            }
+                            io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
                         }
                     }
                 }
@@ -573,7 +655,7 @@ public class Main extends Application{
         ObservableList<Rubric> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
-        io.deleteLine(filePath, selectedClass +"." +selectedStudent +"expectation." +expectationSelected.get(0).getExpectation());
+        io.deleteLine(filePath, selectedClass.getName() +".expectation." +expectationSelected.get(0).getExpectation());
         expectationSelected.forEach(allExpectation::remove);
         
     }
@@ -609,7 +691,7 @@ public class Main extends Application{
         io.openInputFile(filePath);
         try{
             while((line = io.readLine()) != null){
-                line = getValue(line, s+"expectation", selectedClass);
+                line = getValue(line, "expectation", selectedClass.getName());
                 if(line.equals("invalid")) continue;
                 String ID = "";
                 for(int i = 0; i <= line.length(); i++){
