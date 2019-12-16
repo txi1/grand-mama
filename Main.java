@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.beans.Observable;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -611,14 +612,18 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     int numExpectations = selectedAssignment.getExpectations().size();
                     System.out.println(numExpectations);
                     TableView<Row> table = new TableView<>();
+                    table.setEditable(true);
                     TableColumn<Row, String> studentCol = new TableColumn<>("Students");
                     studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
                     table.getColumns().add(studentCol);
                     for (int i = 0 ; i < numExpectations ; i++) {
-                    TableColumn<Row, Expectation> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                    TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                     final int colIndex = i ;
                     col.setCellValueFactory(cellData -> cellData.getValue().getExpectations().get(colIndex));
+                     col.setCellFactory(TextFieldTableCell.<ObservableList<SimpleStringProperty>>forTableColumn());
+                    
                     table.getColumns().add(col);
+                    
                     }
                     ObservableList<Row> rows = FXCollections.observableArrayList();
                     for(int i = 0; i < selectedClass.getStudents().size(); i++){
