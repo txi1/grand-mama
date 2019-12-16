@@ -8,9 +8,9 @@ public class Row {
     private final StringProperty student = new SimpleStringProperty();
     private final List<SimpleObjectProperty<Expectation>> expectations = new ArrayList<>();
 
-    public Row(String s, int numAttendances) {
+    public Row(String s, int numExpectations) {
         setStudent(s);
-        for (int i = 0 ; i < numAttendances ; i++) {
+        for (int i = 0 ; i < numExpectations ; i++) {
             expectations.add(new SimpleObjectProperty<>());
         }
     }
