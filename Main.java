@@ -46,12 +46,8 @@ public class Main extends Application{
     Assignment selectedAssignment;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-<<<<<<< HEAD
-    String selectedClass;
-=======
     Classroom selectedClass;
     Scene previousScene;
->>>>>>> b0b363f8c605e0f0479eac268473b615703f681c
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
