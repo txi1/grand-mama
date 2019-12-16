@@ -83,11 +83,9 @@ public class createAssignmentWindow{
     private void handleOptions(ObservableList<CheckBox> c){
         for(int i = 0; i < c.size(); i++){
             if(c.get(i).isSelected()){
-                System.out.println(expectations.get(i));
                 assignment.addExpectation(expectations.get(i));
             }
         }
-        System.out.println();
     }
 
     }
