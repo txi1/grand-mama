@@ -1,3 +1,4 @@
+import com.sun.javafx.scene.control.skin.LabeledText;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -47,7 +49,6 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     Classroom selectedClass;
-    Scene previousScene;
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -322,10 +323,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             topLayer.setPadding(new Insets(0,10,10,10));
             topLayer.setTop(menuBar);
             
+            Button deleteStudent = new Button();
+            deleteStudent.setOnAction(e -> { 
+                io.deleteLine(filePath, ".studentName." + selectedStudent);
+            });
+            
             AnchorPane studentLayout = new AnchorPane();
             studentLayout.setPadding(new Insets(0,10,10,10));
             studentLayout.setTopAnchor(listOfStudents, 0d);
-            studentLayout.getChildren().addAll(listOfStudents);
+            studentLayout.setRightAnchor(deleteStudent, 0d);
+            studentLayout.getChildren().addAll(listOfStudents, deleteStudent);
             
             studentMenu = new Scene(studentLayout, 400, 300);
             
@@ -351,6 +358,18 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             }
         });
+            
+            listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    @Override
+    public void handle(MouseEvent event) {
+        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+           (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+
+           //your code here        
+         }    
+    }
+});
+            
             navStudent.setOnAction(e -> {
                 for(int i = 0; i < classroom.size(); i++){
                     if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
@@ -540,12 +559,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if(listOfStudents.getSelectionModel().getSelectedItem() != null){
+                    if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+            (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                     mainWindow.setScene(rubricMenu);
                     selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                     System.out.println("Clicked on " + selectedStudent);
                     rubric.setItems(getRubricInfo(selectedStudent));
-                }
+                }        
+         }
+                    
             }
             });
             
