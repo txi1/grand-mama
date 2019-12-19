@@ -20,7 +20,7 @@ public class Row {
     }
 
     public void setExpectation(String val, int index){
-        expectations.get(index).set(val);
+        expectations.get(index).setValue(val);
     }
     
     public StringProperty studentProperty() { 
@@ -33,5 +33,9 @@ public class Row {
 
     public final void setStudent(String student) {
         studentProperty().set(student);
+    }
+    
+    public StringProperty expectationProperty(int index){
+        return expectations.get(index);
     }
 }
