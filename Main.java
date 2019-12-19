@@ -647,7 +647,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                     cols.add(col);
                     final int colIndex = i ;
-                    cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
+                    col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
+                    //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
                     /*cols.get(i).setOnEditCommit(
                     new EventHandler<CellEditEvent<Row, String>>(){
                         public void handle(CellEditEvent<Row, String> t){
@@ -673,7 +674,6 @@ table.setItems(rows);
         String val = gradeList.getValue();
         if(cell.getColumn() > 0 && val != null){
             table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
-            System.out.println(val);
         }
     });
                 }
