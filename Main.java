@@ -325,9 +325,13 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             topLayer.setPadding(new Insets(0,10,10,10));
             topLayer.setTop(menuBar);
             
-            Button deleteStudent = new Button();
+            Button deleteStudent = new Button("Delete Student");
             deleteStudent.setOnAction(e -> { 
-                io.deleteLine(filePath, ".studentName." + selectedStudent);
+                ObservableList<Student> studentSelected, allStudents;
+                allStudents = listOfStudents.getItems();
+                studentSelected = listOfStudents.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() + ".studentName." + studentSelected.get(0).getFullName());
+                studentSelected.forEach(allStudents::remove);
             });
             
             AnchorPane studentLayout = new AnchorPane();
@@ -589,10 +593,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
            
-           AnchorPane assignmentLayout = new AnchorPane();
-           assignmentLayout.setPadding(new Insets(0,10,10,10));
-           assignmentLayout.setTopAnchor(listOfAssignments, 0d);
-           assignmentLayout.getChildren().add(listOfAssignments);
+            Button deleteAssignment = new Button("Delete");
+            deleteAssignment.setOnAction(e -> { 
+                ObservableList<Assignment> assignmentSelected, allAssignments;
+                allAssignments = listOfAssignments.getItems();
+                assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() + ".assignmentName." + assignmentSelected.get(0).getExpectations());
+                assignmentSelected.forEach(allAssignments::remove);
+            });
+           
+            AnchorPane assignmentLayout = new AnchorPane();
+            assignmentLayout.setPadding(new Insets(0,10,10,10));
+            assignmentLayout.setTopAnchor(listOfAssignments, 0d);
+            assignmentLayout.setRightAnchor(deleteAssignment, 0d);
+            assignmentLayout.getChildren().add(listOfAssignments, deleteAssignment);
          
             navAssignments.setOnAction(e -> {
             topLayer.setCenter(assignmentLayout);
