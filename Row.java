@@ -6,19 +6,23 @@ import javafx.beans.property.StringProperty;
 
 public class Row {
     private final StringProperty student = new SimpleStringProperty();
-    private final List<SimpleObjectProperty<Expectation>> expectations = new ArrayList<>();
+    private final List<StringProperty> expectations = new ArrayList<>();
 
     public Row(String s, int numExpectations) {
         setStudent(s);
         for (int i = 0 ; i < numExpectations ; i++) {
-            expectations.add(new SimpleObjectProperty<>());
+            expectations.add(new SimpleStringProperty());
         }
     }
 
-    public List<SimpleObjectProperty<Expectation>> getExpectations() {
+    public List<StringProperty> getExpectations() {
         return expectations;
     }
 
+    public void setExpectation(String val, int index){
+        expectations.get(index).setValue(val);
+    }
+    
     public StringProperty studentProperty() { 
         return student;
     }
@@ -29,5 +33,9 @@ public class Row {
 
     public final void setStudent(String student) {
         studentProperty().set(student);
+    }
+    
+    public StringProperty expectationProperty(int index){
+        return expectations.get(index);
     }
 }

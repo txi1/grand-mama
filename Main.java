@@ -1,9 +1,11 @@
+import com.sun.javafx.scene.control.skin.LabeledText;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import javafx.beans.Observable;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
@@ -23,10 +25,12 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -47,11 +51,15 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
 <<<<<<< HEAD
+<<<<<<< HEAD
     String selectedClass;
 =======
     Classroom selectedClass;
     Scene previousScene;
 >>>>>>> b0b363f8c605e0f0479eac268473b615703f681c
+=======
+    Classroom selectedClass;
+>>>>>>> f91922b6567a20bbb86b86a732beea29413178bc
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -326,10 +334,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             topLayer.setPadding(new Insets(0,10,10,10));
             topLayer.setTop(menuBar);
             
+            Button deleteStudent = new Button("Delete Student");
+            deleteStudent.setOnAction(e -> { 
+                ObservableList<Student> studentSelected, allStudents;
+                allStudents = listOfStudents.getItems();
+                studentSelected = listOfStudents.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() + ".studentName." + studentSelected.get(0).getFullName());
+                studentSelected.forEach(allStudents::remove);
+            });
+            
             AnchorPane studentLayout = new AnchorPane();
             studentLayout.setPadding(new Insets(0,10,10,10));
             studentLayout.setTopAnchor(listOfStudents, 0d);
-            studentLayout.getChildren().addAll(listOfStudents);
+            studentLayout.setRightAnchor(deleteStudent, 0d);
+            studentLayout.getChildren().addAll(listOfStudents, deleteStudent);
             
             studentMenu = new Scene(studentLayout, 400, 300);
             
@@ -355,6 +373,18 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             }
         });
+            
+            listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    @Override
+    public void handle(MouseEvent event) {
+        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+           (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+
+           //your code here        
+         }    
+    }
+});
+            
             navStudent.setOnAction(e -> {
                 for(int i = 0; i < classroom.size(); i++){
                     if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
@@ -504,7 +534,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             io.deleteLine(filePath, selectedClass.getName() +".expectation." +t.getOldValue());
                             io.storeInfo(filePath, selectedClass.getName(),  "expectation", t.getNewValue());
                             ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
-                        }
+       }
                     }
             );
             rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
@@ -544,12 +574,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if(listOfStudents.getSelectionModel().getSelectedItem() != null){
+                    if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+            (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                     mainWindow.setScene(rubricMenu);
                     selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                     System.out.println("Clicked on " + selectedStudent);
                     rubric.setItems(getRubricInfo(selectedStudent));
-                }
+                }        
+         }
+                    
             }
             });
             
@@ -568,10 +602,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
            
-           AnchorPane assignmentLayout = new AnchorPane();
-           assignmentLayout.setPadding(new Insets(0,10,10,10));
-           assignmentLayout.setTopAnchor(listOfAssignments, 0d);
-           assignmentLayout.getChildren().add(listOfAssignments);
+            Button deleteAssignment = new Button("Delete");
+            deleteAssignment.setOnAction(e -> { 
+                ObservableList<Assignment> assignmentSelected, allAssignments;
+                allAssignments = listOfAssignments.getItems();
+                assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() + ".assignmentName." + assignmentSelected.get(0).getExpectations());
+                assignmentSelected.forEach(allAssignments::remove);
+            });
+           
+            AnchorPane assignmentLayout = new AnchorPane();
+            assignmentLayout.setPadding(new Insets(0,10,10,10));
+            assignmentLayout.setTopAnchor(listOfAssignments, 0d);
+            assignmentLayout.setRightAnchor(deleteAssignment, 0d);
+            assignmentLayout.getChildren().add(listOfAssignments, deleteAssignment);
          
             navAssignments.setOnAction(e -> {
             topLayer.setCenter(assignmentLayout);
@@ -586,6 +630,17 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
 
+            Button setMarkButton = new Button("Set this mark");
+            ChoiceBox<String> gradeList = new ChoiceBox();
+            gradeList.getItems().addAll("R", "1-", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "3+/4-", "4-", "4-/4",
+                    "4", "4/4+", "4+", "4++");
+            
+            gradingLayout.setTopAnchor(setMarkButton, 70d);
+            gradingLayout.setRightAnchor(setMarkButton, 10d);
+            
+            gradingLayout.setTopAnchor(gradeList, 40d);
+            gradingLayout.setRightAnchor(gradeList, 10d);
+            
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
@@ -593,7 +648,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 navAssignments.setDisable(false);
                 backButton.setDisable(true);
             });
-
+            
             listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                 @Override
@@ -606,22 +661,44 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     int numExpectations = selectedAssignment.getExpectations().size();
                     System.out.println(numExpectations);
                     TableView<Row> table = new TableView<>();
+                    table.getSelectionModel().setCellSelectionEnabled(true);
                     TableColumn<Row, String> studentCol = new TableColumn<>("Students");
                     studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
                     table.getColumns().add(studentCol);
+                    ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < numExpectations ; i++) {
-                    TableColumn<Row, Expectation> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                    TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                    cols.add(col);
                     final int colIndex = i ;
-                    col.setCellValueFactory(cellData -> cellData.getValue().getExpectations().get(colIndex));
-                    table.getColumns().add(col);
+                    col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
+                    //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
+                    /*cols.get(i).setOnEditCommit(
+                    new EventHandler<CellEditEvent<Row, String>>(){
+                        public void handle(CellEditEvent<Row, String> t){
+                            ((Row) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue(),t.getTablePosition().getColumn()-1);
+                        }
                     }
+            );
+                   */ table.getColumns().add(cols.get(i));
+                    
+                    }
+                    //table.setEditable(true);
+
                     ObservableList<Row> rows = FXCollections.observableArrayList();
                     for(int i = 0; i < selectedClass.getStudents().size(); i++){
                         rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
 }
 table.setItems(rows);
     gradingLayout.setTopAnchor(table, 0d);
-    gradingLayout.getChildren().add(table);
+    gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
+    
+    setMarkButton.setOnAction(e -> {
+        TablePosition cell = table.getFocusModel().getFocusedCell();
+        String val = gradeList.getValue();
+        if(cell.getColumn() > 0 && val != null){
+            table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+        }
+    });
                 }
             }
             });
