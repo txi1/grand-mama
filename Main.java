@@ -50,16 +50,10 @@ public class Main extends Application{
     Assignment selectedAssignment;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-<<<<<<< HEAD
-<<<<<<< HEAD
-    String selectedClass;
-=======
+    //String selectedClass;
+    //Classroom selectedClass;
+    //Scene previousScene;
     Classroom selectedClass;
-    Scene previousScene;
->>>>>>> b0b363f8c605e0f0479eac268473b615703f681c
-=======
-    Classroom selectedClass;
->>>>>>> f91922b6567a20bbb86b86a732beea29413178bc
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
@@ -602,12 +596,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
            
-            Button deleteAssignment = new Button("Delete");
+            Button deleteAssignment = new Button("Delete Assignment");
             deleteAssignment.setOnAction(e -> { 
                 ObservableList<Assignment> assignmentSelected, allAssignments;
                 allAssignments = listOfAssignments.getItems();
                 assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
-                io.deleteLine(filePath, selectedClass.getName() + ".assignmentName." + assignmentSelected.get(0).getExpectations());
+                io.deleteLine(filePath, selectedClass.getName() + ".assignment." + assignmentSelected.get(0).getExpectations());
                 assignmentSelected.forEach(allAssignments::remove);
             });
            
@@ -615,7 +609,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             assignmentLayout.setPadding(new Insets(0,10,10,10));
             assignmentLayout.setTopAnchor(listOfAssignments, 0d);
             assignmentLayout.setRightAnchor(deleteAssignment, 0d);
-            assignmentLayout.getChildren().add(listOfAssignments, deleteAssignment);
+            assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
          
             navAssignments.setOnAction(e -> {
             topLayer.setCenter(assignmentLayout);
