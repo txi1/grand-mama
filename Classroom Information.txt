@@ -1,6 +1,5 @@
 ICS4U.name.ICS4U
 ICS4U.studentName.Alex Nedev
-ICS4U.studentName.Taylor Xi
 ICS4U.expectation.A1: Test
 ICS4U.expectation.A2: Test2
 ICS4U.expectation.B1: Test3
@@ -8,6 +7,5 @@ ICS4U.expectation.C1: Test4
 ICS4U.assignment.Test 1
 ICS4U.A1assignment.Test 1
 ICS4U.B1assignment.Test 1
-ICS4U.assignment.Quiz 2
 ICS4U.A2assignment.Quiz 2
 ICS4U.C1assignment.Quiz 2

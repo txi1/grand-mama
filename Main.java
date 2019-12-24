@@ -601,7 +601,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 ObservableList<Assignment> assignmentSelected, allAssignments;
                 allAssignments = listOfAssignments.getItems();
                 assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
-                io.deleteLine(filePath, selectedClass.getName() + ".assignment." + assignmentSelected.get(0).getExpectations());
+                io.deleteLine(filePath, selectedClass.getName() + ".assignment." + assignmentSelected.get(0).getName());
                 assignmentSelected.forEach(allAssignments::remove);
             });
            
