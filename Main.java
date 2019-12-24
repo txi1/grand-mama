@@ -569,16 +569,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 @Override
                 public void handle(MouseEvent event) {
                     if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-            (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
-                if(listOfStudents.getSelectionModel().getSelectedItem() != null){
-                    mainWindow.setScene(rubricMenu);
-                    selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
-                    System.out.println("Clicked on " + selectedStudent);
-                    rubric.setItems(getRubricInfo(selectedStudent));
-                }        
-         }
+                        (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                            if(listOfStudents.getSelectionModel().getSelectedItem() != null){
+                                mainWindow.setScene(rubricMenu);
+                                selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
+                                System.out.println("Clicked on " + selectedStudent);
+                                rubric.setItems(getRubricInfo(selectedStudent));
+                        }        
+                    }
                     
-            }
+                }
             });
             
             ListView<Assignment> listOfAssignments = new ListView<>();
@@ -644,57 +644,61 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             });
             
             listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
 
-                @Override
-                public void handle(MouseEvent event) {
-                    if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
-                    topLayer.setCenter(gradingLayout);
-                    selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
-                    System.out.println("Clicked on " + selectedAssignment.getName());
-                    
-                    int numExpectations = selectedAssignment.getExpectations().size();
-                    System.out.println(numExpectations);
-                    TableView<Row> table = new TableView<>();
-                    table.getSelectionModel().setCellSelectionEnabled(true);
-                    TableColumn<Row, String> studentCol = new TableColumn<>("Students");
-                    studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
-                    table.getColumns().add(studentCol);
-                    ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
-                    for (int i = 0 ; i < numExpectations ; i++) {
-                    TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
-                    cols.add(col);
-                    final int colIndex = i ;
-                    col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
-                    //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
-                    /*cols.get(i).setOnEditCommit(
-                    new EventHandler<CellEditEvent<Row, String>>(){
-                        public void handle(CellEditEvent<Row, String> t){
-                            ((Row) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue(),t.getTablePosition().getColumn()-1);
+                        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                        (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                            if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
+                            topLayer.setCenter(gradingLayout);
+                            selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
+                            System.out.println("Clicked on " + selectedAssignment.getName());
+                            
+                            int numExpectations = selectedAssignment.getExpectations().size();
+                            System.out.println(numExpectations);
+                            TableView<Row> table = new TableView<>();
+                            table.getSelectionModel().setCellSelectionEnabled(true);
+                            TableColumn<Row, String> studentCol = new TableColumn<>("Students");
+                            studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
+                            table.getColumns().add(studentCol);
+                            ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
+                            
+                            for (int i = 0 ; i < numExpectations ; i++) {
+                            TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                            cols.add(col);
+                            final int colIndex = i ;
+                            col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
+                            //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
+                            /*cols.get(i).setOnEditCommit(
+                            new EventHandler<CellEditEvent<Row, String>>(){
+                                public void handle(CellEditEvent<Row, String> t){
+                                    ((Row) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue(),t.getTablePosition().getColumn()-1);
+                                }
+                            }
+                    );
+                        */ table.getColumns().add(cols.get(i));
+                            
+                        }
+                        //table.setEditable(true);
+
+                        ObservableList<Row> rows = FXCollections.observableArrayList();
+                        for(int i = 0; i < selectedClass.getStudents().size(); i++){
+                            rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
+            }
+            table.setItems(rows);
+                gradingLayout.setTopAnchor(table, 0d);
+                gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
+                
+                setMarkButton.setOnAction(e -> {
+                    TablePosition cell = table.getFocusModel().getFocusedCell();
+                    String val = gradeList.getValue();
+                    if(cell.getColumn() > 0 && val != null){
+                        table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+                                }
+                            });
                         }
                     }
-            );
-                   */ table.getColumns().add(cols.get(i));
-                    
-                    }
-                    //table.setEditable(true);
-
-                    ObservableList<Row> rows = FXCollections.observableArrayList();
-                    for(int i = 0; i < selectedClass.getStudents().size(); i++){
-                        rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
-}
-table.setItems(rows);
-    gradingLayout.setTopAnchor(table, 0d);
-    gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
-    
-    setMarkButton.setOnAction(e -> {
-        TablePosition cell = table.getFocusModel().getFocusedCell();
-        String val = gradeList.getValue();
-        if(cell.getColumn() > 0 && val != null){
-            table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
-        }
-    });
                 }
-            }
             });
             
         //Allows for the first scene to be shown when the program is run
