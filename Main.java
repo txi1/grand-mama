@@ -244,12 +244,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             createStudent.setOnAction(e -> {
                 Student temp = createStudentWindow.display();
                 if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
-                for(int i = 0; i < classroom.size(); i++){
-                    if(selectedClass.equals(classroom.get(i))) {
-                        classroom.get(i).addStudent(temp);
-                        io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(selectedClass.equals(classroom.get(i))) {
+                            classroom.get(i).addStudent(temp);
+                            io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
+                        }
                     }
-                }
                 }
             });
             //Adding the new assignment button
@@ -265,7 +265,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
                     io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
                     for(int j = 0; j < temp.getExpectations().size(); j++){
-                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
+                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
                             }
                 }
             }
@@ -656,44 +656,41 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             
                             int numExpectations = selectedAssignment.getExpectations().size();
                             System.out.println(numExpectations);
+
                             TableView<Row> table = new TableView<>();
                             table.getSelectionModel().setCellSelectionEnabled(true);
                             TableColumn<Row, String> studentCol = new TableColumn<>("Students");
                             studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
                             table.getColumns().add(studentCol);
+
                             ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
-                            
                             for (int i = 0 ; i < numExpectations ; i++) {
                             TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                             cols.add(col);
                             final int colIndex = i ;
                             col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
-                            //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
-                            /*cols.get(i).setOnEditCommit(
-                            new EventHandler<CellEditEvent<Row, String>>(){
-                                public void handle(CellEditEvent<Row, String> t){
-                                    ((Row) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue(),t.getTablePosition().getColumn()-1);
-                                }
-                            }
-                    );
-                        */ table.getColumns().add(cols.get(i));
+                            table.getColumns().add(cols.get(i));
                             
                         }
-                        //table.setEditable(true);
 
                         ObservableList<Row> rows = FXCollections.observableArrayList();
                         for(int i = 0; i < selectedClass.getStudents().size(); i++){
                             rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
-            }
-            table.setItems(rows);
-                gradingLayout.setTopAnchor(table, 0d);
-                gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
+                        }
+                            table.setItems(rows);
+                            gradingLayout.setTopAnchor(table, 0d);
+                            gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
                 
-                setMarkButton.setOnAction(e -> {
-                    TablePosition cell = table.getFocusModel().getFocusedCell();
-                    String val = gradeList.getValue();
-                    if(cell.getColumn() > 0 && val != null){
-                        table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+                            setMarkButton.setOnAction(e -> {
+                                TablePosition cell = table.getFocusModel().getFocusedCell();
+                                String val = gradeList.getValue();
+                                if(cell.getColumn() > 0 && val != null){
+                                    table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+                                    io.storeInfo(filePath, selectedClass.getName(), "Level" + val, cols.getNewValue());
+                                    ((Rubric) cell.getTableView().getItems().get(
+                                        cols.getTablePosition().getRow())
+                                    ).setLvlr(cols.getNewValue());
+                                    System.out.println(val);
                                 }
                             });
                         }
