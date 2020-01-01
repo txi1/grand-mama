@@ -651,15 +651,39 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     for(int i = 0; i < selectedClass.getStudents().size(); i++){
                         rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
 }
+
+    for(int i = 0; i < rows.size(); i++){
+        String currentStudent = rows.get(i).getStudent();
+        try{
+        for(int j = 0; j < cols.size(); j++){
+            io.openInputFile(filePath);
+            String expName = cols.get(j).getText();
+            String line = "";
+            while((line = io.readLine()) != null){
+            String mark = getValue(line, selectedAssignment.getName() +currentStudent +expName, selectedClass.getName());
+            if(mark == "invalid") continue;
+                rows.get(i).setExpectation(mark, j);
+        }
+        io.closeInputFile();
+    }
+    }catch(IOException e){
+
+    }
+    }
+
 table.setItems(rows);
     gradingLayout.setTopAnchor(table, 0d);
-    gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
+    gradingLayout.getChildren().setAll(table,gradeList,setMarkButton);
+    
     
     setMarkButton.setOnAction(e -> {
         TablePosition cell = table.getFocusModel().getFocusedCell();
         String val = gradeList.getValue();
+        int cellColumn = cell.getColumn();
+        Row selectedRow =  table.getItems().get(cell.getRow());
         if(cell.getColumn() > 0 && val != null){
-            table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+            selectedRow.setExpectation(val, cellColumn-1);
+            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getStudent() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
         }
     });
                 }
