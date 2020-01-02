@@ -1,7 +1,6 @@
 ICS4U.name.ICS4U
 ICS4U.studentName.Alex Nedev
 ICS4U.expectation.A1: Test
-<<<<<<< HEAD
 ICS4U.expectation.A2: Test2
 ICS4U.expectation.B1: Test3
 ICS4U.expectation.C1: Test4
@@ -11,24 +10,4 @@ ICS4U.B1assignment.Test 1
 ICS4U.A2assignment.Quiz 2
 ICS4U.C1assignment.Quiz 2
 ICS4U.studentName.Taylor Xi
-=======
-ICS4U.assignment.Testing123
-ICS4U.A1assignment.Testing123
-ICS4U.expectation.A2: Electric Boogaloo
-ICS4U.expectation.A3: LET'S GO
-ICS4U.assignment.LET'S GOOO
-ICS4U.A1assignment.LET'S GOOO
-ICS4U.A2assignment.LET'S GOOO
-ICS4U.A3assignment.LET'S GOOO
-ICS4U.studentName.LET'S GO
-ICS4U.assignment.Quiz 3
-ICS4U.A2assignment.Quiz 3
-ICS4U.A3assignment.Quiz 3
-<<<<<<< HEAD
-ICS4U.Testing123Taylor XiA1.4+
-ICS4U.Testing123LET'S GOA1.4++
->>>>>>> fd932b26a007674aa9e40759c1af1eca9a3bc97a
-=======
-ICS4U.Testing123Taylor XiA1.3+/4-
-ICS4U.Testing123LET'S GOA1.4+
->>>>>>> 8a999be69d2fb8d4ac272549e2d793f3af629b35
+
