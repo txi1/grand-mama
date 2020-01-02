@@ -46,7 +46,7 @@ public class Main extends Application{
     int count = 0;
     String selectedStudent;
     Assignment selectedAssignment;
-    TableView<Rubric> rubric;
+    TableView<Row> rubric;
     String filePath = "Classroom Information.txt";
     Classroom selectedClass;
     Scene previousScene;
@@ -387,84 +387,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             });
             
             
-            //Expecation Column that will show the expectations that student has to meet in the course
-                TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
-                expectationColumn.setMinWidth(100);
-                expectationColumn.setCellValueFactory(new PropertyValueFactory<>("expectation")); 
-            //R Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> rColumn = new TableColumn<>("R");
-                rColumn.setMinWidth(50);
-                rColumn.setCellValueFactory(new PropertyValueFactory<>("lvlr"));
-            //1- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> onemColumn = new TableColumn<>("1-");
-                onemColumn.setMinWidth(50);
-                onemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1m"));
-            //1 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> oneColumn = new TableColumn<>("1");
-                oneColumn.setMinWidth(50);
-                oneColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1"));
-            //1+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> onepColumn = new TableColumn<>("1+");
-                onepColumn.setMinWidth(50);
-                onepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl1p"));
-            //2- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> twomColumn = new TableColumn<>("2-");
-                twomColumn.setMinWidth(50);
-                twomColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2m"));
-            //2 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> twoColumn = new TableColumn<>("2");
-                twoColumn.setMinWidth(50);
-                twoColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2"));
-            //2+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> twopColumn = new TableColumn<>("2+");
-                twopColumn.setMinWidth(50);
-                twopColumn.setCellValueFactory(new PropertyValueFactory<>("lvl2p"));
-            //3- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> threemColumn = new TableColumn<>("3-");
-                threemColumn.setMinWidth(50);
-                threemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3m"));
-            //3 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> threeColumn = new TableColumn<>("3");
-                threeColumn.setMinWidth(50);
-                threeColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3"));
-            //3+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> threepColumn = new TableColumn<>("3+");
-                threepColumn.setMinWidth(50);
-                threepColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3p"));
-            //3+/4- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> threefourColumn = new TableColumn<>("3+/4-");
-                threefourColumn.setMinWidth(50);
-                threefourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl34"));
-            //4- Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> fourmColumn = new TableColumn<>("4-");
-                fourmColumn.setMinWidth(50);
-                fourmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4m"));
-            //4-/4 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> foursmColumn = new TableColumn<>("4-/4");
-                foursmColumn.setMinWidth(50);
-                foursmColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sm"));
-            //4 Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> fourColumn = new TableColumn<>("4");
-                fourColumn.setMinWidth(50);
-                fourColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4"));
-            //4/4+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> fourspColumn = new TableColumn<>("4/4+");
-                fourspColumn.setMinWidth(50);
-                fourspColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4sp"));
-            //4+ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> fourpColumn = new TableColumn<>("4+");
-                fourpColumn.setMinWidth(50);
-                fourpColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4p"));
-            //4++ Column that will show the grades that student got during the duration of the course
-                TableColumn<Rubric, String> fourppColumn = new TableColumn<>("4++");
-                fourppColumn.setMinWidth(50);
-                fourppColumn.setCellValueFactory(new PropertyValueFactory<>("lvl4pp"));
-            //These lines of code are what allow for the table itself to be
-            //generated and shown when called
-            
-            //Following 3 lines of code are used in order to set up the textfield
-            //that will be used to add in expectation manually
-
             //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
             addButton.setOnAction(e -> addButtonClicked());
@@ -478,11 +400,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             hbox.getChildren().addAll(addButton, killButton);
             
                 rubric = new TableView<>();
-                rubric.getColumns().addAll(expectationColumn, rColumn, 
-                        onemColumn, oneColumn, onepColumn,
-                        twomColumn, twoColumn, twopColumn,
-                        threemColumn, threeColumn, threepColumn,
-                        threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
+
             
                         menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
@@ -505,47 +423,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
-            expectationColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            expectationColumn.setOnEditCommit(
-                    new EventHandler<CellEditEvent<Rubric, String>>(){
-                        public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass.getName() +".expectation." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass.getName(),  "expectation", t.getNewValue());
-                            ((Rubric) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue());
-       }
-                    }
-            );
-            rColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            rColumn.setOnEditCommit(
-                    new EventHandler<CellEditEvent<Rubric, String>>(){
-                        public void handle(CellEditEvent<Rubric, String> t){
-                            io.deleteLine(filePath, selectedClass.getName() +"." +selectedStudent +t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).getExpectationID()+
-                                    "lvlr." +t.getOldValue());
-                            io.storeInfo(filePath, selectedClass.getName(), selectedStudent +t.getTableView().getItems().get(
-                                t.getTablePosition().getRow()).getExpectationID()+"lvlr", t.getNewValue());
-                            ((Rubric) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())
-                            ).setLvlr(t.getNewValue());
-                        }
-                    }
-            );
-            onemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            oneColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            onepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            twomColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            twoColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            twopColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            threemColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            threeColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            threepColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            threefourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            fourmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            foursmColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            fourColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            fourspColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            fourpColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
-            fourppColumn.setCellFactory(TextFieldTableCell.<Rubric>forTableColumn());
+
                 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
@@ -626,23 +504,15 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     TableView<Row> table = new TableView<>();
                     table.getSelectionModel().setCellSelectionEnabled(true);
                     TableColumn<Row, String> studentCol = new TableColumn<>("Students");
-                    studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
+                    studentCol.setCellValueFactory(cellData -> cellData.getValue().firstColProperty());
                     table.getColumns().add(studentCol);
                     ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < numExpectations ; i++) {
                     TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                     cols.add(col);
                     final int colIndex = i ;
-                    col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
-                    //cols.get(i).setCellFactory(TextFieldTableCell.<Row>forTableColumn());
-                    /*cols.get(i).setOnEditCommit(
-                    new EventHandler<CellEditEvent<Row, String>>(){
-                        public void handle(CellEditEvent<Row, String> t){
-                            ((Row) t.getTableView().getItems().get(t.getTablePosition().getRow())).setExpectation(t.getNewValue(),t.getTablePosition().getColumn()-1);
-                        }
-                    }
-            );
-                   */ table.getColumns().add(cols.get(i));
+                    col.setCellValueFactory(cellData -> cellData.getValue().colProperty(colIndex));
+                    table.getColumns().add(cols.get(i));
                     
                     }
                     //table.setEditable(true);
@@ -653,7 +523,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
 }
 
     for(int i = 0; i < rows.size(); i++){
-        String currentStudent = rows.get(i).getStudent();
+        String currentStudent = rows.get(i).getFirstCol();
         try{
         for(int j = 0; j < cols.size(); j++){
             io.openInputFile(filePath);
@@ -662,7 +532,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             while((line = io.readLine()) != null){
             String mark = getValue(line, selectedAssignment.getName() +currentStudent +expName, selectedClass.getName());
             if(mark == "invalid") continue;
-                rows.get(i).setExpectation(mark, j);
+                rows.get(i).setCol(mark, j);
         }
         io.closeInputFile();
     }
@@ -682,8 +552,8 @@ table.setItems(rows);
         int cellColumn = cell.getColumn();
         Row selectedRow =  table.getItems().get(cell.getRow());
         if(cell.getColumn() > 0 && val != null){
-            selectedRow.setExpectation(val, cellColumn-1);
-            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getStudent() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
+            selectedRow.setCol(val, cellColumn-1);
+            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getFirstCol() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
         }
     });
                 }
@@ -774,9 +644,9 @@ table.setItems(rows);
             System.out.println("Error");
         }
         
-        
         try{
             for(int i = 0; i < rubricInfo.size(); i++){
+                for(int j = 0; j < 18; j++){
                 io.openInputFile(filePath);
             while((line = io.readLine()) != null){
                  line = getValue(line, s+ rubricInfo.get(i).getExpectationID()+"lvlr", "unicornpotatollama");
@@ -785,6 +655,7 @@ table.setItems(rows);
             } 
             io.closeInputFile();
             }
+        }
         }catch(IOException e){
             System.out.println("Error");
         }
