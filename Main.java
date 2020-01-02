@@ -683,8 +683,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             setMarkButton.setOnAction(e -> {
                                 TablePosition cell = table.getFocusModel().getFocusedCell();
                                 String val = gradeList.getValue();
+                                int cellColumn = cell.getColumn();
+                                Row selectedRow =  table.getItems().get(cell.getRow());
                                 if(cell.getColumn() > 0 && val != null){
-                                    table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
+                                    selectedRow.setExpectation(val, cellColumn-1);
+                                    io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getStudent() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
                                 }
                             });
                         }
