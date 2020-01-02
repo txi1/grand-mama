@@ -654,43 +654,37 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
                             System.out.println("Clicked on " + selectedAssignment.getName());
                             
-                            int numExpectations = selectedAssignment.getExpectations().size();
-                            System.out.println(numExpectations);
+                                int numExpectations = selectedAssignment.getExpectations().size();
+                                System.out.println(numExpectations);
 
-                            TableView<Row> table = new TableView<>();
-                            table.getSelectionModel().setCellSelectionEnabled(true);
-                            TableColumn<Row, String> studentCol = new TableColumn<>("Students");
-                            studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
-                            table.getColumns().add(studentCol);
+                                    TableView<Row> table = new TableView<>();
+                                    table.getSelectionModel().setCellSelectionEnabled(true);
+                                    TableColumn<Row, String> studentCol = new TableColumn<>("Students");
+                                    studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
+                                    table.getColumns().add(studentCol);
 
-                            ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
-                            for (int i = 0 ; i < numExpectations ; i++) {
-                            TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
-                            cols.add(col);
-                            final int colIndex = i ;
-                            col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
-                            table.getColumns().add(cols.get(i));
+                                        ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
+                                        for (int i = 0 ; i < numExpectations ; i++) {
+                                        TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
+                                        cols.add(col);
+                                        final int colIndex = i ;
+                                        col.setCellValueFactory(cellData -> cellData.getValue().expectationProperty(colIndex));
+                                        table.getColumns().add(cols.get(i));
+                                        } 
+
+                                            ObservableList<Row> rows = FXCollections.observableArrayList();
+                                            for(int i = 0; i < selectedClass.getStudents().size(); i++){
+                                                rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
+                                            }
+                                            table.setItems(rows);
+                                            gradingLayout.setTopAnchor(table, 0d);
+                                            gradingLayout.getChildren().addAll(table, gradeList, setMarkButton);
                             
-                        }
-
-                        ObservableList<Row> rows = FXCollections.observableArrayList();
-                        for(int i = 0; i < selectedClass.getStudents().size(); i++){
-                            rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
-                        }
-                            table.setItems(rows);
-                            gradingLayout.setTopAnchor(table, 0d);
-                            gradingLayout.getChildren().addAll(table,gradeList,setMarkButton);
-                
                             setMarkButton.setOnAction(e -> {
                                 TablePosition cell = table.getFocusModel().getFocusedCell();
                                 String val = gradeList.getValue();
                                 if(cell.getColumn() > 0 && val != null){
                                     table.getItems().get(cell.getRow()).setExpectation(val, cell.getColumn()-1);
-                                    io.storeInfo(filePath, selectedClass.getName(), "Level" + val, cols.getNewValue());
-                                    ((Rubric) cell.getTableView().getItems().get(
-                                        cols.getTablePosition().getRow())
-                                    ).setLvlr(cols.getNewValue());
-                                    System.out.println(val);
                                 }
                             });
                         }
