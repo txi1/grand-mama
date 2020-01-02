@@ -24,6 +24,11 @@ ICS4U.studentName.LET'S GO
 ICS4U.assignment.Quiz 3
 ICS4U.A2assignment.Quiz 3
 ICS4U.A3assignment.Quiz 3
+<<<<<<< HEAD
 ICS4U.Testing123Taylor XiA1.4+
 ICS4U.Testing123LET'S GOA1.4++
 >>>>>>> fd932b26a007674aa9e40759c1af1eca9a3bc97a
+=======
+ICS4U.Testing123Taylor XiA1.3+/4-
+ICS4U.Testing123LET'S GOA1.4+
+>>>>>>> 8a999be69d2fb8d4ac272549e2d793f3af629b35
