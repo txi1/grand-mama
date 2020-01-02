@@ -679,6 +679,24 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                             table.setItems(rows);
                                             gradingLayout.setTopAnchor(table, 0d);
                                             gradingLayout.getChildren().addAll(table, gradeList, setMarkButton);
+
+                                            for(int i = 0; i < rows.size(); i++){
+                                                String currentStudent = rows.get(i).getStudent();
+                                                try{
+                                                    for(int j = 0; j < cols.size(); j++){
+                                                                io.openInputFile(filePath);
+                                                                String expName = cols.get(j).getText();
+                                                                String line = "";
+                                                                while((line = io.readLine()) != null){
+                                                                    String mark = getValue(line, selectedAssignment.getName() +currentStudent +expName, selectedClass.getName());
+                                                                    if(mark == "invalid") continue;
+                                                                        rows.get(i).setExpectation(mark, j);
+                                                            }
+                                                            io.closeInputFile();
+                                                        }
+                                                    }catch(IOException e){
+                                                }
+                                            }
                             
                             setMarkButton.setOnAction(e -> {
                                 TablePosition cell = table.getFocusModel().getFocusedCell();
