@@ -12,6 +12,7 @@ import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -50,9 +51,6 @@ public class Main extends Application{
     Assignment selectedAssignment;
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
-    //String selectedClass;
-    //Classroom selectedClass;
-    //Scene previousScene;
     Classroom selectedClass;
     TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
@@ -180,10 +178,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     }
     
 }
-  
-        
         ListView<Student> listOfStudents = new ListView<>(students);
-        
+        listOfStudents.setPrefWidth(500);
+        listOfStudents.setPrefHeight(500);
+
         Label label1 = new Label("Select Classroom");
         menuLayout.setConstraints(label1, 1, 1);
 
@@ -286,7 +284,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
             manageMenu.getItems().add(createExpectation);
-            
             manageMenu.getItems().add(new SeparatorMenuItem());
             manageMenu.getItems().add(new MenuItem("Manage Students..."));
             manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
@@ -325,7 +322,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             //Layout configuration for the classroom menu and adding the elements to the menu
             BorderPane topLayer = new BorderPane();
-            topLayer.setPadding(new Insets(0,10,10,10));
+            topLayer.setPadding(new Insets(10,10,10,10));
             topLayer.setTop(menuBar);
             
             Button deleteStudent = new Button("Delete Student");
@@ -339,13 +336,17 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             AnchorPane studentLayout = new AnchorPane();
             studentLayout.setPadding(new Insets(0,10,10,10));
-            studentLayout.setTopAnchor(listOfStudents, 0d);
-            studentLayout.setRightAnchor(deleteStudent, 0d);
+            studentLayout.setTopAnchor(listOfStudents, 5d);
+            studentLayout.setLeftAnchor(listOfStudents, 10d);
+            studentLayout.setRightAnchor(listOfStudents, 10d);
+            studentLayout.setBottomAnchor(deleteStudent, 00d);
+            studentLayout.setLeftAnchor(deleteStudent, 10d);
+            studentLayout.setRightAnchor(deleteStudent, 10d);
             studentLayout.getChildren().addAll(listOfStudents, deleteStudent);
             
             studentMenu = new Scene(studentLayout, 400, 300);
             
-            classMenu = new Scene(topLayer, 400, 300);
+            classMenu = new Scene(topLayer, 1000, 650);
             
             AnchorPane classLayout = new AnchorPane();
             classLayout.setPadding(new Insets(10,10,10,10));
@@ -355,29 +356,28 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             topLayer.setCenter(classLayout);
 
             listOfStudents.setCellFactory(param -> new ListCell<Student>() {
-            
                 @Override
-            protected void updateItem(Student item, boolean empty) {
-            super.updateItem(item, empty);
+                protected void updateItem(Student item, boolean empty) {
+                super.updateItem(item, empty);
 
-            if (empty || item == null || item.getFullName() == null) {
-                setText(null);
-            } else {
-                    setText(item.getFullName());
+                if (empty || item == null || item.getFullName() == null) {
+                    setText(null);
+                } else {
+                        setText(item.getFullName());
+                    }
                 }
-            }
-        });
+            });
             
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
-    @Override
-    public void handle(MouseEvent event) {
-        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-           (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                @Override
+                public void handle(MouseEvent event) {
+                    if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
+                    (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
 
-           //your code here        
-         }    
-    }
-});
+                    //your code here        
+                    }    
+                }
+            });
             
             navStudent.setOnAction(e -> {
                 for(int i = 0; i < classroom.size(); i++){
@@ -582,19 +582,21 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             });
             
             ListView<Assignment> listOfAssignments = new ListView<>();
+            listOfAssignments.setPrefWidth(500);
+            listOfAssignments.setPrefHeight(500);
             listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
             
                 @Override
-            protected void updateItem(Assignment item, boolean empty) {
-            super.updateItem(item, empty);
+                protected void updateItem(Assignment item, boolean empty) {
+                super.updateItem(item, empty);
 
-            if (empty || item == null || item.getName() == null) {
-                setText(null);
-            } else {
-                    setText(item.getName());
+                if (empty || item == null || item.getName() == null) {
+                    setText(null);
+                } else {
+                        setText(item.getName());
+                    }
                 }
-            }
-        });
+            });
            
             Button deleteAssignment = new Button("Delete Assignment");
             deleteAssignment.setOnAction(e -> { 
@@ -607,8 +609,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
            
             AnchorPane assignmentLayout = new AnchorPane();
             assignmentLayout.setPadding(new Insets(0,10,10,10));
-            assignmentLayout.setTopAnchor(listOfAssignments, 0d);
-            assignmentLayout.setRightAnchor(deleteAssignment, 0d);
+            assignmentLayout.setTopAnchor(listOfAssignments, 5d);
+            assignmentLayout.setLeftAnchor(listOfAssignments, 10d);
+            assignmentLayout.setRightAnchor(listOfAssignments, 10d);
+            assignmentLayout.setBottomAnchor(deleteAssignment, 0d);
+            assignmentLayout.setLeftAnchor(deleteAssignment, 10d);
+            assignmentLayout.setRightAnchor(deleteAssignment, 10d);
             assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
          
             navAssignments.setOnAction(e -> {
@@ -623,18 +629,14 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
 
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
-
             Button setMarkButton = new Button("Set this mark");
             ChoiceBox<String> gradeList = new ChoiceBox();
             gradeList.getItems().addAll("R", "1-", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "3+/4-", "4-", "4-/4",
                     "4", "4/4+", "4+", "4++");
-            
             gradingLayout.setTopAnchor(setMarkButton, 70d);
             gradingLayout.setRightAnchor(setMarkButton, 10d);
-            
             gradingLayout.setTopAnchor(gradeList, 40d);
-            gradingLayout.setRightAnchor(gradeList, 10d);
-            
+            gradingLayout.setRightAnchor(gradeList, 20d);
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
@@ -658,6 +660,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                 System.out.println(numExpectations);
 
                                     TableView<Row> table = new TableView<>();
+                                    table.setPrefWidth(600);
+                                    table.setPrefHeight(550);
                                     table.getSelectionModel().setCellSelectionEnabled(true);
                                     TableColumn<Row, String> studentCol = new TableColumn<>("Students");
                                     studentCol.setCellValueFactory(cellData -> cellData.getValue().studentProperty());
@@ -677,7 +681,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                                 rows.add(new Row(selectedClass.getStudents().get(i).getFullName(), numExpectations));
                                             }
                                             table.setItems(rows);
-                                            gradingLayout.setTopAnchor(table, 0d);
+                                            gradingLayout.setTopAnchor(table, 10d);
+                                            gradingLayout.setBottomAnchor(table, 10d);
+                                            gradingLayout.setLeftAnchor(table, 10d);
                                             gradingLayout.getChildren().addAll(table, gradeList, setMarkButton);
 
                                             for(int i = 0; i < rows.size(); i++){
@@ -715,7 +721,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
-        mainWindow.setTitle("Main Menu");
+        mainWindow.setTitle("GrandMama");
         mainWindow.show();
     }
     
