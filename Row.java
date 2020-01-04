@@ -9,6 +9,14 @@ public class Row {
     private final List<StringProperty> otherCols = new ArrayList<>();
     private String ID;
 
+    public Row(String s, int numCols) {
+        setFirstCol(s);
+        for (int i = 0 ; i < numCols ; i++) {
+            otherCols.add(new SimpleStringProperty());
+        }
+        ID = null;  
+    }
+
     public Row(String s, int numCols, String opID) {
         setFirstCol(s);
         for (int i = 0 ; i < numCols ; i++) {

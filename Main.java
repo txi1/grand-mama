@@ -397,11 +397,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             HBox hbox = new HBox();
             hbox.setPadding(new Insets(10, 10, 10, 10));
             hbox.setSpacing(10);
-            hbox.getChildren().addAll(addButton, killButton);
-            
-                rubric = new TableView<>();
+            hbox.getChildren().addAll(addButton, killButton);    
 
-            
                         menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
                             mainWindow.setScene(classMenu);
@@ -411,9 +408,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             classroomLabel.setText(selectedClass.getName());
                             });
 
+                            rubric = new TableView<>();   
+
+                            ChoiceBox<String> assignmentList = new ChoiceBox();
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton);
+            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList);
             //AnchorPane sets the specific locations of each child in the rubric layout
             AnchorPane.setTopAnchor(rubric, 10d);
             AnchorPane.setBottomAnchor(hbox, 10d);
@@ -424,9 +424,32 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             rubric.setEditable(true);
             //Lines below state which columns can be edited
 
-                
+            ChoiceBox<String> gradeList = new ChoiceBox();
+            gradeList.getItems().addAll("R", "1-", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "3+/4-", "4-", "4-/4",
+                    "4", "4/4+", "4+", "4++");
+
+             
+            rubric.getSelectionModel().setCellSelectionEnabled(true);
+                    TableColumn<Row, String> studentCol = new TableColumn<>("Expectations");
+                    studentCol.setCellValueFactory(cellData -> cellData.getValue().firstColProperty());
+                    rubric.getColumns().add(studentCol);
+                    ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
+                    for (int i = 0 ; i < gradeList.getItems().size(); i++) {
+                    TableColumn<Row, String> col = new TableColumn<>(gradeList.getItems().get(i));
+                    cols.add(col);
+                    final int colIndex = i ;
+                    col.setCellValueFactory(cellData -> cellData.getValue().colProperty(colIndex));
+                    rubric.getColumns().add(cols.get(i));
+                    }
+
+
+
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
+           
+            AnchorPane.setBottomAnchor(assignmentList, 20d);
+            AnchorPane.setLeftAnchor(assignmentList, 200d);
+                    System.out.println(cols.size());
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -472,9 +495,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             gradingLayout.setPadding(new Insets(0,10,10,10));
 
             Button setMarkButton = new Button("Set this mark");
-            ChoiceBox<String> gradeList = new ChoiceBox();
-            gradeList.getItems().addAll("R", "1-", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "3+/4-", "4-", "4-/4",
-                    "4", "4/4+", "4+", "4++");
+            
             
             gradingLayout.setTopAnchor(setMarkButton, 70d);
             gradingLayout.setRightAnchor(setMarkButton, 10d);
@@ -569,13 +590,13 @@ table.setItems(rows);
     //Method that's used in order to add expectations to the rubric
     public void addButtonClicked(){
         IO io = new IO();
-        Rubric addColumn = new Rubric();
+        Row addColumn = new Row("", 17);
         Expectation temp = createExpectationWindow.display();
                 if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
                     for(int i = 0; i < classroom.size(); i++){
                         if(selectedClass.equals(classroom.get(i))) {
                             classroom.get(i).addExpectation(temp);
-                            addColumn.setExpectation(temp.getExpectation());
+                            addColumn.setFirstCol(temp.getExpectation());
                             rubric.getItems().add(addColumn);
                             io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
                         }
@@ -586,10 +607,10 @@ table.setItems(rows);
     //Method that's used to delete expectations in the rubric
     public void killButtonClicked(){
         IO io = new IO();
-        ObservableList<Rubric> expectationSelected, allExpectation;
+        ObservableList<Row> expectationSelected, allExpectation;
         allExpectation = rubric.getItems();
         expectationSelected = rubric.getSelectionModel().getSelectedItems();
-        io.deleteLine(filePath, selectedClass.getName() +".expectation." +expectationSelected.get(0).getExpectation());
+        io.deleteLine(filePath, selectedClass.getName() +".expectation." +expectationSelected.get(0).getFirstCol());
         expectationSelected.forEach(allExpectation::remove);
         
     }
@@ -615,9 +636,9 @@ table.setItems(rows);
     }
 
     //Method that manually adds each item into the Rubric table(Will change later)
-    public ObservableList<Rubric> getRubricInfo(String s){
+    public ObservableList<Row> getRubricInfo(String s){
         
-        ObservableList<Rubric> rubricInfo = FXCollections.observableArrayList();
+        ObservableList<Row> rubricInfo = FXCollections.observableArrayList();
        
         //Row 1 in the rubric
         IO io = new IO();
@@ -632,34 +653,13 @@ table.setItems(rows);
                     if(line.charAt(i) != ':') ID += line.charAt(i);
                             else break;
                 }
-                rubricInfo.addAll(new Rubric(line, "",
-                    "", "", "", 
-                    "", "", "", 
-                    "", "", "", 
-                    "", "", "", "", "", "", "", ID));
+                rubricInfo.addAll(new Row(line, 17));
             }
             io.closeInputFile();
             
         }catch(IOException e){
             System.out.println("Error");
         }
-        
-        try{
-            for(int i = 0; i < rubricInfo.size(); i++){
-                for(int j = 0; j < 18; j++){
-                io.openInputFile(filePath);
-            while((line = io.readLine()) != null){
-                 line = getValue(line, s+ rubricInfo.get(i).getExpectationID()+"lvlr", "unicornpotatollama");
-                 if(line.equals("invalid")) continue;
-                 rubricInfo.get(i).setLvlr(line);
-            } 
-            io.closeInputFile();
-            }
-        }
-        }catch(IOException e){
-            System.out.println("Error");
-        }
-
         
         return rubricInfo;
     }
