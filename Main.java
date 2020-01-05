@@ -29,6 +29,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseButton;
@@ -630,12 +631,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
+            setMarkButton.setPrefWidth(300);
+            setMarkButton.setPrefHeight(25);
             ChoiceBox<String> gradeList = new ChoiceBox();
+            gradeList.setPrefWidth(300);
+            gradeList.setTooltip(new Tooltip("Select a Grade to enter for a Student"));
             gradeList.getItems().addAll("R", "1-", "1", "1+", "2-", "2", "2+", "3-", "3", "3+", "3+/4-", "4-", "4-/4",
                     "4", "4/4+", "4+", "4++");
-            gradingLayout.setTopAnchor(setMarkButton, 70d);
-            gradingLayout.setRightAnchor(setMarkButton, 10d);
-            gradingLayout.setTopAnchor(gradeList, 40d);
+            gradingLayout.setTopAnchor(setMarkButton, 10d);
+            gradingLayout.setRightAnchor(setMarkButton, 20d);
+            gradingLayout.setTopAnchor(gradeList, 50d);
             gradingLayout.setRightAnchor(gradeList, 20d);
             
             backButton.setOnAction(e -> {
@@ -703,7 +708,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                                     }catch(IOException e){
                                                 }
                                             }
-                            
                             setMarkButton.setOnAction(e -> {
                                 TablePosition cell = table.getFocusModel().getFocusedCell();
                                 String val = gradeList.getValue();
