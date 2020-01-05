@@ -44,6 +44,7 @@ public class Main extends Application{
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<TableColumn<Row, String>> rubricCols;
+    String selectedItem = "";
     int count = 0;
     String selectedStudent;
     Assignment selectedAssignment;
@@ -446,8 +447,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     rubric.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            ObservableList<String> assignmentNames = FXCollections.observableArrayList();
                             String selectedRow = rubric.getFocusModel().getFocusedItem().getFirstCol();
+                            if(!selectedItem.equals(selectedRow)){
+                                selectedItem = selectedRow;
+                                ObservableList<String> assignmentNames = FXCollections.observableArrayList();
                             for(int i = 0; i < selectedClass.getAssignments().size(); i++){
                                 Assignment currAssignment = selectedClass.getAssignments().get(i);
                                 for(int j = 0; j < currAssignment.getExpectations().size();j++){
@@ -455,14 +458,26 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                         assignmentNames.add(currAssignment.getName());
                                     }
                                 }
+                                }
+                                assignmentList.setItems(assignmentNames);
                             }
-                            assignmentList.setItems(assignmentNames);
+                            
                         }
                     });
 
 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
             
+            Button rubricMark = new Button("Set Assignment");
+            rubricMark.setOnAction(e -> {
+                TablePosition cell = rubric.getFocusModel().getFocusedCell();
+                String val = gradeList.getValue();
+                int cellColumn = cell.getColumn();
+                Row selectedRow =  rubric.getItems().get(cell.getRow());
+                if(cell.getColumn() > 0 && val != null){
+            selectedRow.setCol(val, cellColumn-1);
+            }});
+
            
             AnchorPane.setBottomAnchor(assignmentList, 20d);
             AnchorPane.setLeftAnchor(assignmentList, 200d);
