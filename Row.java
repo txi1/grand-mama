@@ -25,7 +25,7 @@ public class Row {
         ID = opID;   
     }
 
-    public List<StringProperty> getExpectations() {
+    public List<StringProperty> getOtherCols() {
         return otherCols;
     }
 

@@ -415,7 +415,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             ChoiceBox<String> assignmentList = new ChoiceBox();
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList);
             //AnchorPane sets the specific locations of each child in the rubric layout
             AnchorPane.setTopAnchor(rubric, 10d);
             AnchorPane.setBottomAnchor(hbox, 10d);
@@ -471,16 +470,19 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             Button rubricMark = new Button("Set Assignment");
             rubricMark.setOnAction(e -> {
                 TablePosition cell = rubric.getFocusModel().getFocusedCell();
-                String val = gradeList.getValue();
+                String val = assignmentList.getValue();
                 int cellColumn = cell.getColumn();
                 Row selectedRow =  rubric.getItems().get(cell.getRow());
                 if(cell.getColumn() > 0 && val != null){
+                    io.storeInfo(filePath, selectedClass.getName(), selectedRow.getID() +selectedStudent +rubricCols.get(cellColumn-1).getText(), val);
+                    io.storeInfo(filePath, selectedClass.getName(), val +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
             selectedRow.setCol(val, cellColumn-1);
             }});
-
+            AnchorPane.setBottomAnchor(rubricMark, 20d);
+            AnchorPane.setRightAnchor(rubricMark, 300d);
            
             AnchorPane.setBottomAnchor(assignmentList, 20d);
-            AnchorPane.setLeftAnchor(assignmentList, 200d);
+            AnchorPane.setRightAnchor(assignmentList, 400d);
                     System.out.println(rubricCols.size());
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -493,6 +495,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             }
             });
+
+
+
+            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList, rubricMark);
             
             ListView<Assignment> listOfAssignments = new ListView<>();
             listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
@@ -580,6 +586,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         try{
         for(int j = 0; j < cols.size(); j++){
             io.openInputFile(filePath);
+            System.out.println(currentStudent);
             String expName = cols.get(j).getText();
             String line = "";
             while((line = io.readLine()) != null){
@@ -693,15 +700,16 @@ table.setItems(rows);
             System.out.println("Error");
         }
         for(int i = 0; i < rubricInfo.size(); i++){
-            String currentExp = rubricInfo.get(i).getFirstCol();
+            String currentExp = rubricInfo.get(i).getID();
             try{
-            for(int j = 0; j < colSize; j++){
+            for(int j = 0; j < rubricCols.size(); j++){
                 io.openInputFile(filePath);
-                String gradeName = rubricCols.get(j).getText();
+                System.out.println(currentExp);
+                String markName = rubricCols.get(j).getText();
                 while((line = io.readLine()) != null){
-                String mark = getValue(line, selectedStudent +currentExp +gradeName, selectedClass.getName());
-                if(mark == "invalid") continue;
-                    rubricInfo.get(i).setCol(mark, j);
+                String assignment = getValue(line, currentExp +selectedStudent +markName, selectedClass.getName());
+                if(assignment == "invalid") continue;
+                    rubricInfo.get(i).setCol(assignment, j);
             }
             io.closeInputFile();
         }
