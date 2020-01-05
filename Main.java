@@ -398,7 +398,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 rubricLayout.setPadding(new Insets(10,10,10,10));
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
-            rubricMenu = new Scene(rubricLayout, 1000, 500);
+            rubricMenu = new Scene(rubricLayout, 1500, 750);
+            
             
             Button MenuButton = new Button("Back to Class");
             MenuButton.setOnAction(e -> {
@@ -488,11 +489,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
-            HBox hbox = new HBox();
-            hbox.setPadding(new Insets(10, 10, 10, 10));
-            hbox.setSpacing(10);
-            hbox.getChildren().addAll(addButton, killButton);
-            
                 rubric = new TableView<>();
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
                         onemColumn, oneColumn, onepColumn,
@@ -512,13 +508,23 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
 
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton);
+            rubricLayout.getChildren().addAll(rubric, MenuButton, addButton, killButton);
             //AnchorPane sets the specific locations of each child in the rubric layout
             AnchorPane.setTopAnchor(rubric, 10d);
-            AnchorPane.setBottomAnchor(hbox, 10d);
-            AnchorPane.setLeftAnchor(hbox, 325d);
+            AnchorPane.setLeftAnchor(rubric, 5d);
+            AnchorPane.setRightAnchor(rubric, 5d);
+            //
+            AnchorPane.setBottomAnchor(addButton, 280d);
+            AnchorPane.setLeftAnchor(addButton, 500d);
+            AnchorPane.setRightAnchor(addButton, 500d);
+            //
+            AnchorPane.setBottomAnchor(killButton, 250d);
+            AnchorPane.setLeftAnchor(killButton, 450d);
+            AnchorPane.setRightAnchor(killButton, 450d);
+            //
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);
+            AnchorPane.setRightAnchor(MenuButton, 10d);
             //Line below is what makes the table editable
             rubric.setEditable(true);
             //Lines below state which columns can be edited
@@ -726,6 +732,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
         mainWindow.setTitle("GrandMama");
+        mainWindow.centerOnScreen();
         mainWindow.show();
     }
     
