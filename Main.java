@@ -43,6 +43,7 @@ public class Main extends Application{
     ObservableList<AnchorPane> layouts = FXCollections.observableArrayList();
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
+    ObservableList<TableColumn<Row, String>> rubricCols;
     int count = 0;
     String selectedStudent;
     Assignment selectedAssignment;
@@ -433,15 +434,31 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     TableColumn<Row, String> studentCol = new TableColumn<>("Expectations");
                     studentCol.setCellValueFactory(cellData -> cellData.getValue().firstColProperty());
                     rubric.getColumns().add(studentCol);
-                    ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
+                    rubricCols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < gradeList.getItems().size(); i++) {
                     TableColumn<Row, String> col = new TableColumn<>(gradeList.getItems().get(i));
-                    cols.add(col);
+                    rubricCols.add(col);
                     final int colIndex = i ;
                     col.setCellValueFactory(cellData -> cellData.getValue().colProperty(colIndex));
-                    rubric.getColumns().add(cols.get(i));
+                    rubric.getColumns().add(rubricCols.get(i));
                     }
 
+                    rubric.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            ObservableList<String> assignmentNames = FXCollections.observableArrayList();
+                            String selectedRow = rubric.getFocusModel().getFocusedItem().getFirstCol();
+                            for(int i = 0; i < selectedClass.getAssignments().size(); i++){
+                                Assignment currAssignment = selectedClass.getAssignments().get(i);
+                                for(int j = 0; j < currAssignment.getExpectations().size();j++){
+                                    if(currAssignment.getExpectations().get(j).getExpectation().equals(selectedRow)){
+                                        assignmentNames.add(currAssignment.getName());
+                                    }
+                                }
+                            }
+                            assignmentList.setItems(assignmentNames);
+                        }
+                    });
 
 
             killButton.disableProperty().bind(Bindings.isEmpty(rubric.getSelectionModel().getSelectedItems()));
@@ -449,7 +466,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
            
             AnchorPane.setBottomAnchor(assignmentList, 20d);
             AnchorPane.setLeftAnchor(assignmentList, 200d);
-                    System.out.println(cols.size());
+                    System.out.println(rubricCols.size());
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -639,7 +656,7 @@ table.setItems(rows);
     public ObservableList<Row> getRubricInfo(String s){
         
         ObservableList<Row> rubricInfo = FXCollections.observableArrayList();
-       
+        int colSize = rubricCols.size();
         //Row 1 in the rubric
         IO io = new IO();
         String line = "";
@@ -653,12 +670,29 @@ table.setItems(rows);
                     if(line.charAt(i) != ':') ID += line.charAt(i);
                             else break;
                 }
-                rubricInfo.addAll(new Row(line, 17));
+                rubricInfo.addAll(new Row(line, colSize, ID));
             }
             io.closeInputFile();
             
         }catch(IOException e){
             System.out.println("Error");
+        }
+        for(int i = 0; i < rubricInfo.size(); i++){
+            String currentExp = rubricInfo.get(i).getFirstCol();
+            try{
+            for(int j = 0; j < colSize; j++){
+                io.openInputFile(filePath);
+                String gradeName = rubricCols.get(j).getText();
+                while((line = io.readLine()) != null){
+                String mark = getValue(line, selectedStudent +currentExp +gradeName, selectedClass.getName());
+                if(mark == "invalid") continue;
+                    rubricInfo.get(i).setCol(mark, j);
+            }
+            io.closeInputFile();
+        }
+        }catch(IOException e){
+    
+        }
         }
         
         return rubricInfo;

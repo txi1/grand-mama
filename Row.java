@@ -48,4 +48,8 @@ public class Row {
     public StringProperty colProperty(int index){
         return otherCols.get(index);
     }
+
+    public String getID(){
+        return ID;
+    }
 }
