@@ -43,7 +43,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
     
     Stage mainWindow;
-    Scene firstMenu, classMenu, studentMenu, rubricMenu, previousScene;
+    Scene firstMenu, classMenu, studentMenu, expectationMenu, rubricMenu, previousScene;
     ObservableList<AnchorPane> layouts = FXCollections.observableArrayList();
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
@@ -221,12 +221,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
 
-            menuLayout.setBottomAnchor(makeClass, 200d);
-            menuLayout.setLeftAnchor(makeClass, 415d);
+            menuLayout.setBottomAnchor(makeClass, 165d);
+            menuLayout.setLeftAnchor(makeClass, 295d);
             menuLayout.setBottomAnchor(deleteButton, 165d);
             menuLayout.setRightAnchor(deleteButton, 300d);
-            menuLayout.setBottomAnchor(button1, 165d);
-            menuLayout.setLeftAnchor(button1, 295d);
+            menuLayout.setBottomAnchor(button1, 200d);
+            menuLayout.setLeftAnchor(button1, 415d);
             menuLayout.setBottomAnchor(label1, 500d);
             menuLayout.setLeftAnchor(label1, 440d);
             menuLayout.setBottomAnchor(classList, 475d);
@@ -238,65 +238,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 1000, 800);
             
-            
             //Starting to create the items for the classroom menu
             Menu manageMenu = new Menu("_Classroom");
             Menu navigateMenu = new Menu("_Navigate");
-
-            //Adding the menu items
-            MenuItem createStudent = new MenuItem("Create New Student...");
-            createStudent.setOnAction(e -> {
-                Student temp = createStudentWindow.display();
-                if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(selectedClass.equals(classroom.get(i))) {
-                            classroom.get(i).addStudent(temp);
-                            io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
-                        }
-                    }
-                }
-            });
-            //Adding the new assignment button
-            manageMenu.getItems().add(createStudent);
-
-            MenuItem createAssignment = new MenuItem("Create New Assignment...");
-            createAssignment.setOnAction(e -> {
-                for(int i = 0; i < classroom.size(); i++){
-                if(classroom.get(i).equals(selectedClass)){
-                    createAssignmentWindow c = new createAssignmentWindow();
-                    Assignment temp = c.display(classroom.get(i));
-                if(!isEmpty(temp.getName())){
-                    classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
-                    io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
-                    for(int j = 0; j < temp.getExpectations().size(); j++){
-                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
-                            }
-                }
-            }
-            }});
-            //Adding the new expecation button
-            manageMenu.getItems().add(createAssignment);
-
-            MenuItem createExpectation = new MenuItem("Create New Expectation...");
-            createExpectation.setOnAction(e -> {
-                Expectation temp = createExpectationWindow.display();
-                if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
-                    for(int i = 0; i < classroom.size(); i++){
-                        if(selectedClass.equals(classroom.get(i))) {
-                            classroom.get(i).addExpectation(temp);
-                                io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
-                        }
-                    }
-                }
-            });
-            manageMenu.getItems().add(createExpectation);
-            manageMenu.getItems().add(new SeparatorMenuItem());
-            manageMenu.getItems().add(new MenuItem("Manage Students..."));
-            manageMenu.getItems().add(new MenuItem("Manage Assignments..."));
-            manageMenu.getItems().add(new MenuItem("Manage Expectations..."));
-            manageMenu.getItems().add(new SeparatorMenuItem());
-            manageMenu.getItems().add(new MenuItem("Manage Preferences..."));
-            manageMenu.getItems().add(new SeparatorMenuItem());
             
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
             returnMenuButton.setOnAction(e -> {
@@ -313,14 +257,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             MenuItem backButton = new MenuItem("Back");
            
             navigateMenu.getItems().add(backButton);
-            navigateMenu.getItems().add(new MenuItem("Forward"));
-            navigateMenu.getItems().add(new SeparatorMenuItem());
-            MenuItem navStudent = new MenuItem("Students");
-            navigateMenu.getItems().add(navStudent);
-            MenuItem navAssignments = new MenuItem("Assignments");
-            navigateMenu.getItems().add(navAssignments);
-            navigateMenu.getItems().add(new SeparatorMenuItem());
-            navigateMenu.getItems().add(new MenuItem("Expectations"));
 
             //The menu bar
             MenuBar menuBar = new MenuBar();
@@ -354,10 +290,143 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             classMenu = new Scene(topLayer, 1000, 650);
             
+            expectationMenu = new Scene(topLayer, 1000, 800);
+            
+            ListView<Assignment> listOfAssignments = new ListView<>();
+            listOfAssignments.setPrefWidth(500);
+            listOfAssignments.setPrefHeight(500);
+            listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
+            
+                @Override
+                protected void updateItem(Assignment item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getName() == null) {
+                    setText(null);
+                } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+            
+            Button deleteAssignment = new Button("Delete Assignment");
+            deleteAssignment.setOnAction(e -> { 
+                ObservableList<Assignment> assignmentSelected, allAssignments;
+                allAssignments = listOfAssignments.getItems();
+                assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() + ".assignment." + assignmentSelected.get(0).getName());
+                assignmentSelected.forEach(allAssignments::remove);
+            });
+            
+            AnchorPane assignmentLayout = new AnchorPane();
+            assignmentLayout.setPadding(new Insets(0,10,10,10));
+            assignmentLayout.setTopAnchor(listOfAssignments, 5d);
+            assignmentLayout.setLeftAnchor(listOfAssignments, 10d);
+            assignmentLayout.setRightAnchor(listOfAssignments, 10d);
+            assignmentLayout.setBottomAnchor(deleteAssignment, 0d);
+            assignmentLayout.setLeftAnchor(deleteAssignment, 10d);
+            assignmentLayout.setRightAnchor(deleteAssignment, 10d);
+            assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
+            
+            ListView<Student> listOfExpectations = new ListView<>(students);
+            listOfExpectations.setPrefWidth(500);
+            listOfExpectations.setPrefHeight(500);
+            
+            AnchorPane expectationLayout = new AnchorPane();
+            expectationLayout.setPadding(new Insets(0, 10, 10, 10));
+            
+            Button createStudent = new Button("Create Student");
+                createStudent.setOnAction(e -> {
+                    Student temp = createStudentWindow.display();
+                    if(!isEmpty(temp.getFirstName()) && !isEmpty(temp.getLastName())){
+                        for(int i = 0; i < classroom.size(); i++){
+                            if(selectedClass.equals(classroom.get(i))) {
+                                classroom.get(i).addStudent(temp);
+                                io.storeInfo(filePath, classroom.get(i).getName(), "studentName", temp.getFullName());
+                            }
+                        }
+                    }
+                });
+            Button createAssignment = new Button("Create Assignment");
+                createAssignment.setOnAction(e -> {
+                    for(int i = 0; i < classroom.size(); i++){
+                    if(classroom.get(i).equals(selectedClass)){
+                        createAssignmentWindow c = new createAssignmentWindow();
+                        Assignment temp = c.display(classroom.get(i));
+                    if(!isEmpty(temp.getName())){
+                        classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                        io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
+                        for(int j = 0; j < temp.getExpectations().size(); j++){
+                        io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
+                                }
+                    }
+                }
+                }});
+            Button createExpectation = new Button("Create Expectation");
+                createExpectation.setOnAction(e -> {
+                    Expectation temp = createExpectationWindow.display();
+                    if(!isEmpty(temp.getDetails()) && !isEmpty(temp.getSection())){
+                        for(int i = 0; i < classroom.size(); i++){
+                            if(selectedClass.equals(classroom.get(i))) {
+                                classroom.get(i).addExpectation(temp);
+                                    io.storeInfo(filePath, classroom.get(i).getName(), "expectation", temp.getExpectation());
+                            }
+                        }
+                    }
+                });
+            Button navStudent = new Button("Students");
+                navStudent.setOnAction(e -> {
+                    for(int i = 0; i < classroom.size(); i++){
+                        if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
+                    }
+                    previousScene = classMenu;
+                    topLayer.setCenter(studentLayout);
+                    backButton.setDisable(false);
+                });
+            Button navAssignments = new Button("Assignments");
+                navAssignments.setOnAction(e -> {
+                    for(int i = 0; i < classroom.size(); i++){
+                            if(classroom.get(i).equals(selectedClass))listOfAssignments.setItems(classroom.get(i).getAssignments());
+                        }
+                    previousScene = classMenu;
+                    topLayer.setCenter(assignmentLayout);
+                    backButton.setDisable(false);
+                });
+            Button navExpectations = new Button("Expectations");
+                navExpectations.setOnAction(e -> {
+                    for(int i = 0; i < classroom.size(); i++){
+                            if(classroom.get(i).equals(selectedClass))listOfExpectations.setItems(classroom.get(i).getExpectations());
+                        }
+                    previousScene = classMenu;
+                    topLayer.setCenter(expectationLayout);
+                    backButton.setDisable(false);
+                });
+            
             AnchorPane classLayout = new AnchorPane();
             classLayout.setPadding(new Insets(10,10,10,10));
+            //
             classLayout.setTopAnchor(classroomLabel, 30d);
-            classLayout.getChildren().addAll(classroomLabel);
+            classLayout.setLeftAnchor(classroomLabel, 450d);
+            //
+            classLayout.setLeftAnchor(createStudent, 100d);
+            classLayout.setTopAnchor(createStudent, 100d);
+            //
+            classLayout.setLeftAnchor(createExpectation, 400d);
+            classLayout.setTopAnchor(createExpectation, 100d);
+            //
+            classLayout.setLeftAnchor(createAssignment, 700d);
+            classLayout.setTopAnchor(createAssignment, 100d);
+            //
+            classLayout.setLeftAnchor(navStudent, 100d);
+            classLayout.setBottomAnchor(navStudent, 100d);
+            //
+            classLayout.setLeftAnchor(navAssignments, 400d);
+            classLayout.setBottomAnchor(navAssignments, 100d);
+            //
+            classLayout.setLeftAnchor(navExpectations, 700d);
+            classLayout.setBottomAnchor(navExpectations, 100d);
+            //
+            classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments, navExpectations);
             
             topLayer.setCenter(classLayout);
 
@@ -385,32 +454,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
             
-            navStudent.setOnAction(e -> {
-                for(int i = 0; i < classroom.size(); i++){
-                    if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
-                }
-                previousScene = classMenu;
-                topLayer.setCenter(studentLayout);
-                backButton.setDisable(false);
-                navStudent.setDisable(true);
-                navAssignments.setDisable(false);
-            });
             /*The layout type that will be used in order to have the rubric 
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
             */
             AnchorPane rubricLayout = new AnchorPane();
-                rubricLayout.setPadding(new Insets(10,10,10,10));
+            rubricLayout.setPadding(new Insets(10,10,10,10));
             //Establishes the scene parameters that allow for the rubricMenu
             //scene to exist
             rubricMenu = new Scene(rubricLayout, 1500, 750);
-            
             
             Button MenuButton = new Button("Back to Class");
             MenuButton.setOnAction(e -> {
                 mainWindow.setScene(classMenu);
             });
-            
             
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
@@ -592,52 +649,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
             
-            ListView<Assignment> listOfAssignments = new ListView<>();
-            listOfAssignments.setPrefWidth(500);
-            listOfAssignments.setPrefHeight(500);
-            listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
-            
-                @Override
-                protected void updateItem(Assignment item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null || item.getName() == null) {
-                    setText(null);
-                } else {
-                        setText(item.getName());
-                    }
-                }
-            });
-           
-            Button deleteAssignment = new Button("Delete Assignment");
-            deleteAssignment.setOnAction(e -> { 
-                ObservableList<Assignment> assignmentSelected, allAssignments;
-                allAssignments = listOfAssignments.getItems();
-                assignmentSelected = listOfAssignments.getSelectionModel().getSelectedItems();
-                io.deleteLine(filePath, selectedClass.getName() + ".assignment." + assignmentSelected.get(0).getName());
-                assignmentSelected.forEach(allAssignments::remove);
-            });
-           
-            AnchorPane assignmentLayout = new AnchorPane();
-            assignmentLayout.setPadding(new Insets(0,10,10,10));
-            assignmentLayout.setTopAnchor(listOfAssignments, 5d);
-            assignmentLayout.setLeftAnchor(listOfAssignments, 10d);
-            assignmentLayout.setRightAnchor(listOfAssignments, 10d);
-            assignmentLayout.setBottomAnchor(deleteAssignment, 0d);
-            assignmentLayout.setLeftAnchor(deleteAssignment, 10d);
-            assignmentLayout.setRightAnchor(deleteAssignment, 10d);
-            assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
-         
-            navAssignments.setOnAction(e -> {
-            topLayer.setCenter(assignmentLayout);
-            for(int i = 0; i < classroom.size(); i++){
-                    if(classroom.get(i).equals(selectedClass)) listOfAssignments.setItems(classroom.get(i).getAssignments());
-                }
-            navAssignments.setDisable(true);
-            backButton.setDisable(false);
-            navStudent.setDisable(false);
-            });
-
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
@@ -655,8 +666,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
-                navStudent.setDisable(false);
-                navAssignments.setDisable(false);
                 backButton.setDisable(true);
             });
             
