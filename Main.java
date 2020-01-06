@@ -72,13 +72,12 @@ public class Main extends Application{
             });
         
         //Setup for intro menu
-            //GridPane code that will setup the Choicebox
+            //AnchorPane code that will setup the Choicebox
             //in order to choose which classroom to enter
                 AnchorPane menuLayout = new AnchorPane();
                 menuLayout.setPadding(new Insets(10,10,10,10));
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
-        //menuLayout.setConstraints(classList, 1, 0);
         
 
         Label classroomLabel = new Label();
@@ -182,7 +181,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         listOfStudents.setPrefHeight(500);
 
         Label label1 = new Label("Select Classroom");
-        //menuLayout.setConstraints(label1, 1, 1);
 
         Button button1 = new Button("Enter this classroom");
         
@@ -190,7 +188,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             button1.setDisable(true);
 
         Button deleteButton = new Button("Delete this classroom");
-        //menuLayout.setConstraints(deleteButton, 20, 60);
         deleteButton.setOnAction(e -> {
             io.completeDestruction(filePath, classList.getValue().getName());
             for(int i = 0; i < classroom.size(); i++){
@@ -206,7 +203,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             deleteButton.setDisable(true);
 
         Button makeClass = new Button("Make a new Classroom");
-        //menuLayout.setConstraints(makeClass, 15, 50);
         makeClass.setOnAction(e -> {
             String temp = textWindow.display("Class","Classroom Creation");
             if(!isEmpty(temp)){
@@ -505,7 +501,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         threemColumn, threeColumn, threepColumn,
                         threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
-                        //menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
                             mainWindow.setScene(classMenu);
                             topLayer.setCenter(classLayout);
