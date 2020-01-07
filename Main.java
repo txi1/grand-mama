@@ -614,6 +614,7 @@ table.setItems(rows);
         if(cell.getColumn() > 0 && val != null){
             selectedRow.setCol(val, cellColumn-1);
             io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getFirstCol() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
+            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +val, selectedAssignment.getName());
         }
     });
                 }

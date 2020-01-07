@@ -15,7 +15,5 @@ ICS4U.assignment.Quiz 3
 ICS4U.A2assignment.Quiz 3
 ICS4U.A3assignment.Quiz 3
 ICS4U.expectation.B3: It's working
-ICS4U.assignment.Quiz 300
-ICS4U.A1assignment.Quiz 300
-ICS4U.A1Taylor Xi4++.Testing123
-ICS4U.Testing123Taylor XiA1.4++
+ICS4U.Testing123Taylor XiA1.4+
+ICS4U.A1Taylor Xi4+.Testing123
