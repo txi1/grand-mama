@@ -447,17 +447,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
             
-            listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-                    (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
-
-                    //your code here        
-                    }    
-                }
-            });
-            
             /*The layout type that will be used in order to have the rubric 
             displayed along with other features(Such as sidebars) that allow for
             a complete rubric to be created
