@@ -43,7 +43,7 @@ import javafx.stage.Stage;
 public class Main extends Application{
     
     Stage mainWindow;
-    Scene firstMenu, classMenu, studentMenu, expectationMenu, rubricMenu, previousScene;
+    Scene firstMenu, classMenu, studentMenu, rubricMenu, previousScene;
     ObservableList<AnchorPane> layouts = FXCollections.observableArrayList();
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
@@ -53,7 +53,11 @@ public class Main extends Application{
     TableView<Rubric> rubric;
     String filePath = "Classroom Information.txt";
     Classroom selectedClass;
-    TextField expectationInput, lvlrInput, lvl1mInput, lvl1Input, lvl1pInput, lvl2mInput, lvl2Input, lvl2pInput, lvl3mInput, lvl3Input, lvl3pInput, lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
+    TextField expectationInput, lvlrInput, 
+            lvl1mInput, lvl1Input, lvl1pInput, 
+            lvl2mInput, lvl2Input, lvl2pInput, 
+            lvl3mInput, lvl3Input, lvl3pInput, 
+            lvl34Input, lvl4mInput, lvl4smInput, lvl4Input, lvl4spInput, lvl4pInput, lvl4ppInput;
     public static void main(String[] args) {
         launch(args);
     }
@@ -290,8 +294,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             classMenu = new Scene(topLayer, 1000, 650);
             
-            expectationMenu = new Scene(topLayer, 1000, 800);
-            
             ListView<Assignment> listOfAssignments = new ListView<>();
             listOfAssignments.setPrefWidth(500);
             listOfAssignments.setPrefHeight(500);
@@ -328,12 +330,17 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             assignmentLayout.setRightAnchor(deleteAssignment, 10d);
             assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
             
-            ListView<Student> listOfExpectations = new ListView<>(students);
+            ListView<Assignment> listOfExpectations = new ListView<>();
             listOfExpectations.setPrefWidth(500);
             listOfExpectations.setPrefHeight(500);
             
+            Button deleteExpectation = new Button("Delete Expectation");
+            
             AnchorPane expectationLayout = new AnchorPane();
             expectationLayout.setPadding(new Insets(0, 10, 10, 10));
+            expectationLayout.setBottomAnchor(deleteExpectation, 20d);
+            expectationLayout.setTopAnchor(listOfExpectations, 10d);
+            expectationLayout.getChildren().addAll(deleteExpectation, listOfExpectations);
             
             Button createStudent = new Button("Create Student");
                 createStudent.setOnAction(e -> {
@@ -394,9 +401,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 });
             Button navExpectations = new Button("Expectations");
                 navExpectations.setOnAction(e -> {
-                    for(int i = 0; i < classroom.size(); i++){
-                            if(classroom.get(i).equals(selectedClass))listOfExpectations.setItems(classroom.get(i).getExpectations());
-                        }
                     previousScene = classMenu;
                     topLayer.setCenter(expectationLayout);
                     backButton.setDisable(false);
@@ -505,7 +509,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 TableColumn<Rubric, String> threemColumn = new TableColumn<>("3-");
                 threemColumn.setMinWidth(50);
                 threemColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3m"));
-            //3 Column that will show the grades that student got during the duration of the course
+            //3 Column that will show the grades that student got expectationLayoutduring the duration of the course
                 TableColumn<Rubric, String> threeColumn = new TableColumn<>("3");
                 threeColumn.setMinWidth(50);
                 threeColumn.setCellValueFactory(new PropertyValueFactory<>("lvl3"));
