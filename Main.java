@@ -629,8 +629,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-                        (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                    if (event.getClickCount() == 2) {
                             if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                                 mainWindow.setScene(rubricMenu);
                                 selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
@@ -665,9 +664,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-
-                        if(event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 &&
-                        (event.getTarget() instanceof LabeledText || ((GridPane) event.getTarget()).getChildren().size() > 0)) {
+                        if (event.getClickCount() == 2) {
                             if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
                             topLayer.setCenter(gradingLayout);
                             selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
