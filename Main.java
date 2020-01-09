@@ -185,6 +185,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         listOfStudents.setPrefHeight(500);
 
         Label label1 = new Label("Select Classroom");
+        label1.getStyleClass().add("label-start-menu");
+        label1.setId("bold-label");
 
         Button button1 = new Button("Enter this classroom");
         
@@ -225,14 +227,15 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
 
+            menuLayout.setBottomAnchor(label1, 550d);
+            menuLayout.setLeftAnchor(label1, 400d);
             menuLayout.setBottomAnchor(makeClass, 165d);
             menuLayout.setLeftAnchor(makeClass, 295d);
             menuLayout.setBottomAnchor(deleteButton, 165d);
             menuLayout.setRightAnchor(deleteButton, 300d);
             menuLayout.setBottomAnchor(button1, 200d);
-            menuLayout.setLeftAnchor(button1, 415d);
-            menuLayout.setBottomAnchor(label1, 500d);
-            menuLayout.setLeftAnchor(label1, 440d);
+            menuLayout.setLeftAnchor(button1, 400d);
+            menuLayout.setRightAnchor(button1, 400d);
             menuLayout.setBottomAnchor(classList, 475d);
             menuLayout.setLeftAnchor(classList, 450d);
 
@@ -241,6 +244,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 1000, 800);
+            firstMenu.getStylesheets().add("mainMenuVisual.css");
             
             //Starting to create the items for the classroom menu
             Menu manageMenu = new Menu("_Classroom");
@@ -297,19 +301,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             ListView<Assignment> listOfAssignments = new ListView<>();
             listOfAssignments.setPrefWidth(500);
             listOfAssignments.setPrefHeight(500);
-            listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
             
-                @Override
-                protected void updateItem(Assignment item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null || item.getName() == null) {
-                    setText(null);
-                } else {
-                        setText(item.getName());
-                    }
-                }
-            });
             
             Button deleteAssignment = new Button("Delete Assignment");
             deleteAssignment.setOnAction(e -> { 
@@ -401,6 +393,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 });
             Button navExpectations = new Button("Expectations");
                 navExpectations.setOnAction(e -> {
+                    
                     previousScene = classMenu;
                     topLayer.setCenter(expectationLayout);
                     backButton.setDisable(false);
@@ -434,6 +427,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             topLayer.setCenter(classLayout);
 
+            listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
+            
+                @Override
+                protected void updateItem(Assignment item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getName() == null) {
+                    setText(null);
+                } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+            
             listOfStudents.setCellFactory(param -> new ListCell<Student>() {
                 @Override
                 protected void updateItem(Student item, boolean empty) {
@@ -712,7 +719,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                                                     if(mark == "invalid") continue;
                                                                         rows.get(i).setExpectation(mark, j);
                                                             }
-                                                            io.closeInputFile();
                                                         }
                                                     }catch(IOException e){
                                                 }
@@ -822,7 +828,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             for(int i = 0; i < rubricInfo.size(); i++){
                 io.openInputFile(filePath);
             while((line = io.readLine()) != null){
-                 line = getValue(line, s+ rubricInfo.get(i).getExpectationID()+"lvlr", "unicornpotatollama");
+                 line = getValue(line, s+ rubricInfo.get(i).getExpectationID() + "lvlr", "unicornpotatollama");
                  if(line.equals("invalid")) continue;
                  rubricInfo.get(i).setLvlr(line);
             } 

@@ -1,4 +1,3 @@
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -6,8 +5,6 @@ public class Rubric {
     
     private StringProperty expectation;
     private String expectationID;
-
-    
     private String lvlr;
     private String lvl1m;
     private String lvl1;
