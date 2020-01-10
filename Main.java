@@ -82,9 +82,6 @@ public class Main extends Application{
                 menuLayout.setPadding(new Insets(10,10,10,10));
                 
         ChoiceBox<Classroom> classList = new ChoiceBox<>();
-        
-
-        Label classroomLabel = new Label();
 
         String line;
         int t = 0;
@@ -186,10 +183,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
 
         Label labelTitle = new Label("Select Classroom");
         labelTitle.getStyleClass().add("label-start-menu");
-        labelTitle.setId("bold-label");
+        
+        Label labeltrueTitle = new Label("PAPA");
+        labeltrueTitle.getStyleClass().add("label-title-menu");
 
         Button enterClassroom = new Button("Enter this classroom");
-        
             
         enterClassroom.setDisable(true);
 
@@ -227,9 +225,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
 
+            menuLayout.setTopAnchor(labeltrueTitle, 10d);
+            menuLayout.setRightAnchor(labeltrueTitle, 375d);
             //AnchorPane for setting the "Select Classroom" label
-            menuLayout.setTopAnchor(labelTitle, 200d);
-            menuLayout.setRightAnchor(labelTitle, 350d);
+            menuLayout.setTopAnchor(labelTitle, 250d);
+            menuLayout.setRightAnchor(labelTitle, 375d);
             //AnchorPane for setting the 'Classroom Selection Dropbox'
             menuLayout.setBottomAnchor(classList, 475d);
             menuLayout.setLeftAnchor(classList, 450d);
@@ -245,7 +245,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             menuLayout.setRightAnchor(deleteButton, 300d);
 
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, labelTitle, enterClassroom, deleteButton, makeClass);
+            menuLayout.getChildren().addAll(labeltrueTitle, labelTitle, classList, enterClassroom, deleteButton, makeClass);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 1000, 800);
@@ -405,6 +405,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     backButton.setDisable(false);
                 });
             
+            Label classroomLabel = new Label();
+            classroomLabel.getStyleClass().add("label-classLabel");
+                
             AnchorPane classLayout = new AnchorPane();
             classLayout.setPadding(new Insets(10,10,10,10));
             //
@@ -432,9 +435,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments, navExpectations);
             
             topLayer.setCenter(classLayout);
-            //Allows for access in the classroomMenuVisual CSS
-            //along with the code in "label-topLayer" only
-            topLayer.getStyleClass().add("label-topLayer");
 
             listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
             
