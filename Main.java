@@ -44,6 +44,7 @@ public class Main extends Application{
     ObservableList<Classroom> classroom = FXCollections.observableArrayList();
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<TableColumn<Row, String>> rubricCols;
+    ObservableList<Assignment> assignmentsSelected = FXCollections.observableArrayList();
     String selectedItem = "";
     int count = 0;
     String selectedStudent;
@@ -156,7 +157,15 @@ for(int i = 0; i < classroom.size(); i++){
     while((line = io.readLine()) != null){
         line = getValue(line, "assignment", classroom.get(i).getName());
         if(line.equals("invalid")) continue;
-        classroom.get(i).addAssignment(line, FXCollections.observableArrayList());
+        String temp = "";
+        String temp2 = "";
+        for(int j = 0; j < line.length(); j++){
+            if(line.charAt(j) == ' ') break;
+            temp += line.charAt(j);
+            temp2 = line.substring(j+2);
+        }
+        temp2.trim();
+        classroom.get(i).addAssignment(temp2, FXCollections.observableArrayList(), temp);
     }
     io.closeInputFile();
 }
@@ -169,7 +178,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
         if(line.equals("invalid")) continue;
         for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
-        if(line.equals(classroom.get(i).getAssignments().get(k).getName())){
+        if(line.equals(classroom.get(i).getAssignments().get(k).getFullAssignment())){
         classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
         }
     }
@@ -268,10 +277,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     createAssignmentWindow c = new createAssignmentWindow();
                     Assignment temp = c.display(classroom.get(i));
                 if(!isEmpty(temp.getName())){
-                    classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
-                    io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
+                    classroom.get(i).addAssignment(temp.getName(), temp.getExpectations(), temp.getID());
+                    io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getID() +" " + temp.getName());
                     for(int j = 0; j < temp.getExpectations().size(); j++){
-                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getName());
+                    io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() +"assignment", temp.getID() +" " +temp.getName());
                             }
                 }
             }
@@ -437,6 +446,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     rubricCols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < gradeList.getItems().size(); i++) {
                     TableColumn<Row, String> col = new TableColumn<>(gradeList.getItems().get(i));
+                    col.setPrefWidth(40);
                     rubricCols.add(col);
                     final int colIndex = i ;
                     col.setCellValueFactory(cellData -> cellData.getValue().colProperty(colIndex));
@@ -446,6 +456,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     rubric.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
+                            assignmentsSelected.clear();
                             String selectedRow = rubric.getFocusModel().getFocusedItem().getFirstCol();
                             if(!selectedItem.equals(selectedRow)){
                                 selectedItem = selectedRow;
@@ -454,7 +465,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                 Assignment currAssignment = selectedClass.getAssignments().get(i);
                                 for(int j = 0; j < currAssignment.getExpectations().size();j++){
                                     if(currAssignment.getExpectations().get(j).getExpectation().equals(selectedRow)){
-                                        assignmentNames.add(currAssignment.getName());
+                                        assignmentNames.add(currAssignment.getID());
+                                        assignmentsSelected.add(currAssignment);
                                     }
                                 }
                                 }
@@ -473,9 +485,28 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 String val = assignmentList.getValue();
                 int cellColumn = cell.getColumn();
                 Row selectedRow =  rubric.getItems().get(cell.getRow());
-                if(cell.getColumn() > 0 && val != null){
+                String oldVal = selectedRow.getOtherCols().get(cell.getColumn()-1).get();
+                if(cell.getColumn() > 0 && val != null && !val.equals(oldVal)){
+                    String fullAssignmentName = "";
+                    String oldGrade = "";
+                    for(int i = 0; i < rubricCols.size(); i++){
+                        if(val.equals(selectedRow.getOtherCols().get(i).get())){
+                            oldGrade = rubricCols.get(i).getText();
+                            selectedRow.setCol(null, i);
+                            break;
+                        }
+                    }
+                    io.deleteLine(filePath, selectedClass.getName() + "." +selectedRow.getID() +selectedStudent +oldGrade +"." +val);
+                    io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +oldGrade); 
                     io.storeInfo(filePath, selectedClass.getName(), selectedRow.getID() +selectedStudent +rubricCols.get(cellColumn-1).getText(), val);
-                    io.storeInfo(filePath, selectedClass.getName(), val +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
+                    for(int i = 0; i < assignmentsSelected.size(); i++){
+                        if(val.equals(assignmentsSelected.get(i).getID())){
+                            fullAssignmentName = assignmentsSelected.get(i).getName();
+                            io.storeInfo(filePath, selectedCstlass.getName(), fullAssignmentName +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
+                            break;
+                        }
+                    }
+                          
             selectedRow.setCol(val, cellColumn-1);
             }});
             AnchorPane.setBottomAnchor(rubricMark, 20d);
@@ -483,14 +514,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
            
             AnchorPane.setBottomAnchor(assignmentList, 20d);
             AnchorPane.setRightAnchor(assignmentList, 400d);
-                    System.out.println(rubricCols.size());
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                     mainWindow.setScene(rubricMenu);
                     selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
-                    System.out.println("Clicked on " + selectedStudent);
                     rubric.setItems(getRubricInfo(selectedStudent));
                 }
             }
@@ -556,10 +585,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     if(listOfAssignments.getSelectionModel().getSelectedItem() != null){
                     topLayer.setCenter(gradingLayout);
                     selectedAssignment = listOfAssignments.getSelectionModel().getSelectedItem();
-                    System.out.println("Clicked on " + selectedAssignment.getName());
                     
                     int numExpectations = selectedAssignment.getExpectations().size();
-                    System.out.println(numExpectations);
+
                     TableView<Row> table = new TableView<>();
                     table.getSelectionModel().setCellSelectionEnabled(true);
                     TableColumn<Row, String> studentCol = new TableColumn<>("Students");
@@ -586,7 +614,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         try{
         for(int j = 0; j < cols.size(); j++){
             io.openInputFile(filePath);
-            System.out.println(currentStudent);
+
             String expName = cols.get(j).getText();
             String line = "";
             while((line = io.readLine()) != null){
@@ -614,7 +642,7 @@ table.setItems(rows);
         if(cell.getColumn() > 0 && val != null){
             selectedRow.setCol(val, cellColumn-1);
             io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getFirstCol() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
-            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +val, selectedAssignment.getName());
+            io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +val, selectedAssignment.getID());
         }
     });
                 }
@@ -705,7 +733,7 @@ table.setItems(rows);
             try{
             for(int j = 0; j < rubricCols.size(); j++){
                 io.openInputFile(filePath);
-                System.out.println(currentExp);
+
                 String markName = rubricCols.get(j).getText();
                 while((line = io.readLine()) != null){
                 String assignment = getValue(line, currentExp +selectedStudent +markName, selectedClass.getName());
