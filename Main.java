@@ -184,14 +184,14 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         listOfStudents.setPrefWidth(500);
         listOfStudents.setPrefHeight(500);
 
-        Label label1 = new Label("Select Classroom");
-        label1.getStyleClass().add("label-start-menu");
-        label1.setId("bold-label");
+        Label labelTitle = new Label("Select Classroom");
+        labelTitle.getStyleClass().add("label-start-menu");
+        labelTitle.setId("bold-label");
 
-        Button button1 = new Button("Enter this classroom");
+        Button enterClassroom = new Button("Enter this classroom");
         
             
-            button1.setDisable(true);
+        enterClassroom.setDisable(true);
 
         Button deleteButton = new Button("Delete this classroom");
         deleteButton.setOnAction(e -> {
@@ -202,7 +202,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classList.getItems().remove(classList.getValue());
             if(classList.getValue() == null){
                 deleteButton.setDisable(true);
-                button1.setDisable(true);
+                enterClassroom.setDisable(true);
             }
         });
         
@@ -222,25 +222,30 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         classList.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             if(newValue != null){
             selectedClass = newValue; 
-            button1.setDisable(false);
+            enterClassroom.setDisable(false);
             deleteButton.setDisable(false);
             }
         });
 
-            menuLayout.setBottomAnchor(label1, 550d);
-            menuLayout.setLeftAnchor(label1, 400d);
-            menuLayout.setBottomAnchor(makeClass, 165d);
-            menuLayout.setLeftAnchor(makeClass, 295d);
-            menuLayout.setBottomAnchor(deleteButton, 165d);
-            menuLayout.setRightAnchor(deleteButton, 300d);
-            menuLayout.setBottomAnchor(button1, 200d);
-            menuLayout.setLeftAnchor(button1, 400d);
-            menuLayout.setRightAnchor(button1, 400d);
+            //AnchorPane for setting the "Select Classroom" label
+            menuLayout.setTopAnchor(labelTitle, 200d);
+            menuLayout.setRightAnchor(labelTitle, 350d);
+            //AnchorPane for setting the 'Classroom Selection Dropbox'
             menuLayout.setBottomAnchor(classList, 475d);
             menuLayout.setLeftAnchor(classList, 450d);
+            //AnchorPane for setting the "Enter Classroom" button
+            menuLayout.setBottomAnchor(enterClassroom, 200d);
+            menuLayout.setLeftAnchor(enterClassroom, 400d);
+            menuLayout.setRightAnchor(enterClassroom, 400d);
+            //AnchorPane for setting the "Make Classroom" button
+            menuLayout.setBottomAnchor(makeClass, 165d);
+            menuLayout.setLeftAnchor(makeClass, 295d);
+            //AnchorPane for setting the "Delete Classroom" button
+            menuLayout.setBottomAnchor(deleteButton, 165d);
+            menuLayout.setRightAnchor(deleteButton, 300d);
 
             //Adding all the elements to the menu
-            menuLayout.getChildren().addAll(classList, label1, button1, deleteButton, makeClass);
+            menuLayout.getChildren().addAll(classList, labelTitle, enterClassroom, deleteButton, makeClass);
         
             //Layout configuration for the intro menu and adding the elements to the menu
             firstMenu = new Scene(menuLayout, 1000, 800);
@@ -297,6 +302,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             studentMenu = new Scene(studentLayout, 400, 300);
             
             classMenu = new Scene(topLayer, 1000, 650);
+            classMenu.getStylesheets().add("classroomMenuVisual.css");
             
             ListView<Assignment> listOfAssignments = new ListView<>();
             listOfAssignments.setPrefWidth(500);
@@ -426,6 +432,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments, navExpectations);
             
             topLayer.setCenter(classLayout);
+            //Allows for access in the classroomMenuVisual CSS
+            //along with the code in "label-topLayer" only
+            topLayer.getStyleClass().add("label-topLayer");
 
             listOfAssignments.setCellFactory(param -> new ListCell<Assignment>() {
             
@@ -558,7 +567,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         threemColumn, threeColumn, threepColumn,
                         threefourColumn, fourmColumn, foursmColumn, fourColumn, fourspColumn, fourpColumn, fourppColumn);
             
-                        button1.setOnAction(e -> {
+                        enterClassroom.setOnAction(e -> {
                             mainWindow.setScene(classMenu);
                             topLayer.setCenter(classLayout);
                             backButton.setDisable(true);
