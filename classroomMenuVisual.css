@@ -1,20 +1,31 @@
+/*
+All code that's inside this CSS is used to change the appearance
+of the objects and background inside the Classroom scene
+*/
+
+/*Changes general properties such as background color and font size*/
 .root{
     -fx-background-color: linear-gradient(#E0FFFF, #4682B4);
     -fx-font-size: 11pt; 
 }
 
+/*Changes properties of buttons*/
 .button{
     -fx-background-color: linear-gradient(#228B22, #006400);
     -fx-text-fill: #66CDAA;
     -fx-background-radius: 4; 
 }
 
+/*Used as a reference to change the color 
+of the dropdown bars*/
 .label-topLayer{
     -fx-text-fill: #228B22;
     -fx-font-size: 18pt;
     -fx-font-family: "Helvetica";
 }
 
+/*Used as a reference to change the color 
+of the title of the classroom*/
 .label-classTitle{
     -fx-text-fill: #228B22;
     -fx-font-size: 25pt;
