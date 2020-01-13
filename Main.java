@@ -1,6 +1,10 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.SocketAddress;
+
 import javafx.beans.Observable;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -456,10 +460,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     rubric.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            assignmentsSelected.clear();
+                            
                             String selectedRow = rubric.getFocusModel().getFocusedItem().getFirstCol();
                             if(!selectedItem.equals(selectedRow)){
                                 selectedItem = selectedRow;
+                                assignmentsSelected.clear();
                                 ObservableList<String> assignmentNames = FXCollections.observableArrayList();
                             for(int i = 0; i < selectedClass.getAssignments().size(); i++){
                                 Assignment currAssignment = selectedClass.getAssignments().get(i);
@@ -500,9 +505,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +oldGrade); 
                     io.storeInfo(filePath, selectedClass.getName(), selectedRow.getID() +selectedStudent +rubricCols.get(cellColumn-1).getText(), val);
                     for(int i = 0; i < assignmentsSelected.size(); i++){
-                        if(val.equals(assignmentsSelected.get(i).getID())){
+                        boolean test = (val.equals(assignmentsSelected.get(i).getID()));
+                        System.out.println(test);
+                        if(test){
                             fullAssignmentName = assignmentsSelected.get(i).getName();
-                            io.storeInfo(filePath, selectedCstlass.getName(), fullAssignmentName +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
+                            io.storeInfo(filePath, selectedClass.getName(), fullAssignmentName +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
                             break;
                         }
                     }
@@ -640,6 +647,8 @@ table.setItems(rows);
         int cellColumn = cell.getColumn();
         Row selectedRow =  table.getItems().get(cell.getRow());
         if(cell.getColumn() > 0 && val != null){
+            io.deleteLine(filePath, selectedClass.getName() +"." +selectedAssignment.getName() +selectedRow.getFirstCol() +selectedAssignment.getExpectations().get(cellColumn-1).getSection() +"." +selectedRow.getOtherCols().get(cellColumn-1).get());
+            io.deleteLine(filePath, selectedClass.getName() +"." +selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +selectedRow.getOtherCols().get(cellColumn-1).get() +"." +selectedAssignment.getID());
             selectedRow.setCol(val, cellColumn-1);
             io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getName() +selectedRow.getFirstCol() + selectedAssignment.getExpectations().get(cellColumn-1).getSection(), val);
             io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +val, selectedAssignment.getID());

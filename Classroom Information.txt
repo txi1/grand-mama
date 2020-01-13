@@ -17,3 +17,6 @@ ICS4U.A3Taylor Xi4+.L3
 ICS4U.Lab 3Taylor XiA3.4+
 ICS4U.B3Taylor Xi4+.L3
 ICS4U.Lab 3Taylor XiB3.4+
+ICS4U.Lab 3Taylor XiA1.4-
+ICS4U.Lab 3Taylor XiA1.4+
+ICS4U.A1Taylor Xi4+.L3
