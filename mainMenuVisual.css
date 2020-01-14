@@ -15,17 +15,17 @@ of the objects and background inside the MainMenu scene
 
 /*Changes general properties such as background color and font size*/
 .root{   
-    -fx-background-color: #2E2E30;
+    -fx-background-color: linear-gradient(#2E2E30, #27292C);
     -fx-font-size: 11pt;  
 }
 
 /*Changes color of ALL labels*/
 .label{   
-    -fx-text-fill: #6CF5B4;  
+    -fx-text-fill: #202020;  
 }
 
 .label-title-menu{
-    -fx-text-fill: #6CF5B4;
+    -fx-text-fill: linear-gradient(#E1E2E8, #CECFD6);
     -fx-font-size: 50pt;
     -fx-font-family: "Helvetica";
     -fx-underline: true;
@@ -36,7 +36,7 @@ of the objects and background inside the MainMenu scene
 /*Used as a reference to change the color of a specific label
 (Overrides the regular .label code)*/
 .label-start-menu{   
-    -fx-text-fill: #6CF5B4;
+    -fx-text-fill: #F1F0F5;
     -fx-font-size: 18pt;
     -fx-font-family: "Helvetica";
     -fx-font-style: italic;
@@ -46,6 +46,6 @@ of the objects and background inside the MainMenu scene
 /*Good color gradient combo for green ...#228B22, #006400...*/
 .button{   
     -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
-    -fx-text-fill: #6CF5B4;
+    -fx-text-fill: #646468;
     -fx-background-radius: 4;  
 }
