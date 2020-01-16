@@ -45,8 +45,8 @@ public class Expectation{
         return section;
     }
 
-    public void addAssignment(String a, ObservableList<Expectation> e){
-        assignments.add(new Assignment(a, e));
+    public void addAssignment(String a, ObservableList<Expectation> e, String i){
+        assignments.add(new Assignment(a, e, i));
     }
     
 }
