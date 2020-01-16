@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -7,7 +9,7 @@ public class Rubric {
     private StringProperty expectation;
     private String expectationID;
 
-    
+    private final List<StringProperty> marks = new ArrayList<>();
     private String lvlr;
     private String lvl1m;
     private String lvl1;
@@ -47,6 +49,7 @@ public class Rubric {
             this.lvl4sp = "";
             this.lvl4p = "";
             this.lvl4pp = "";
+
         }
 
         public Rubric(String expectation, String lvlr,

@@ -1,16 +1,25 @@
 ICS4U.name.ICS4U
-Test Classroom.name.Test Classroom
-ICS4U.studentName.Taylor Xi
+ICS4U.studentName.Alex Nedev
 ICS4U.expectation.A1: Test
-ICS4U.assignment.Testing123
-ICS4U.A1assignment.Testing123
 ICS4U.expectation.A2: Electric Boogaloo
 ICS4U.expectation.A3: LET'S GO
-ICS4U.assignment.LET'S GOOO
-ICS4U.A1assignment.LET'S GOOO
-ICS4U.A2assignment.LET'S GOOO
-ICS4U.A3assignment.LET'S GOOO
-ICS4U.studentName.LET'S GO
-ICS4U.assignment.Quiz 3
-ICS4U.A2assignment.Quiz 3
-ICS4U.A3assignment.Quiz 3
+ICS4U.expectation.B3: It's working
+ICS4U.expectation.Z99: Student can count
+ICS4U.assignment.L3 Lab 3
+ICS4U.A1assignment.L3 Lab 3
+ICS4U.A2assignment.L3 Lab 3
+ICS4U.A3assignment.L3 Lab 3
+ICS4U.B3assignment.L3 Lab 3
+ICS4U.A2Taylor Xi4/4+.L3
+ICS4U.Lab 3Taylor XiA2.4/4+
+ICS4U.A3Taylor Xi4+.L3
+ICS4U.Lab 3Taylor XiA3.4+
+ICS4U.B3Taylor Xi4+.L3
+ICS4U.Lab 3Taylor XiB3.4+
+ICS4U.Lab 3Taylor XiA1.4-
+ICS4U.Lab 3Taylor XiA1.4+
+ICS4U.Lab 3Taylor XiA1.R
+ICS4U.A1Taylor Xi4++.L3
+ICS4U.Lab 3Taylor XiA1.4++
+ICS4U.A1Alex Nedev3+/4-.L3
+ICS4U.Lab 3Alex NedevA1.3+/4-

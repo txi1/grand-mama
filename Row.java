@@ -5,29 +5,51 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Row {
-    private final StringProperty student = new SimpleStringProperty();
-    private final List<SimpleObjectProperty<Expectation>> expectations = new ArrayList<>();
+    private final StringProperty firstCol = new SimpleStringProperty();
+    private final List<StringProperty> otherCols = new ArrayList<>();
+    private String ID;
 
-    public Row(String s, int numExpectations) {
-        setStudent(s);
-        for (int i = 0 ; i < numExpectations ; i++) {
-            expectations.add(new SimpleObjectProperty<>());
+    public Row(String s, int numCols) {
+        setFirstCol(s);
+        for (int i = 0 ; i < numCols ; i++) {
+            otherCols.add(new SimpleStringProperty());
         }
+        ID = null;  
     }
 
-    public List<SimpleObjectProperty<Expectation>> getExpectations() {
-        return expectations;
+    public Row(String s, int numCols, String opID) {
+        setFirstCol(s);
+        for (int i = 0 ; i < numCols ; i++) {
+            otherCols.add(new SimpleStringProperty());
+        }
+        ID = opID;   
     }
 
-    public StringProperty studentProperty() { 
-        return student;
+    public List<StringProperty> getOtherCols() {
+        return otherCols;
     }
 
-    public final String getStudent() {
-        return studentProperty().get();
+    public void setCol(String val, int index){
+        otherCols.get(index).setValue(val);
+    }
+    
+    public StringProperty firstColProperty() { 
+        return firstCol;
     }
 
-    public final void setStudent(String student) {
-        studentProperty().set(student);
+    public final String getFirstCol() {
+        return firstColProperty().get();
+    }
+
+    public final void setFirstCol(String s) {
+        firstColProperty().set(s);
+    }
+    
+    public StringProperty colProperty(int index){
+        return otherCols.get(index);
+    }
+
+    public String getID(){
+        return ID;
     }
 }

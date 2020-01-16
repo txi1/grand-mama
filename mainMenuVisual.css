@@ -1,0 +1,51 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+Created on : Jan 9, 2020, 1:27:46 PM
+Author     : earl
+*/
+
+/*
+All code that's inside this CSS is used to change the appearance
+of the objects and background inside the MainMenu scene
+*/
+
+/*Changes general properties such as background color and font size*/
+.root{   
+    -fx-background-color: linear-gradient(#2E2E30, #27292C);
+    -fx-font-size: 11pt;  
+}
+
+/*Changes color of ALL labels*/
+.label{   
+    -fx-text-fill: #202020;  
+}
+
+.label-title-menu{
+    -fx-text-fill: linear-gradient(#E1E2E8, #CECFD6);
+    -fx-font-size: 50pt;
+    -fx-font-family: "Helvetica";
+    -fx-underline: true;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
+
+/*Used as a reference to change the color of a specific label
+(Overrides the regular .label code)*/
+.label-start-menu{   
+    -fx-text-fill: #F1F0F5;
+    -fx-font-size: 18pt;
+    -fx-font-family: "Helvetica";
+    -fx-font-style: italic;
+}
+
+/*Changes properties of buttons*/
+/*Good color gradient combo for green ...#228B22, #006400...*/
+.button{   
+    -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
+    -fx-text-fill: #646468;
+    -fx-background-radius: 4;  
+}

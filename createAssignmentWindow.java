@@ -19,7 +19,7 @@ public class createAssignmentWindow{
 
     public Assignment display(Classroom c){
         Stage makeClass = new Stage();
-        assignment = new Assignment(null,FXCollections.observableArrayList());
+        assignment = new Assignment(null,FXCollections.observableArrayList(), null);
         
         GridPane layout = new GridPane();
                  layout.setPadding(new Insets(10,10,10,10));
@@ -30,7 +30,7 @@ public class createAssignmentWindow{
         makeClass.initModality(Modality.APPLICATION_MODAL);
         makeClass.setTitle("Create a new Assignment");
         makeClass.setMinWidth(300);
-        makeClass.setMinHeight(900);
+        makeClass.setMinHeight(500);
         
 
         Label assignmentLabel = new Label();
@@ -40,13 +40,20 @@ public class createAssignmentWindow{
         assignmentName.setPromptText("Test 1");
         layout.setConstraints(assignmentName, 2, 1);
 
+        Label IDLabel = new Label();
+        IDLabel.setText("Enter the Assignment's Identifier");
+        layout.setConstraints(IDLabel, 1, 2);
+        TextField assignmentID = new TextField();
+        assignmentID.setPromptText("T1");
+        layout.setConstraints(assignmentID, 2, 2);
+
         expectations = c.getExpectations();
         int column = 0;
-        int row = 2;
+        int row = 3;
         for(int i = 0; i < expectations.size(); i++){
             if(i % 6 == 0){
                 column++;
-                row = 2;
+                row = 3;
             } 
             checkboxes.add(new CheckBox(expectations.get(i).getSection()));
             layout.setConstraints(checkboxes.get(i), column, row);
@@ -62,11 +69,12 @@ public class createAssignmentWindow{
             handleOptions(checkboxes);
             //assignment.setExpectations(expectations);
             assignment.setName(assignmentName.getText());
+            assignment.setID(assignmentID.getText());
             makeClass.close();
                 });
         layout.setConstraints(enterButton, 2, 8);
         layout.getChildren().addAll(checkboxes);
-        layout.getChildren().addAll(assignmentLabel, assignmentName, closeButton, enterButton);
+        layout.getChildren().addAll(assignmentLabel, assignmentName, IDLabel, assignmentID, closeButton, enterButton);
 
         Scene scene = new Scene(layout);
         makeClass.setScene(scene);

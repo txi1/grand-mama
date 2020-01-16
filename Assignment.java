@@ -3,12 +3,16 @@ import javafx.collections.ObservableList;
 public class Assignment{
 
     String name;
+    String ID;
+    String fullAssignment;
     ObservableList<Expectation> expectations = FXCollections.observableArrayList();
 
-    public Assignment(String s, ObservableList<Expectation> e){
+    public Assignment(String s, ObservableList<Expectation> e, String id){
 
         name = s;
         expectations = e;
+        ID = id;
+        fullAssignment = ID +" " +s;
 
     }
 
@@ -30,5 +34,16 @@ public class Assignment{
     
     public void setExpectations(ObservableList<Expectation> e){
         expectations = e;
+    }
+
+    public void setID(String id){
+        ID = id;
+    }
+
+    public String getID(){
+        return ID;
+    }
+    public String getFullAssignment(){
+        return fullAssignment;
     }
 }
