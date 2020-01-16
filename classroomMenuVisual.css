@@ -1,0 +1,38 @@
+/*
+All code that's inside this CSS is used to change the appearance
+of the objects and background inside the Classroom scene
+*/
+
+/*Changes general properties such as background color and font size*/
+/*Cool background color combo if I ever choose to change it (#E0FFFF, #4682B4)*/
+.root{
+    -fx-background-color: #2E2E30;
+    -fx-font-size: 10pt; 
+}
+
+/*Changes properties of buttons*/
+.button{
+    -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
+    -fx-text-fill: #646468;
+    -fx-background-radius: 4; 
+    -fx-font-size: 18pt;
+}
+
+/*Used as a reference to change the color 
+of all labels*/
+.label{
+    -fx-text-fill: #202020;
+    -fx-font-size: 20pt;
+    -fx-font-family: "Helvetica";
+}
+
+/*Used as a reference to change the color 
+of the classroom label specifically*/
+.label-classLabel{
+    -fx-text-fill: #F1F0F5;
+    -fx-font-size: 35pt;
+    -fx-font-family: "Helvetica";
+    -fx-underline: true;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+}
