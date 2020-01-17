@@ -18,4 +18,12 @@ ICS4U.B3Taylor Xi4+.L3
 ICS4U.Lab 3Taylor XiB3.4+
 ICS4U.Lab 3Taylor XiA1.4-
 ICS4U.Lab 3Taylor XiA1.4+
+<<<<<<< HEAD
 ICS4U.A1Taylor Xi4+.L3
+=======
+ICS4U.Lab 3Taylor XiA1.R
+ICS4U.A1Taylor Xi4++.L3
+ICS4U.Lab 3Taylor XiA1.4++
+ICS4U.A1Alex Nedev3+/4-.L3
+ICS4U.Lab 3Alex NedevA1.3+/4-
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b

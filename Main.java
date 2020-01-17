@@ -270,6 +270,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             Menu manageMenu = new Menu("_Classroom");
             Menu navigateMenu = new Menu("_Navigate");
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
             //Adding the menu items
@@ -328,6 +329,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             manageMenu.getItems().add(new MenuItem("Manage Preferences..."));
             manageMenu.getItems().add(new SeparatorMenuItem());
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             
             MenuItem returnMenuButton = new MenuItem("Return to the Main Menu");
             returnMenuButton.setOnAction(e -> {
@@ -433,7 +436,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         createAssignmentWindow c = new createAssignmentWindow();
                         Assignment temp = c.display(classroom.get(i));
                     if(!isEmpty(temp.getName())){
-                        classroom.get(i).addAssignment(temp.getName(), temp.getExpectations());
+                        classroom.get(i).addAssignment(temp.getName(), temp.getExpectations(),temp.getID());
                         io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
                         for(int j = 0; j < temp.getExpectations().size(); j++){
                         io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
@@ -554,6 +557,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             });
             
 <<<<<<< HEAD
+<<<<<<< HEAD
             //Expecation Column that will show the expectations that student has to meet in the course
                 TableColumn<Rubric, String> expectationColumn = new TableColumn<>("Expectation");
                 expectationColumn.setPrefWidth(100);
@@ -632,6 +636,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
 =======
             
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+            
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             //Buttons used to add in or delete the expectations
             Button addButton = new Button("Add");
             addButton.setOnAction(e -> addButtonClicked());
@@ -639,6 +646,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
+<<<<<<< HEAD
 <<<<<<< HEAD
                 rubric = new TableView<>();
                 rubric.getColumns().addAll(expectationColumn, rColumn, 
@@ -657,6 +665,15 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         menuLayout.setConstraints(button1, 1, 2);
                         button1.setOnAction(e -> {
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10, 10, 10, 10));
+            hbox.setSpacing(10);
+            hbox.getChildren().addAll(addButton, killButton);    
+
+                        
+                        enterClassroom.setOnAction(e -> {
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
                             mainWindow.setScene(classMenu);
                             topLayer.setCenter(classLayout);
                             backButton.setDisable(true);
@@ -666,13 +683,19 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
                             rubric = new TableView<>();   
 
                             ChoiceBox<String> assignmentList = new ChoiceBox();
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
+<<<<<<< HEAD
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             //AnchorPane sets the specific locations of each child in the rubric layout
             AnchorPane.setTopAnchor(rubric, 10d);
             AnchorPane.setLeftAnchor(rubric, 5d);
@@ -689,8 +712,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);
             AnchorPane.setRightAnchor(MenuButton, 10d);
-            //Puts all objects onto the GUI in order to see the rubric
-            rubricLayout.getChildren().addAll(rubric, MenuButton, addButton, killButton);
             
             //Line below is what makes the table editable
             rubric.setEditable(true);
@@ -784,6 +805,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 @Override
                 public void handle(MouseEvent event) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
                     if (event.getClickCount() == 2) {
                             if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                                 mainWindow.setScene(rubricMenu);
@@ -793,12 +817,15 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         }        
                     }
                     
+<<<<<<< HEAD
 =======
                     if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                     mainWindow.setScene(rubricMenu);
                     selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                     rubric.setItems(getRubricInfo(selectedStudent));
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
                 }
             });
 
@@ -809,6 +836,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
+<<<<<<< HEAD
 <<<<<<< HEAD
             setMarkButton.setPrefWidth(300);
             setMarkButton.setPrefHeight(25);
@@ -822,6 +850,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             gradingLayout.setTopAnchor(gradeList, 50d);
             gradingLayout.setRightAnchor(gradeList, 20d);
 =======
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             
             
             gradingLayout.setTopAnchor(setMarkButton, 70d);
@@ -830,7 +860,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             gradingLayout.setTopAnchor(gradeList, 40d);
             gradingLayout.setRightAnchor(gradeList, 10d);
             
+<<<<<<< HEAD
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
@@ -838,6 +871,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             });
             
             listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
+<<<<<<< HEAD
 <<<<<<< HEAD
                     @Override
                     public void handle(MouseEvent event) {
@@ -906,6 +940,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         }
                     }
 =======
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
 
                 @Override
                 public void handle(MouseEvent event) {
@@ -974,9 +1010,12 @@ table.setItems(rows);
             io.storeInfo(filePath, selectedClass.getName(), selectedAssignment.getExpectations().get(cellColumn-1).getSection() +selectedRow.getFirstCol() +val, selectedAssignment.getID());
         }
     });
+<<<<<<< HEAD
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
                 }
-            });
+            }});
             
         //Allows for the first scene to be shown when the program is run
         mainWindow.setScene(firstMenu);
@@ -1064,6 +1103,7 @@ table.setItems(rows);
             for(int j = 0; j < rubricCols.size(); j++){
                 io.openInputFile(filePath);
 <<<<<<< HEAD
+<<<<<<< HEAD
             while((line = io.readLine()) != null){
                  line = getValue(line, s+ rubricInfo.get(i).getExpectationID() + "lvlr", "unicornpotatollama");
                  if(line.equals("invalid")) continue;
@@ -1071,13 +1111,18 @@ table.setItems(rows);
             } 
             io.closeInputFile();
 =======
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
 
                 String markName = rubricCols.get(j).getText();
                 while((line = io.readLine()) != null){
                 String assignment = getValue(line, currentExp +selectedStudent +markName, selectedClass.getName());
                 if(assignment == "invalid") continue;
                     rubricInfo.get(i).setCol(assignment, j);
+<<<<<<< HEAD
 >>>>>>> a1436f4e16a82e815abf1c7c48c2e952870f9633
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
             }
             io.closeInputFile();
         }

@@ -1,7 +1,10 @@
 
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ead90f4655d6f43309d455a77e20645bf8efde5b
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
