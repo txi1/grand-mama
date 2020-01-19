@@ -300,7 +300,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 ObservableList<Student> studentSelected, allStudents;
                 allStudents = listOfStudents.getItems();
                 studentSelected = listOfStudents.getSelectionModel().getSelectedItems();
-                io.deleteLine(filePath, selectedClass.getName() + ".studentName." + studentSelected.get(0).getFullName());
+                io.exodiaObliterate(filePath, studentSelected.get(0).getFullName());
                 studentSelected.forEach(allStudents::remove);
             });
             

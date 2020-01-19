@@ -183,6 +183,44 @@ try
     }
   }
 
+  public static void exodiaObliterate(String n, String delete){
+      
+    File fileName = new File(n);
+    File tempFileName = new File("myTempFile.txt");
+try
+  {
+      BufferedReader reader = new BufferedReader(new FileReader(fileName));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(tempFileName));
+
+      String lineToRemove = delete;
+      String currentLine;
+
+      while((currentLine = reader.readLine()) != null) {
+        // trim newline when comparing with lineToRemove
+        String trimmedLine = currentLine.trim();
+        trimmedLine = trimmedLine.replaceFirst("^\uFEFF", "");
+        System.out.println(trimmedLine);
+
+        if(trimmedLine.contains(lineToRemove)){
+            System.out.println("Deleted line: " +trimmedLine);
+            continue;
+        } 
+        writer.write(trimmedLine + System.getProperty("line.separator"));
+    }
+    writer.close(); 
+    reader.close(); 
+    boolean deletedFile = fileName.delete();
+    boolean successful = tempFileName.renameTo(fileName);
+
+  }
+  catch (FileNotFoundException e)
+  {
+    System.out.println("***Cannot open " + fileName + "***");
+  }
+  catch (IOException e){
+      System.out.println("*** Cannot create file: " + n + " ***");
+  }
+}
 
   //Reads through the entire text file and returns the first time the indicated information is found within the selected classroom
 public static String getInfo(String n, String classroomName, String info){
