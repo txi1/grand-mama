@@ -377,7 +377,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         classroom.get(i).addAssignment(temp.getName(), temp.getExpectations(),temp.getID());
                         io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getFullAssignment());
                         for(int j = 0; j < temp.getExpectations().size(); j++){
-                        io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
+                        io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getFullAssignment());
                                 }
                     }
                 }
@@ -538,6 +538,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);
             AnchorPane.setRightAnchor(MenuButton, 10d);
+
+            AnchorPane.setBottomAnchor(MenuButton, 50d);
+            AnchorPane.setLeftAnchor(MenuButton, 50d);
+            AnchorPane.setRightAnchor(MenuButton, 50d);
             
             //Line below is what makes the table editable
             rubric.setEditable(true);
@@ -597,13 +601,17 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 int cellColumn = cell.getColumn();
                 Row selectedRow =  rubric.getItems().get(cell.getRow());
                 String oldVal = selectedRow.getOtherCols().get(cell.getColumn()-1).get();
+                if(oldVal == null){
+                    oldVal = "";
+                }
                 if(cell.getColumn() > 0 && val != null && !val.equals(oldVal)){
                     String fullAssignmentName = "";
                     String oldGrade = "";
                     for(int i = 0; i < rubricCols.size(); i++){
-                        if(val.equals(selectedRow.getOtherCols().get(i).get())){
+                        if(selectedRow.getOtherCols().get(i).get().contains(val)){
                             oldGrade = rubricCols.get(i).getText();
-                            selectedRow.setCol(null, i);
+                            String newVal = oldGrade.replaceAll(val, "");
+                            selectedRow.setCol(newVal, i);
                             break;
                         }
                     }
@@ -620,7 +628,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         }
                     }
                           
-            selectedRow.setCol(oldVal +"\n" +val, cellColumn-1);
+            selectedRow.setCol(oldVal +val +"\n", cellColumn-1);
             }});
             AnchorPane.setBottomAnchor(rubricMark, 20d);
             AnchorPane.setRightAnchor(rubricMark, 300d);
@@ -680,6 +688,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     table.getColumns().add(studentCol);
                     ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < numExpectations ; i++) {
+                        System.out.println("Yo");
                     TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                     cols.add(col);
                     final int colIndex = i ;
@@ -687,7 +696,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     table.getColumns().add(cols.get(i));
                     
                     }
-                    //table.setEditable(true);
 
                     ObservableList<Row> rows = FXCollections.observableArrayList();
                     for(int i = 0; i < selectedClass.getStudents().size(); i++){
