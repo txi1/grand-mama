@@ -375,7 +375,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         Assignment temp = c.display(classroom.get(i));
                     if(!isEmpty(temp.getName())){
                         classroom.get(i).addAssignment(temp.getName(), temp.getExpectations(),temp.getID());
-                        io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getName());
+                        io.storeInfo(filePath, classroom.get(i).getName(), "assignment", temp.getFullAssignment());
                         for(int j = 0; j < temp.getExpectations().size(); j++){
                         io.storeInfo(filePath,classroom.get(i).getName(), temp.getExpectations().get(j).getSection() + "assignment", temp.getName());
                                 }
@@ -620,7 +620,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         }
                     }
                           
-            selectedRow.setCol(val, cellColumn-1);
+            selectedRow.setCol(oldVal +"\n" +val, cellColumn-1);
             }});
             AnchorPane.setBottomAnchor(rubricMark, 20d);
             AnchorPane.setRightAnchor(rubricMark, 300d);
