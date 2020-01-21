@@ -825,7 +825,12 @@ table.setItems(rows);
                 while((line = io.readLine()) != null){
                 String assignment = getValue(line, currentExp +selectedStudent +markName, selectedClass.getName());
                 if(assignment == "invalid") continue;
-                    rubricInfo.get(i).setCol(assignment, j);
+                String oldVal = rubricInfo.get(i).getOtherCols().get(j).get();
+                if(oldVal == null){
+                    oldVal = "";
+                }
+                    rubricInfo.get(i).setCol(oldVal +assignment +"\n", j);
+
             }
             io.closeInputFile();
         }
