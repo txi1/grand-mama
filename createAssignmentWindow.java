@@ -19,7 +19,7 @@ public class createAssignmentWindow{
 
     public Assignment display(Classroom c){
         Stage makeClass = new Stage();
-        assignment = new Assignment(null,FXCollections.observableArrayList(), null);
+        assignment = new Assignment(null, FXCollections.observableArrayList(), null);
         
         GridPane layout = new GridPane();
                  layout.setPadding(new Insets(10,10,10,10));
@@ -67,7 +67,6 @@ public class createAssignmentWindow{
         Button enterButton = new Button("Confirm");
         enterButton.setOnAction(e -> {
             handleOptions(checkboxes);
-            //assignment.setExpectations(expectations);
             assignment.setName(assignmentName.getText());
             assignment.setID(assignmentID.getText());
             makeClass.close();

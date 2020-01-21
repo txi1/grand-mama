@@ -12,7 +12,7 @@ public class Assignment{
         name = s;
         expectations = e;
         ID = id;
-        fullAssignment = ID +" " +s;
+        fullAssignment = ID +" " +name;
 
     }
 
@@ -34,10 +34,12 @@ public class Assignment{
     
     public void setExpectations(ObservableList<Expectation> e){
         expectations = e;
+        fullAssignment = ID +" " +name;
     }
 
     public void setID(String id){
         ID = id;
+        fullAssignment = ID +" " +name;
     }
 
     public String getID(){
