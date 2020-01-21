@@ -601,22 +601,26 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 int cellColumn = cell.getColumn();
                 Row selectedRow =  rubric.getItems().get(cell.getRow());
                 String oldVal = selectedRow.getOtherCols().get(cell.getColumn()-1).get();
+                String prevMark = "";
                 if(oldVal == null){
                     oldVal = "";
                 }
+                
                 if(cell.getColumn() > 0 && val != null && !val.equals(oldVal)){
                     String fullAssignmentName = "";
                     String oldGrade = "";
                     for(int i = 0; i < rubricCols.size(); i++){
-                        if(selectedRow.getOtherCols().get(i).get().contains(val)){
-                            oldGrade = rubricCols.get(i).getText();
-                            String newVal = oldGrade.replaceAll(val, "");
+                        oldGrade = selectedRow.getOtherCols().get(i).get();
+                        prevMark = rubricCols.get(i).getText().trim();
+                        if(oldGrade != null && oldGrade.contains(val)){
+                            String newVal = oldGrade.replaceAll(val +"\n", "");
                             selectedRow.setCol(newVal, i);
                             break;
                         }
                     }
-                    io.deleteLine(filePath, selectedClass.getName() + "." +selectedRow.getID() +selectedStudent +oldGrade +"." +val);
-                    io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +oldGrade); 
+                    System.out.println(prevMark);
+                    io.deleteLine(filePath, selectedClass.getName() + "." +selectedRow.getID() +selectedStudent +prevMark +"." +val);
+                    io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +prevMark); 
                     io.storeInfo(filePath, selectedClass.getName(), selectedRow.getID() +selectedStudent +rubricCols.get(cellColumn-1).getText(), val);
                     for(int i = 0; i < assignmentsSelected.size(); i++){
                         boolean test = (val.equals(assignmentsSelected.get(i).getID()));
@@ -688,7 +692,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     table.getColumns().add(studentCol);
                     ObservableList<TableColumn<Row, String>> cols = FXCollections.observableArrayList();
                     for (int i = 0 ; i < numExpectations ; i++) {
-                        System.out.println("Yo");
                     TableColumn<Row, String> col = new TableColumn<>(selectedAssignment.getExpectations().get(i).getSection());
                     cols.add(col);
                     final int colIndex = i ;

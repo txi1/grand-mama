@@ -36,3 +36,8 @@ ICS4U.Lab 3Taylor XiA2.4++
 ICS4U.A2Taylor Xi4++.L3
 ICS4U.Lab 3Taylor XiA1.4++
 ICS4U.A1Taylor Xi4++.L3
+ICS4U.assignment.T9 Test 9
+ICS4U.A1assignment.T9 Test 9
+ICS4U.A2assignment.T9 Test 9
+ICS4U.B3assignment.T9 Test 9
+ICS4U.Z99assignment.T9 Test 9
