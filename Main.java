@@ -474,9 +474,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             
             //Buttons used to add in or delete the expectations
-            Button addButton = new Button("Add");
+            Button addButton = new Button("Add Expectation");
             addButton.setOnAction(e -> addButtonClicked());
-            Button killButton = new Button("Delete");
+            Button killButton = new Button("Delete Expectation");
             killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
@@ -606,25 +606,25 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             //when the rubricMenu Scene is selected
             //AnchorPane sets the specific locations of each child in the rubric layout
             AnchorPane.setTopAnchor(rubric, 10d);
-            AnchorPane.setLeftAnchor(rubric, 5d);
+            AnchorPane.setLeftAnchor(rubric, 100d);
             //
-            AnchorPane.setTopAnchor(addButton, 125d);
-            AnchorPane.setLeftAnchor(addButton, 100d);
+            AnchorPane.setTopAnchor(addButton, 435d);
+            AnchorPane.setLeftAnchor(addButton, 10d);
             //
-            AnchorPane.setTopAnchor(killButton, 175d);
-            AnchorPane.setLeftAnchor(killButton, 100d);
+            AnchorPane.setTopAnchor(killButton, 475d);
+            AnchorPane.setLeftAnchor(killButton, 10d);
             //
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);
             AnchorPane.setRightAnchor(MenuButton, 10d);
             //
-            AnchorPane.setBottomAnchor(assignmentList, 235d);
+            AnchorPane.setBottomAnchor(assignmentList, 230d);
             AnchorPane.setLeftAnchor(assignmentList, 400d);
             //
             AnchorPane.setBottomAnchor(rubricMark, 265d);
             AnchorPane.setLeftAnchor(rubricMark, 315d);
             //
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList, rubricMark);
+            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, addButton, killButton, assignmentList, rubricMark);
             
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
@@ -686,9 +686,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     }
     }
 
-    table.setItems(rows);
+table.setItems(rows);
     //
-    gradingLayout.setTopAnchor(table, 120d);
+    gradingLayout.setTopAnchor(table, 10d);
     gradingLayout.setLeftAnchor(table, 50d);
     //       
     gradingLayout.setTopAnchor(setMarkButton, 10d);
