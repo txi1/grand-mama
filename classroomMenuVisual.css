@@ -36,3 +36,15 @@ of the classroom label specifically*/
     -fx-font-style: italic;
     -fx-font-weight: bold;
 }
+
+.label-expectationDetails{
+    -fx-text-fill: #F1F0F5;
+    -fx-font-size: 14pt;
+    -fx-font-family: "Helvetica";
+}
+
+.label-expectationAssignments{
+    -fx-text-fill: #F1F0F5;
+    -fx-font-size: 14pt;
+    -fx-font-family: "Helvetica";
+}

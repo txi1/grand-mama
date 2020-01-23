@@ -343,17 +343,67 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             assignmentLayout.setRightAnchor(deleteAssignment, 10d);
             assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
             
-            ListView<Assignment> listOfExpectations = new ListView<>();
+            ListView<Expectation> listOfExpectations = new ListView<>();
+            listOfExpectations.setCellFactory(param -> new ListCell<Expectation>() {
+                @Override
+                protected void updateItem(Expectation item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getExpectation() == null) {
+                    setText(null);
+                } else {
+                        setText(item.getExpectation());
+                    }
+                }
+            });
             listOfExpectations.setPrefWidth(500);
             listOfExpectations.setPrefHeight(500);
-            
-            Button deleteExpectation = new Button("Delete Expectation");
-            
             AnchorPane expectationLayout = new AnchorPane();
+            Label expectationDetails = new Label("Expectation Details");
+            expectationDetails.getStyleClass().add("label-expectationDetails");
+            expectationDetails.setPrefWidth(400d);
+            expectationDetails.setWrapText(true);
+            Label expectationAssignments = new Label("Expectation Assignments");
+            expectationAssignments.getStyleClass().add("label-expectationAssignments");
+            expectationAssignments.setWrapText(true);
+            expectationAssignments.setPrefWidth(400d);
             expectationLayout.setPadding(new Insets(0, 10, 10, 10));
-            expectationLayout.setBottomAnchor(deleteExpectation, 20d);
+            
+            listOfExpectations.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getClickCount() == 2) {
+                        Expectation selectedExpectation = listOfExpectations.getSelectionModel().getSelectedItem();
+                            if(selectedExpectation != null){
+                                expectationDetails.setText(selectedExpectation.getExpectation());
+                                expectationLayout.applyCss();
+                                expectationLayout.layout();
+                                expectationLayout.setTopAnchor(expectationAssignments, 40d+expectationDetails.getHeight());
+                                String allAssignments = "Assignments: ";
+                                for(int i = 0; i < selectedClass.getAssignments().size();i++){
+                                    Assignment currAssignment = selectedClass.getAssignments().get(i);
+                                    for(int j = 0; j < currAssignment.getExpectations().size();j++){
+                                        if(currAssignment.getExpectations().get(j).getExpectation().equals(selectedExpectation.getExpectation())){
+                                            allAssignments += currAssignment.getName() +" ";
+                                            break;
+                                        }
+                                    }
+                                }
+                                expectationAssignments.setText(allAssignments);
+                        }     
+                          
+                    }
+                    
+                }
+            });
+
+
             expectationLayout.setTopAnchor(listOfExpectations, 10d);
-            expectationLayout.getChildren().addAll(deleteExpectation, listOfExpectations);
+            expectationLayout.setTopAnchor(expectationDetails, 10d);
+            expectationLayout.setLeftAnchor(expectationDetails, 550d);
+            expectationLayout.setLeftAnchor(expectationAssignments, 550d);
+            expectationLayout.setTopAnchor(expectationAssignments, 60d);
+            expectationLayout.getChildren().addAll( listOfExpectations, expectationAssignments, expectationDetails);
             
             Button createStudent = new Button("Create Student");
                 createStudent.setOnAction(e -> {
@@ -414,7 +464,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 });
             Button navExpectations = new Button("Expectations");
                 navExpectations.setOnAction(e -> {
-                    
+                    listOfExpectations.setItems(selectedClass.getExpectations());
                     previousScene = classMenu;
                     topLayer.setCenter(expectationLayout);
                     backButton.setDisable(false);
@@ -611,22 +661,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     String oldGrade = "";
                     for(int i = 0; i < rubricCols.size(); i++){
                         oldGrade = selectedRow.getOtherCols().get(i).get();
-                        prevMark = rubricCols.get(i).getText().trim();
                         if(oldGrade != null && oldGrade.contains(val)){
+                            prevMark = rubricCols.get(i).getText().trim();
                             String newVal = oldGrade.replaceAll(val +"\n", "");
                             selectedRow.setCol(newVal, i);
                             break;
                         }
                     }
-                    System.out.println(prevMark);
                     io.deleteLine(filePath, selectedClass.getName() + "." +selectedRow.getID() +selectedStudent +prevMark +"." +val);
-                    io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +prevMark); 
                     io.storeInfo(filePath, selectedClass.getName(), selectedRow.getID() +selectedStudent +rubricCols.get(cellColumn-1).getText(), val);
                     for(int i = 0; i < assignmentsSelected.size(); i++){
                         boolean test = (val.equals(assignmentsSelected.get(i).getID()));
-                        System.out.println(test);
                         if(test){
                             fullAssignmentName = assignmentsSelected.get(i).getName();
+                            io.deleteLine(filePath, selectedClass.getName() + "." +fullAssignmentName +selectedStudent +selectedRow.getID() +"." +prevMark);
                             io.storeInfo(filePath, selectedClass.getName(), fullAssignmentName +selectedStudent + selectedRow.getID(), rubricCols.get(cellColumn-1).getText());
                             break;
                         }
