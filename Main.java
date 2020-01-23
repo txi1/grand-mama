@@ -241,10 +241,10 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         });
 
             menuLayout.setTopAnchor(labeltrueTitle, 10d);
-            menuLayout.setRightAnchor(labeltrueTitle, 375d);
+            menuLayout.setRightAnchor(labeltrueTitle, 265d);
             //AnchorPane for setting the "Select Classroom" label
-            menuLayout.setTopAnchor(labelTitle, 250d);
-            menuLayout.setRightAnchor(labelTitle, 375d);
+            menuLayout.setTopAnchor(labelTitle, 225d);
+            menuLayout.setRightAnchor(labelTitle, 380d);
             //AnchorPane for setting the 'Classroom Selection Dropbox'
             menuLayout.setBottomAnchor(classList, 475d);
             menuLayout.setLeftAnchor(classList, 450d);
@@ -309,7 +309,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             studentLayout.setTopAnchor(listOfStudents, 5d);
             studentLayout.setLeftAnchor(listOfStudents, 10d);
             studentLayout.setRightAnchor(listOfStudents, 10d);
-            studentLayout.setBottomAnchor(deleteStudent, 00d);
+            studentLayout.setBottomAnchor(deleteStudent, 0d);
             studentLayout.setLeftAnchor(deleteStudent, 10d);
             studentLayout.setRightAnchor(deleteStudent, 10d);
             studentLayout.getChildren().addAll(listOfStudents, deleteStudent);
@@ -444,7 +444,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                         }
                     }
                 });
-            Button navStudent = new Button("Students");
+            Button navStudent = new Button("Go to Students");
                 navStudent.setOnAction(e -> {
                     for(int i = 0; i < classroom.size(); i++){
                         if(classroom.get(i).equals(selectedClass)) listOfStudents.setItems(classroom.get(i).getStudents());
@@ -453,7 +453,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     topLayer.setCenter(studentLayout);
                     backButton.setDisable(false);
                 });
-            Button navAssignments = new Button("Assignments");
+            Button navAssignments = new Button("Go to Assignments");
                 navAssignments.setOnAction(e -> {
                     for(int i = 0; i < classroom.size(); i++){
                             if(classroom.get(i).equals(selectedClass))listOfAssignments.setItems(classroom.get(i).getAssignments());
@@ -477,27 +477,24 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classLayout.setPadding(new Insets(10,10,10,10));
             //
             classLayout.setTopAnchor(classroomLabel, 30d);
-            classLayout.setLeftAnchor(classroomLabel, 450d);
+            classLayout.setLeftAnchor(classroomLabel, 400d);
             //
-            classLayout.setLeftAnchor(createStudent, 100d);
+            classLayout.setLeftAnchor(createStudent, 60d);
             classLayout.setTopAnchor(createStudent, 100d);
             //
-            classLayout.setLeftAnchor(createExpectation, 400d);
+            classLayout.setLeftAnchor(createExpectation, 340d);
             classLayout.setTopAnchor(createExpectation, 100d);
             //
-            classLayout.setLeftAnchor(createAssignment, 700d);
+            classLayout.setLeftAnchor(createAssignment, 660d);
             classLayout.setTopAnchor(createAssignment, 100d);
             //
-            classLayout.setLeftAnchor(navStudent, 100d);
+            classLayout.setLeftAnchor(navStudent, 200d);
             classLayout.setBottomAnchor(navStudent, 100d);
             //
-            classLayout.setLeftAnchor(navAssignments, 400d);
+            classLayout.setLeftAnchor(navAssignments, 500d);
             classLayout.setBottomAnchor(navAssignments, 100d);
             //
-            classLayout.setLeftAnchor(navExpectations, 700d);
-            classLayout.setBottomAnchor(navExpectations, 100d);
-            //
-            classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments, navExpectations);
+            classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments);
             
             topLayer.setCenter(classLayout);
 
@@ -546,9 +543,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             
             //Buttons used to add in or delete the expectations
-            Button addButton = new Button("Add");
+            Button addButton = new Button("Add Expectation");
             addButton.setOnAction(e -> addButtonClicked());
-            Button killButton = new Button("Delete");
+            Button killButton = new Button("Delete Expectation");
             killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
@@ -685,7 +682,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(rubricMark, 20d);
             AnchorPane.setRightAnchor(rubricMark, 300d);
            
-            AnchorPane.setBottomAnchor(assignmentList, 20d);
+            AnchorPane.setBottomAnchor(assignmentList, 50d);
             AnchorPane.setRightAnchor(assignmentList, 400d);
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -702,21 +699,33 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
 
-
-
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList, rubricMark);
+            //The crucial line of code that allows the rubric to be displayed
+            //when the rubricMenu Scene is selected
+            //AnchorPane sets the specific locations of each child in the rubric layout
+            AnchorPane.setTopAnchor(rubric, 10d);
+            AnchorPane.setLeftAnchor(rubric, 100d);
+            //
+            AnchorPane.setTopAnchor(addButton, 435d);
+            AnchorPane.setLeftAnchor(addButton, 10d);
+            //
+            AnchorPane.setTopAnchor(killButton, 475d);
+            AnchorPane.setLeftAnchor(killButton, 10d);
+            //
+            AnchorPane.setBottomAnchor(MenuButton, 20d);
+            AnchorPane.setLeftAnchor(MenuButton, 10d);
+            AnchorPane.setRightAnchor(MenuButton, 10d);
+            //
+            AnchorPane.setBottomAnchor(assignmentList, 230d);
+            AnchorPane.setLeftAnchor(assignmentList, 400d);
+            //
+            AnchorPane.setBottomAnchor(rubricMark, 265d);
+            AnchorPane.setLeftAnchor(rubricMark, 315d);
+            //
+            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, addButton, killButton, assignmentList, rubricMark);
             
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
-            
-            
-            gradingLayout.setTopAnchor(setMarkButton, 70d);
-            gradingLayout.setRightAnchor(setMarkButton, 10d);
-            
-            gradingLayout.setTopAnchor(gradeList, 40d);
-            gradingLayout.setRightAnchor(gradeList, 10d);
-            
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
@@ -774,8 +783,17 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     }
 
 table.setItems(rows);
-    gradingLayout.setTopAnchor(table, 0d);
-    gradingLayout.getChildren().setAll(table,gradeList,setMarkButton);
+    //
+    gradingLayout.setTopAnchor(table, 10d);
+    gradingLayout.setLeftAnchor(table, 50d);
+    //       
+    gradingLayout.setTopAnchor(setMarkButton, 10d);
+    gradingLayout.setRightAnchor(setMarkButton, 10d);
+    //
+    gradingLayout.setTopAnchor(gradeList, 60d);
+    gradingLayout.setRightAnchor(gradeList, 10d);
+    //
+    gradingLayout.getChildren().setAll(table, gradeList, setMarkButton);
     
     
     setMarkButton.setOnAction(e -> {
