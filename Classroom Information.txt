@@ -8,3 +8,22 @@ ICS4U.A1assignment.Test 1
 ICS4U.A3assignment.Test 1
 ICS4U.A1Alex Nedev3+/4-.Test
 ICS4U.1Alex NedevA1.3+/4-
+ICS4U.expectation.B1: f
+ICS4U.expectation.B2: g
+ICS4U.expectation.B5: 4
+ICS4U.expectation.C1: f
+ICS4U.expectation.B7: !
+ICS4U.assignment.Presentation1
+ICS4U.A1assignment.Presentation1
+ICS4U.A2assignment.Presentation1
+ICS4U.A3assignment.Presentation1
+ICS4U.B1assignment.Presentation1
+ICS4U.B2assignment.Presentation1
+ICS4U.C1assignment.Presentation1
+ICS4U.B7assignment.Presentation1
+ICS4U.Presentation1Alex NedevB7.1+
+ICS4U.B7Alex Nedev1+.P1
+ICS4U.Presentation1Alex NedevB1.4++
+ICS4U.B1Alex Nedev4++.P1
+ICS4U.Presentation1Alex NedevA1.4++
+ICS4U.A1Alex Nedev4++.P1

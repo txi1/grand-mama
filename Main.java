@@ -624,20 +624,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(rubricMark, 265d);
             AnchorPane.setLeftAnchor(rubricMark, 315d);
             //
-            
-
             rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList, rubricMark);
             
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
-            
-            gradingLayout.setTopAnchor(setMarkButton, 70d);
-            gradingLayout.setRightAnchor(setMarkButton, 10d);
-            
-            gradingLayout.setTopAnchor(gradeList, 40d);
-            gradingLayout.setRightAnchor(gradeList, 10d);
-            
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
@@ -695,9 +686,18 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     }
     }
 
-table.setItems(rows);
-    gradingLayout.setTopAnchor(table, 0d);
-    gradingLayout.getChildren().setAll(table,gradeList,setMarkButton);
+    table.setItems(rows);
+    //
+    gradingLayout.setTopAnchor(table, 120d);
+    gradingLayout.setLeftAnchor(table, 50d);
+    //       
+    gradingLayout.setTopAnchor(setMarkButton, 10d);
+    gradingLayout.setRightAnchor(setMarkButton, 10d);
+    //
+    gradingLayout.setTopAnchor(gradeList, 60d);
+    gradingLayout.setRightAnchor(gradeList, 10d);
+    //
+    gradingLayout.getChildren().setAll(table, gradeList, setMarkButton);
     
     
     setMarkButton.setOnAction(e -> {

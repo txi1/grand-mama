@@ -22,7 +22,7 @@ of the objects and background inside the Classroom scene
 of all labels*/
 .label{
     -fx-text-fill: #202020;
-    -fx-font-size: 18pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Helvetica";
 }
 
