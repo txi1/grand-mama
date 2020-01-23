@@ -15,14 +15,14 @@ of the objects and background inside the Classroom scene
     -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
     -fx-text-fill: #646468;
     -fx-background-radius: 4; 
-    -fx-font-size: 18pt;
+    -fx-font-size: 15pt;
 }
 
 /*Used as a reference to change the color 
 of all labels*/
 .label{
     -fx-text-fill: #202020;
-    -fx-font-size: 20pt;
+    -fx-font-size: 18pt;
     -fx-font-family: "Helvetica";
 }
 

@@ -343,18 +343,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             assignmentLayout.setRightAnchor(deleteAssignment, 10d);
             assignmentLayout.getChildren().addAll(listOfAssignments, deleteAssignment);
             
-            ListView<Assignment> listOfExpectations = new ListView<>();
-            listOfExpectations.setPrefWidth(500);
-            listOfExpectations.setPrefHeight(500);
-            
-            Button deleteExpectation = new Button("Delete Expectation");
-            
-            AnchorPane expectationLayout = new AnchorPane();
-            expectationLayout.setPadding(new Insets(0, 10, 10, 10));
-            expectationLayout.setBottomAnchor(deleteExpectation, 20d);
-            expectationLayout.setTopAnchor(listOfExpectations, 10d);
-            expectationLayout.getChildren().addAll(deleteExpectation, listOfExpectations);
-            
             Button createStudent = new Button("Create Student");
                 createStudent.setOnAction(e -> {
                     Student temp = createStudentWindow.display();
@@ -412,13 +400,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     topLayer.setCenter(assignmentLayout);
                     backButton.setDisable(false);
                 });
-            Button navExpectations = new Button("Go to Expectations");
-                navExpectations.setOnAction(e -> {
-                    
-                    previousScene = classMenu;
-                    topLayer.setCenter(expectationLayout);
-                    backButton.setDisable(false);
-                });
             
             Label classroomLabel = new Label();
             classroomLabel.getStyleClass().add("label-classLabel");
@@ -438,16 +419,13 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classLayout.setLeftAnchor(createAssignment, 660d);
             classLayout.setTopAnchor(createAssignment, 100d);
             //
-            classLayout.setLeftAnchor(navStudent, 60d);
+            classLayout.setLeftAnchor(navStudent, 200d);
             classLayout.setBottomAnchor(navStudent, 100d);
             //
-            classLayout.setLeftAnchor(navAssignments, 340d);
+            classLayout.setLeftAnchor(navAssignments, 500d);
             classLayout.setBottomAnchor(navAssignments, 100d);
             //
-            classLayout.setLeftAnchor(navExpectations, 660d);
-            classLayout.setBottomAnchor(navExpectations, 100d);
-            //
-            classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments, navExpectations);
+            classLayout.getChildren().addAll(classroomLabel, createStudent, createAssignment, createExpectation, navStudent, navAssignments);
             
             topLayer.setCenter(classLayout);
 
@@ -607,7 +585,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(rubricMark, 20d);
             AnchorPane.setRightAnchor(rubricMark, 300d);
            
-            AnchorPane.setBottomAnchor(assignmentList, 20d);
+            AnchorPane.setBottomAnchor(assignmentList, 50d);
             AnchorPane.setRightAnchor(assignmentList, 400d);
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
@@ -630,11 +608,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setTopAnchor(rubric, 10d);
             AnchorPane.setLeftAnchor(rubric, 5d);
             //
-            AnchorPane.setBottomAnchor(addButton, 350d);
-            AnchorPane.setLeftAnchor(addButton, 40d);
+            AnchorPane.setTopAnchor(addButton, 125d);
+            AnchorPane.setLeftAnchor(addButton, 100d);
             //
-            AnchorPane.setBottomAnchor(killButton, 375d);
-            AnchorPane.setLeftAnchor(killButton, 40d);
+            AnchorPane.setTopAnchor(killButton, 175d);
+            AnchorPane.setLeftAnchor(killButton, 100d);
             //
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);

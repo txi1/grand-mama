@@ -1,2 +1,10 @@
 ICS4U.name.ICS4U
 ICS4U.studentName.Alex Nedev
+ICS4U.expectation.A1: Test
+ICS4U.expectation.A2: Test2
+ICS4U.expectation.A3: Test3
+ICS4U.assignment.Test 1
+ICS4U.A1assignment.Test 1
+ICS4U.A3assignment.Test 1
+ICS4U.A1Alex Nedev3+/4-.Test
+ICS4U.1Alex NedevA1.3+/4-
