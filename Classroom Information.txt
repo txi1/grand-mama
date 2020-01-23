@@ -41,6 +41,6 @@ ICS4U.A1assignment.T9 Test 9
 ICS4U.A2assignment.T9 Test 9
 ICS4U.B3assignment.T9 Test 9
 ICS4U.Z99assignment.T9 Test 9
-ICS4U.Test 9Taylor XiA1.4++
-ICS4U.A1Taylor Xi4++.T9
 ICS4U.expectation.B7: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+ICS4U.A1Taylor Xi4++.T9
+ICS4U.Test 9Taylor XiA1.4++
