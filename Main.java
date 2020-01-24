@@ -696,7 +696,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             //The crucial line of code that allows the rubric to be displayed
             //when the rubricMenu Scene is selected
             //AnchorPane sets the specific locations of each child in the rubric layout
-            AnchorPane.setTopAnchor(rubric, 10d);
+            AnchorPane.setTopAnchor(rubric, 40d);
             AnchorPane.setLeftAnchor(rubric, 120d);
             //
             AnchorPane.setBottomAnchor(addButton, 130d);
@@ -714,9 +714,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setBottomAnchor(MenuButton, 20d);
             AnchorPane.setLeftAnchor(MenuButton, 10d);
             AnchorPane.setRightAnchor(MenuButton, 10d);
-
-            AnchorPane.setLeftAnchor(labelForRoller, 5d);
-            AnchorPane.setTopAnchor(labelForRoller, 10d);
+            //
+            AnchorPane.setLeftAnchor(labelForRoller, 440d);
+            AnchorPane.setTopAnchor(labelForRoller, 5d);
 
             rubricLayout.getChildren().addAll(rubric, hbox, addButton, killButton, MenuButton, labelForRoller, assignmentList, rubricMark);
 
