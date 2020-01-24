@@ -35,7 +35,7 @@ public class Expectation{
     }
 
     public String getExpectation(){
-        return section +": " +detail;
+        return section + ": " + detail;
     }
 
     public String getDetails(){
@@ -48,15 +48,6 @@ public class Expectation{
 
     public void setDetail(String d){
         detail = d;
-    }
-
-    public void updateExpectation(String i, String d){
-        if(i != null){
-            section = i;
-        }
-        if(d != null){
-            detail = d;
-        }
     }
 
     public String getSection(){

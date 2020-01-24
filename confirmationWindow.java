@@ -12,8 +12,6 @@ public class confirmationWindow{
 
     public static boolean display(String title, String message){
         Stage confirmationWindow = new Stage();
-        
-        
 
         //Blocks user interaction with other windows until this one is taken care of
         confirmationWindow.initModality(Modality.APPLICATION_MODAL);

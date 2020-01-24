@@ -32,7 +32,7 @@ public class createAssignmentWindow{
         makeClass.setMinWidth(300);
         makeClass.setMinHeight(500);
         
-
+        //These lines of code create and set the text field that will be used to enter the name of the expectation
         Label assignmentLabel = new Label();
         assignmentLabel.setText("Enter the Assignment's name");
         layout.setConstraints(assignmentLabel, 1, 1);
@@ -40,6 +40,7 @@ public class createAssignmentWindow{
         assignmentName.setPromptText("Test 1");
         layout.setConstraints(assignmentName, 2, 1);
 
+        //These lines of code create and set the text field that will be used to enter the details of the expectation
         Label IDLabel = new Label();
         IDLabel.setText("Enter the Assignment's Identifier");
         layout.setConstraints(IDLabel, 1, 2);
@@ -47,6 +48,8 @@ public class createAssignmentWindow{
         assignmentID.setPromptText("T1");
         layout.setConstraints(assignmentID, 2, 2);
 
+        //This code here will generate all the expectations that were created
+        //in order to be able to select which expectations the assignment will cover
         expectations = c.getExpectations();
         int column = 0;
         int row = 3;
@@ -60,10 +63,12 @@ public class createAssignmentWindow{
             row++;
         }
 
-
+        //Will close the window incase the user doesn't want to interact with it
         Button closeButton = new Button("Cancel");
         closeButton.setOnAction(e -> makeClass.close());
         layout.setConstraints(closeButton, 1, 8);
+        //Will confirm the settings that have been made in order to allow for the user to finalize
+        //their decision on the details of the new assignment
         Button enterButton = new Button("Confirm");
         enterButton.setOnAction(e -> {
             handleOptions(checkboxes);

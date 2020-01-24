@@ -827,7 +827,7 @@ table.setItems(rows);
         mainWindow.show();
     }
     
-    //Method that's used in order to add expectations to the rubric
+    //Method that's used in order to add expectations to the rubric when the user is accessing the rubricMenu itself
     public void addButtonClicked(){
         IO io = new IO();
         Row addColumn = new Row("", 17);
@@ -844,7 +844,8 @@ table.setItems(rows);
                 }
         
     }
-    //Method that's used to delete expectations in the rubric
+    
+    //Method that's used to delete expectations from inside the rubricMenu itself
     public void killButtonClicked(){
         IO io = new IO();
         ObservableList<Row> expectationSelected, allExpectation;
@@ -861,14 +862,16 @@ table.setItems(rows);
         Boolean answer = confirmationWindow.display("Close Window?","Are you sure you want to close the program?");
         if(answer)
             mainWindow.close();
-    }
+        }
 
     //Tests to see if a string is empty or not
     private boolean isEmpty(String s){
         boolean test;
+        //If the string value is empty then set test = true
         if("".equals(s) || s == null){
             test = true;
         }
+        //If the string value isn't empty, then set test = false
         else {
             test = false;
         }
@@ -883,12 +886,15 @@ table.setItems(rows);
         //Row 1 in the rubric
         IO io = new IO();
         String line = "";
+        //Will open the file that stores all the data inside of the program
         io.openInputFile(filePath);
         try{
+            //Checks to make sure that the string value isn't empty
             while((line = io.readLine()) != null){
                 line = getValue(line, "expectation", selectedClass.getName());
                 if(line.equals("invalid")) continue;
                 String ID = "";
+                //For loop will check for the specific expectation that's been created for the selected class
                 for(int i = 0; i <= line.length(); i++){
                     if(line.charAt(i) != ':') ID += line.charAt(i);
                             else break;
@@ -896,34 +902,36 @@ table.setItems(rows);
                 rubricInfo.addAll(new Row(line, colSize, ID));
             }
             io.closeInputFile();
-            
+        
+        //Will throw out an error if something goes wrong    
         }catch(IOException e){
             System.out.println("Error");
         }
+
         for(int i = 0; i < rubricInfo.size(); i++){
             String currentExp = rubricInfo.get(i).getID();
             try{
-            for(int j = 0; j < rubricCols.size(); j++){
-                io.openInputFile(filePath);
-
-                String markName = rubricCols.get(j).getText();
-                while((line = io.readLine()) != null){
-                String assignment = getValue(line, currentExp +selectedStudent +markName, selectedClass.getName());
-                if(assignment == "invalid") continue;
-                String oldVal = rubricInfo.get(i).getOtherCols().get(j).get();
-                if(oldVal == null){
-                    oldVal = "";
+                //for loop will keep the counter going up for every grade column that exists
+                for(int j = 0; j < rubricCols.size(); j++){
+                    io.openInputFile(filePath);
+                    //The name of the mark will be equal to the text found in the top of the current column that's value j is on
+                    String markName = rubricCols.get(j).getText();
+                    while((line = io.readLine()) != null){
+                        String assignment = getValue(line, currentExp + selectedStudent + markName, selectedClass.getName());
+                        if(assignment == "invalid") continue;
+                        String oldVal = rubricInfo.get(i).getOtherCols().get(j).get();
+                            if(oldVal == null){
+                                oldVal = "";
+                            }
+                        rubricInfo.get(i).setCol(oldVal +assignment +"\n", j);
+                    }
+                //Closes the file that contains all the data of the program
+                io.closeInputFile();
                 }
-                    rubricInfo.get(i).setCol(oldVal +assignment +"\n", j);
-
-            }
-            io.closeInputFile();
-        }
-        }catch(IOException e){
+            }catch(IOException e){
     
+            }
         }
-        }
-        
         return rubricInfo;
     }
 
