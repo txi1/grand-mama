@@ -384,7 +384,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                                     Assignment currAssignment = selectedClass.getAssignments().get(i);
                                     for(int j = 0; j < currAssignment.getExpectations().size();j++){
                                         if(currAssignment.getExpectations().get(j).getExpectation().equals(selectedExpectation.getExpectation())){
-                                            allAssignments += currAssignment.getName() +" ";
+                                            allAssignments += currAssignment.getName() + ", ";
                                             break;
                                         }
                                     }
@@ -397,13 +397,31 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
 
+            Button deleteExpectation = new Button("Delete Expectation");
+            
+            deleteExpectation.setOnAction(e -> {
+
+                ObservableList<Expectation> expectationSelected, allExpectation;
+                allExpectation = listOfExpectations.getItems();
+                expectationSelected = listOfExpectations.getSelectionModel().getSelectedItems();
+                io.deleteLine(filePath, selectedClass.getName() +".expectation." + expectationSelected.get(0).getFirstCol());
+                expectationSelected.forEach(allExpectation::remove);
+
+            });
 
             expectationLayout.setTopAnchor(listOfExpectations, 10d);
+            //
+            expectationLayout.setBottomAnchor(deleteExpectation, 10d);
+            expectationLayout.setLeftAnchor(deleteExpectation, 10d);
+            expectationLayout.setRightAnchor(deleteExpectation, 10d);
+            //
             expectationLayout.setTopAnchor(expectationDetails, 10d);
             expectationLayout.setLeftAnchor(expectationDetails, 550d);
+            //
             expectationLayout.setLeftAnchor(expectationAssignments, 550d);
             expectationLayout.setTopAnchor(expectationAssignments, 60d);
-            expectationLayout.getChildren().addAll( listOfExpectations, expectationAssignments, expectationDetails);
+            //
+            expectationLayout.getChildren().addAll(deleteExpectation, listOfExpectations, expectationAssignments, expectationDetails);
             
             Button createStudent = new Button("Create Student");
                 createStudent.setOnAction(e -> {
