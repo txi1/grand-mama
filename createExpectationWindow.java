@@ -27,7 +27,7 @@ public class createExpectationWindow{
         makeClass.setMinWidth(300);
         makeClass.setMinHeight(300);
         
-
+        //A label is created to prompt the user to enter the expectation section
         Label sectionLabel = new Label();
         sectionLabel.setText("Enter the Expectation's Section:");
         layout.setConstraints(sectionLabel, 1, 1);
@@ -35,6 +35,7 @@ public class createExpectationWindow{
         expectationSection.setPromptText("A1");
         layout.setConstraints(expectationSection, 2, 1);
 
+        //The user has to also enter the details of the expectation within this text field
         Label detailLabel = new Label();
         detailLabel.setText("Enter the Expectation's detail:");
         layout.setConstraints(detailLabel, 1, 2);
@@ -42,6 +43,7 @@ public class createExpectationWindow{
         expectationDetail.setPromptText("Expectation Detail");
         layout.setConstraints(expectationDetail, 2, 2);
 
+        //Button that will allow the user to either close the window or confirm their settings
         Button closeButton = new Button("Cancel");
         closeButton.setOnAction(e -> makeClass.close());
         layout.setConstraints(closeButton, 1, 3);
