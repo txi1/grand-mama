@@ -22,3 +22,9 @@ and open the template in the editor.
     -fx-font-size: 8pt;
     -fx-font-family: "Helvetica";
 }
+
+.label-no{
+    -fx-text-fill: #E1E2E8;
+    -fx-font-size: 8pt;
+    -fx-font-family: "Helvetica";
+}

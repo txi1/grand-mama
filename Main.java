@@ -241,13 +241,13 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         });
 
             menuLayout.setTopAnchor(labeltrueTitle, 10d);
-            menuLayout.setRightAnchor(labeltrueTitle, 375d);
+            menuLayout.setRightAnchor(labeltrueTitle, 270d);
             //AnchorPane for setting the "Select Classroom" label
-            menuLayout.setTopAnchor(labelTitle, 250d);
-            menuLayout.setRightAnchor(labelTitle, 375d);
+            menuLayout.setTopAnchor(labelTitle, 200d);
+            menuLayout.setRightAnchor(labelTitle, 390d);
             //AnchorPane for setting the 'Classroom Selection Dropbox'
-            menuLayout.setBottomAnchor(classList, 475d);
-            menuLayout.setLeftAnchor(classList, 450d);
+            menuLayout.setTopAnchor(classList, 250d);
+            menuLayout.setRightAnchor(classList, 455d);
             //AnchorPane for setting the "Enter Classroom" button
             menuLayout.setBottomAnchor(enterClassroom, 200d);
             menuLayout.setLeftAnchor(enterClassroom, 400d);
@@ -546,9 +546,9 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
             
             //Buttons used to add in or delete the expectations
-            Button addButton = new Button("Add");
+            Button addButton = new Button("Add Expectation");
             addButton.setOnAction(e -> addButtonClicked());
-            Button killButton = new Button("Delete");
+            Button killButton = new Button("Delete Expectation");
             killButton.setOnAction(e -> killButtonClicked());
             //The area in the bottom on the rubric that will allow for
             //the manipulation of rows
@@ -570,28 +570,6 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                             rubric = new TableView<>();   
 
                             ChoiceBox<String> assignmentList = new ChoiceBox();
-            //The crucial line of code that allows the rubric to be displayed
-            //when the rubricMenu Scene is selected
-            //AnchorPane sets the specific locations of each child in the rubric layout
-            AnchorPane.setTopAnchor(rubric, 10d);
-            AnchorPane.setLeftAnchor(rubric, 5d);
-            AnchorPane.setRightAnchor(rubric, 5d);
-            //
-            AnchorPane.setBottomAnchor(addButton, 130d);
-            AnchorPane.setLeftAnchor(addButton, 440d);
-            AnchorPane.setRightAnchor(addButton, 440d);
-            //
-            AnchorPane.setBottomAnchor(killButton, 100d);
-            AnchorPane.setLeftAnchor(killButton, 420d);
-            AnchorPane.setRightAnchor(killButton, 420d);
-            //
-            AnchorPane.setBottomAnchor(MenuButton, 20d);
-            AnchorPane.setLeftAnchor(MenuButton, 10d);
-            AnchorPane.setRightAnchor(MenuButton, 10d);
-
-            AnchorPane.setBottomAnchor(MenuButton, 50d);
-            AnchorPane.setLeftAnchor(MenuButton, 50d);
-            AnchorPane.setRightAnchor(MenuButton, 50d);
             
             //Line below is what makes the table editable
             rubric.setEditable(true);
@@ -687,12 +665,16 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
            
             AnchorPane.setBottomAnchor(assignmentList, 20d);
             AnchorPane.setRightAnchor(assignmentList, 400d);
+            Label labelForRoller = new Label("");
+            
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getClickCount() == 2) {
                             if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                                 mainWindow.setScene(rubricMenu);
+                                labelForRoller.setText(selectedStudent);
+                                labelForRoller.getStyleClass().add("label-no");
                                 selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                                 System.out.println("Clicked on " + selectedStudent);
                                 rubric.setItems(getRubricInfo(selectedStudent));
@@ -701,28 +683,43 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     
                 }
             });
-
-
-
-            rubricLayout.getChildren().addAll(rubric, hbox, MenuButton, assignmentList, rubricMark);
             
             AnchorPane gradingLayout = new AnchorPane();
             gradingLayout.setPadding(new Insets(0,10,10,10));
             Button setMarkButton = new Button("Set this mark");
-            
-            
-            gradingLayout.setTopAnchor(setMarkButton, 70d);
-            gradingLayout.setRightAnchor(setMarkButton, 10d);
-            
-            gradingLayout.setTopAnchor(gradeList, 40d);
-            gradingLayout.setRightAnchor(gradeList, 10d);
-            
             
             backButton.setOnAction(e -> {
                 topLayer.setCenter(classLayout);
                 backButton.setDisable(true);
             });
             
+            //The crucial line of code that allows the rubric to be displayed
+            //when the rubricMenu Scene is selected
+            //AnchorPane sets the specific locations of each child in the rubric layout
+            AnchorPane.setTopAnchor(rubric, 10d);
+            AnchorPane.setLeftAnchor(rubric, 120d);
+            //
+            AnchorPane.setBottomAnchor(addButton, 130d);
+            AnchorPane.setLeftAnchor(addButton, 10d);
+            //
+            AnchorPane.setBottomAnchor(killButton, 100d);
+            AnchorPane.setLeftAnchor(killButton, 10d);
+            //
+            AnchorPane.setBottomAnchor(assignmentList, 150d);
+            AnchorPane.setLeftAnchor(assignmentList, 425d);
+            //
+            AnchorPane.setBottomAnchor(rubricMark, 200d);
+            AnchorPane.setLeftAnchor(rubricMark, 325d);
+            //
+            AnchorPane.setBottomAnchor(MenuButton, 20d);
+            AnchorPane.setLeftAnchor(MenuButton, 10d);
+            AnchorPane.setRightAnchor(MenuButton, 10d);
+
+            AnchorPane.setLeftAnchor(labelForRoller, 5d);
+            AnchorPane.setTopAnchor(labelForRoller, 10d);
+
+            rubricLayout.getChildren().addAll(rubric, hbox, addButton, killButton, MenuButton, labelForRoller, assignmentList, rubricMark);
+
             listOfAssignments.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
                 @Override
@@ -774,7 +771,15 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
     }
 
 table.setItems(rows);
-    gradingLayout.setTopAnchor(table, 0d);
+
+    gradingLayout.setTopAnchor(setMarkButton, 10d);
+    gradingLayout.setRightAnchor(setMarkButton, 10d);
+    //
+    gradingLayout.setTopAnchor(gradeList, 60d);
+    gradingLayout.setRightAnchor(gradeList, 10d);
+    //
+    gradingLayout.setTopAnchor(table, 120d);
+    gradingLayout.setLeftAnchor(table, 10d);
     gradingLayout.getChildren().setAll(table,gradeList,setMarkButton);
     
     
