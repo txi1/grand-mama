@@ -14,12 +14,6 @@ public class Student{
         fullName = firstName +" " +lastName;
     }
 
-
-    public int getGrade(int i){
-        return grade[i];
-
-    }
-
     public void setFirstName(String n){
         firstName = n;
         fullName = firstName +" " +lastName;
@@ -37,19 +31,7 @@ public class Student{
     public String getLastName(){
         return lastName;
     }
-
-    public void setGrade(int i, int g){
-        grade[i] = g;
-        averageGrade = IntStream.of(grade).sum() / grade.length;
-    }
-
-    public int getAverage(){
-        return averageGrade;
-    }
-
-    public static boolean isBetween(int x, int l, int u) {
-        return l <= x && x <= u;
-      }
+    
     
     public String toString(int g){
   
