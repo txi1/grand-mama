@@ -59,3 +59,4 @@ ICS4U.A3James Chen4++.SP
 ICS4U.Summative PresentationJames ChenA3.4++
 ICS4U.A2James Chen4++.SP
 ICS4U.Summative PresentationJames ChenA2.4++
+ICS4U.studentName.Taylor Xi

@@ -667,16 +667,18 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             AnchorPane.setRightAnchor(assignmentList, 400d);
             Label labelForRoller = new Label("");
             
+            //When a student is clicked on in the student menu, it will take you to their rubric
             listOfStudents.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    //This if statement makes it so you must double click the student in order to go to the rubric
                     if (event.getClickCount() == 2) {
                             if(listOfStudents.getSelectionModel().getSelectedItem() != null){
                                 mainWindow.setScene(rubricMenu);
-                                labelForRoller.setText(selectedStudent);
-                                labelForRoller.getStyleClass().add("label-no");
                                 selectedStudent = listOfStudents.getSelectionModel().getSelectedItem().getFullName();
                                 System.out.println("Clicked on " + selectedStudent);
+                                labelForRoller.setText(selectedStudent);
+                                labelForRoller.getStyleClass().add("label-student");
                                 rubric.setItems(getRubricInfo(selectedStudent));
                         }        
                     }

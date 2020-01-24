@@ -23,7 +23,7 @@ and open the template in the editor.
     -fx-font-family: "Helvetica";
 }
 
-.label-no{
+.label-student{
     -fx-text-fill: #E1E2E8;
     -fx-font-size: 12pt;
     -fx-font-family: "Helvetica";
