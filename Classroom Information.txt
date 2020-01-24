@@ -1,63 +1,11 @@
 ICS4U.name.ICS4U
-ICS4U.assignment.L3 Lab 3
-ICS4U.A1assignment.L3 Lab 3
-ICS4U.A2assignment.L3 Lab 3
-ICS4U.A3assignment.L3 Lab 3
-ICS4U.B3assignment.L3 Lab 3
-ICS4U.studentName.Alexander Nedev
-ICS4U.studentName.James Chen
-ICS4U.Lab 3Alexander NedevB3.4++
-ICS4U.B3Alexander Nedev4++.L3
-ICS4U.Lab 3Alexander NedevA3.4++
-ICS4U.A3Alexander Nedev4++.L3
-ICS4U.Lab 3Alexander NedevA2.4+
-ICS4U.A2Alexander Nedev4+.L3
-ICS4U.Lab 3James ChenA3.4+
-ICS4U.A3James Chen4+.L3
-ICS4U.Lab 3James ChenA2.4+
-ICS4U.A2James Chen4+.L3
-ICS4U.Lab 3James ChenB3.4/4+
-ICS4U.B3James Chen4/4+.L3
-ICS4U.Lab 3James ChenA1.4++
-ICS4U.A1James Chen4++.L3
-ICS4U.assignment.T9 Test 9
-ICS4U.A1assignment.T9 Test 9
-ICS4U.A2assignment.T9 Test 9
-ICS4U.B3assignment.T9 Test 9
-ICS4U.Z99assignment.T9 Test 9
-ICS4U.Test 9James ChenA2.4
-ICS4U.A2James Chen4.T9
-ICS4U.assignment.SP Summative Presentation
-ICS4U.A1assignment.SP Summative Presentation
-ICS4U.A2assignment.SP Summative Presentation
-ICS4U.A3assignment.SP Summative Presentation
-ICS4U.B3assignment.SP Summative Presentation
-ICS4U.Z99assignment.SP Summative Presentation
-ICS4U.A2Alexander Nedev4++.SP
-ICS4U.Summative PresentationAlexander NedevA2.4++
-ICS4U.A1Alexander Nedev4++.SP
-ICS4U.Summative PresentationAlexander NedevA1.4++
-ICS4U.A3Alexander Nedev4++.SP
-ICS4U.Summative PresentationAlexander NedevA3.4++
-ICS4U.B3Alexander Nedev4++.SP
-ICS4U.Summative PresentationAlexander NedevB3.4++
-ICS4U.Z99Alexander Nedev4++.SP
-ICS4U.Summative PresentationAlexander NedevZ99.4++
-ICS4U.Z99James Chen4++.SP
-ICS4U.Summative PresentationJames ChenZ99.4++
-ICS4U.B3James Chen4++.SP
-ICS4U.Summative PresentationJames ChenB3.4++
-ICS4U.A3James Chen4++.SP
-ICS4U.Summative PresentationJames ChenA3.4++
-ICS4U.A2James Chen4++.SP
-ICS4U.Summative PresentationJames ChenA2.4++
-ICS4U.studentName.Taylor Xi
-ICS4U.A1Alexander Nedev4-.T9
-ICS4U.Test 9Alexander NedevA1.4-
-ICS4U.Lab 3Alexander NedevA1.1+
-ICS4U.A1Alexander Nedev1+.L3
 ICS4U.expectation.A1: Test
 ICS4U.expectation.A2: Test2
 ICS4U.expectation.A3: Test3
-ICS4U.expectation.13: 32
-ICS4U.expectation.A6: tdsfg
+ICS4U.studentName.Alexander Nedev
+ICS4U.studentName.James Chen
+ICS4U.assignment.T1 Test1
+ICS4U.A1assignment.T1 Test1
+ICS4U.A2assignment.T1 Test1
+ICS4U.A1Alexander Nedev4-/4.T1
+ICS4U.Test1Alexander NedevA1.4-/4

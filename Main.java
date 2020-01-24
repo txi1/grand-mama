@@ -397,6 +397,7 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 }
             });
 
+            //Button that will delete expectations within the list of expectations
             Button deleteExpectation = new Button("Delete Expectation");
             
             deleteExpectation.setOnAction(e -> {
