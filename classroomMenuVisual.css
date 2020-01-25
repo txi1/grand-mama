@@ -37,12 +37,16 @@ of the classroom label specifically*/
     -fx-font-weight: bold;
 }
 
+/*This will be used in order to change the appearance of a
+label that will display the details of the selected expectation*/
 .label-expectationDetails{
     -fx-text-fill: #F1F0F5;
     -fx-font-size: 14pt;
     -fx-font-family: "Helvetica";
 }
 
+/*This will be used in order to change the appearance of a label that will 
+display the assigments that are linked to the selected expectation*/
 .label-expectationAssignments{
     -fx-text-fill: #F1F0F5;
     -fx-font-size: 14pt;

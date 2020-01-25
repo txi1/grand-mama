@@ -24,6 +24,14 @@ of the objects and background inside the MainMenu scene
     -fx-text-fill: #202020;  
 }
 
+/*Changes properties of buttons*/
+/*Good color gradient combo for green ...#228B22, #006400...*/
+.button{   
+    -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
+    -fx-text-fill: #646468;
+    -fx-background-radius: 4;  
+}
+
 .label-title-menu{
     -fx-text-fill: linear-gradient(#E1E2E8, #CECFD6);
     -fx-font-size: 50pt;
@@ -40,12 +48,4 @@ of the objects and background inside the MainMenu scene
     -fx-font-size: 18pt;
     -fx-font-family: "Helvetica";
     -fx-font-style: italic;
-}
-
-/*Changes properties of buttons*/
-/*Good color gradient combo for green ...#228B22, #006400...*/
-.button{   
-    -fx-background-color: linear-gradient(#E1E2E8, #CECFD6);
-    -fx-text-fill: #646468;
-    -fx-background-radius: 4;  
 }

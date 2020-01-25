@@ -1,22 +1,10 @@
-import com.sun.javafx.scene.control.skin.LabeledText;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.SocketAddress;
-
-import javafx.beans.Observable;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,22 +14,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application{
@@ -356,13 +336,20 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                     }
                 }
             });
+            //Creates the size of the list that will contain the expectations
             listOfExpectations.setPrefWidth(500);
             listOfExpectations.setPrefHeight(500);
             AnchorPane expectationLayout = new AnchorPane();
+
+            //A label is created next to the list of expectations that
+            //will display the details of the selected assignment
             Label expectationDetails = new Label("Expectation Details");
             expectationDetails.getStyleClass().add("label-expectationDetails");
             expectationDetails.setPrefWidth(400d);
             expectationDetails.setWrapText(true);
+
+            //A label is created next to the list of expectations that
+            //will display the projects that are attached to the selected expectation
             Label expectationAssignments = new Label("Expectation Assignments");
             expectationAssignments.getStyleClass().add("label-expectationAssignments");
             expectationAssignments.setWrapText(true);
