@@ -88,6 +88,8 @@ public class Main extends Application{
         //initializing each student within those classrooms
         for(int i = 0; i < classroom.size(); i++){
         io.openInputFile(filePath);
+        //while there's still text found within the file that stores information
+        //then students continue to be initialized
         while((line = io.readLine()) != null){
             line = getValue(line, "studentName", classroom.get(i).getName());
             if(line.equals("invalid")) continue;
@@ -111,67 +113,68 @@ public class Main extends Application{
         io.closeInputFile();
 }
         //initializing each expectation within those classrooms
-         for(int i = 0; i < classroom.size(); i++){
-        io.openInputFile(filePath);
-        while((line = io.readLine()) != null){
-            line = getValue(line, "expectation", classroom.get(i).getName());
-            if(line.equals("invalid")) continue;
-            String fn = "";
-            String ln = "";
-            boolean switched = false;
-            for(int j = 0; j < line.length(); j++){
-                if(line.charAt(j) == ':'){
-                    switched = true;
-                    j+=2;
-                } 
-                if(!switched){
-                    fn += line.charAt(j);
+        for(int i = 0; i < classroom.size(); i++){
+            io.openInputFile(filePath);
+            while((line = io.readLine()) != null){
+                line = getValue(line, "expectation", classroom.get(i).getName());
+                if(line.equals("invalid")) continue;
+                String fn = "";
+                String ln = "";
+                boolean switched = false;
+                for(int j = 0; j < line.length(); j++){
+                    if(line.charAt(j) == ':'){
+                        switched = true;
+                        j+=2;
+                    } 
+                        if(!switched){
+                            fn += line.charAt(j);
+                        }
+                        if(switched){
+                            ln += line.charAt(j);
+                        }
                 }
-                if(switched){
-                    ln += line.charAt(j);
-                }
+                    classroom.get(i).addExpectation(new Expectation(fn, ln));
             }
-            classroom.get(i).addExpectation(new Expectation(fn, ln));
+                io.closeInputFile();
         }
-        io.closeInputFile();
-}
 
-//initializing each assignment within those classrooms
-for(int i = 0; i < classroom.size(); i++){
-    io.openInputFile(filePath);
-    while((line = io.readLine()) != null){
-        line = getValue(line, "assignment", classroom.get(i).getName());
-        if(line.equals("invalid")) continue;
-        String temp = "";
-        String temp2 = "";
-        for(int j = 0; j < line.length(); j++){
-            if(line.charAt(j) == ' ') break;
-            temp += line.charAt(j);
-            temp2 = line.substring(j+2);
+        //initializing each assignment within those classrooms
+        for(int i = 0; i < classroom.size(); i++){
+            io.openInputFile(filePath);
+            while((line = io.readLine()) != null){
+                line = getValue(line, "assignment", classroom.get(i).getName());
+                if(line.equals("invalid")) continue;
+                String temp = "";
+                String temp2 = "";
+                for(int j = 0; j < line.length(); j++){
+                    if(line.charAt(j) == ' ') break;
+                    temp += line.charAt(j);
+                    temp2 = line.substring(j+2);
+                }
+                temp2.trim();
+                classroom.get(i).addAssignment(temp2, FXCollections.observableArrayList(), temp);
+            }
+            io.closeInputFile();
         }
-        temp2.trim();
-        classroom.get(i).addAssignment(temp2, FXCollections.observableArrayList(), temp);
-    }
-    io.closeInputFile();
-}
 
-//initializing each expectation within those assignments within those classrooms
-for(int i = 0; i < classroom.size(); i++){
-for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
-    io.openInputFile(filePath);
-    while((line = io.readLine()) != null){
-        line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
-        if(line.equals("invalid")) continue;
-        for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
-        if(line.equals(classroom.get(i).getAssignments().get(k).getFullAssignment())){
-        classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
+        //initializing each expectation within those assignments within those classrooms
+        for(int i = 0; i < classroom.size(); i++){
+        for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
+            io.openInputFile(filePath);
+            while((line = io.readLine()) != null){
+                line = getValue(line, classroom.get(i).getExpectations().get(j).getSection() +"assignment", classroom.get(i).getName());
+                if(line.equals("invalid")) continue;
+                for(int k = 0; k < classroom.get(i).getAssignments().size(); k++){
+                    if(line.equals(classroom.get(i).getAssignments().get(k).getFullAssignment())){
+                    classroom.get(i).getAssignments().get(k).addExpectation(new Expectation(classroom.get(i).getExpectations().get(j).getSection(), classroom.get(i).getExpectations().get(j).getDetails()));
+                    }
+                }   
+            }
+            io.closeInputFile();
+            }
         }
-    }
-    }
-    io.closeInputFile();
-    }
-    
-}
+
+        //A list is created here that will store all the students found inside a classroom
         ListView<Student> listOfStudents = new ListView<>(students);
         listOfStudents.setPrefWidth(500);
         listOfStudents.setPrefHeight(500);
@@ -186,6 +189,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             
         enterClassroom.setDisable(true);
 
+        //This delete button is meant to delete a selected classroom
+        //This includes the removal of absolutely everything, so that nothing is left
         Button deleteButton = new Button("Delete this classroom");
         deleteButton.setOnAction(e -> {
             io.completeDestruction(filePath, classList.getValue().getName());
@@ -201,6 +206,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
         
             deleteButton.setDisable(true);
 
+        //This button is meant to allow the user to create a classroom
+        //that will have nothing in it, meaning that user has to create everything from scratch
         Button makeClass = new Button("Make a new Classroom");
         makeClass.setOnAction(e -> {
             String temp = textWindow.display("Class","Classroom Creation");
@@ -212,6 +219,11 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
 
+        /*
+        This checks to see if a classroom is selected. If no class 
+        is selected, then the user won't be able to delete or enter a classroom.
+        If a classroom is selected, than the user will be able to enter or delete said classroom
+        */
         classList.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             if(newValue != null){
             selectedClass = newValue; 
@@ -220,6 +232,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             }
         });
 
+            //AnchorPane is used in order to setup the
+            //position of all the elements of the program
             menuLayout.setTopAnchor(labeltrueTitle, 10d);
             menuLayout.setRightAnchor(labeltrueTitle, 270d);
             //AnchorPane for setting the "Select Classroom" label
@@ -275,6 +289,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             topLayer.setPadding(new Insets(10,10,10,10));
             topLayer.setTop(menuBar);
             
+            //This is a button that will allow for the deletion
+            //of a student that it selected
             Button deleteStudent = new Button("Delete Student");
             deleteStudent.setOnAction(e -> { 
                 ObservableList<Student> studentSelected, allStudents;
@@ -284,6 +300,8 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
                 studentSelected.forEach(allStudents::remove);
             });
             
+            //This studentLayout anchorpane will add the
+            //list of students along with a delete student button
             AnchorPane studentLayout = new AnchorPane();
             studentLayout.setPadding(new Insets(0,10,10,10));
             studentLayout.setTopAnchor(listOfStudents, 5d);
@@ -299,11 +317,12 @@ for(int j = 0; j < classroom.get(i).getExpectations().size();j++){
             classMenu = new Scene(topLayer, 1000, 650);
             classMenu.getStylesheets().add("classroomMenuVisual.css");
             
+            //Creates a list that will store all of the assignments of a particular class
             ListView<Assignment> listOfAssignments = new ListView<>();
             listOfAssignments.setPrefWidth(500);
             listOfAssignments.setPrefHeight(500);
             
-            
+            //Creates a button that will delete a selected assignment
             Button deleteAssignment = new Button("Delete Assignment");
             deleteAssignment.setOnAction(e -> { 
                 ObservableList<Assignment> assignmentSelected, allAssignments;
